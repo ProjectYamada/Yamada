@@ -1,0 +1,12 @@
+group = "com.yamada.notkayla"
+version = "1.0-KAYLA"
+apply plugin:'java'
+
+dependencies {
+    compile 'net.dv8tion:JDA:3.7.1_397'
+    compile 'org.yaml:snakeyaml:1.8'
+}
+
+repositories {
+    jcenter()
+}
