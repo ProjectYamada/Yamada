@@ -18,3 +18,5 @@ config.yml
 .idea/
 out/
 .gradle/
+build/
+out/d
