@@ -25,7 +25,7 @@ public class Kayla {
         log.log(Level.INFO,"Logging in");
         try {
             bot = new JDABuilder(AccountType.BOT).setToken((String) Config.configuration.get("token")).addEventListener(new Events()).build();
-            bot.awaitReady().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.watching("for Kaniel's whip and naenae 100k special"));
+            bot.awaitReady().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+bot.getGuilds().size() + " guilds - !yhelp"));
             registerCommands();
         } catch (LoginException e){
             log.log(Level.SEVERE,"kayla is cool ™");
@@ -44,5 +44,6 @@ public class Kayla {
         registry.register("info", new InfoCommand());
         registry.register("ping", new PingCommand());
         registry.register("pull", new PullCommand());
+        registry.register("user", new UserCommand());
     }
 }

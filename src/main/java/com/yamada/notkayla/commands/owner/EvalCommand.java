@@ -1,6 +1,7 @@
 package com.yamada.notkayla.commands.owner;
 
 import com.yamada.notkayla.Kayla;
+import com.yamada.notkayla.commands.Checks;
 import com.yamada.notkayla.commands.Command;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -12,6 +13,9 @@ public class EvalCommand implements Command {
 //todo finish eval
     @Override
     public void run(JDA bot, GuildMessageReceivedEvent event) {
+        if(!Checks.isAdmin(event.getAuthor().getId())){
+
+        }
         String arg = event.getMessage().getContentRaw().substring("!yeval ".length());//todo dont use fucking hardcoded prefix if we dont have database support
         //in which case go ahead
         ScriptEngine se = Kayla.registry.sf.getEngineByExtension("JavaScript");

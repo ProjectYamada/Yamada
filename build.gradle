@@ -12,6 +12,7 @@ dependencies {
     compile 'net.dv8tion:JDA:3.7.1_397'
     compile 'org.yaml:snakeyaml:1.8'
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.6'
+    compile 'org.postgresql:postgresql:42.2.4.jre7'
 }
 
 repositories {
