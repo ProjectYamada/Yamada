@@ -2,6 +2,7 @@ package com.yamada.notkayla;
 
 import com.yamada.notkayla.commands.CommandRegistry;
 import com.yamada.notkayla.commands.general.*;
+import com.yamada.notkayla.commands.image.*;
 import com.yamada.notkayla.commands.owner.PullCommand;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -45,5 +46,6 @@ public class Kayla {
         registry.register("ping", new PingCommand());
         registry.register("pull", new PullCommand());
         registry.register("user", new UserCommand());
+        registry.register("dog", new RandomDogCommand());
     }
 }
