@@ -15,7 +15,7 @@ public class HelpCommand implements Command {
         embed.setDescription("I'm Yamada, and my prefix is `$!`. I hope to make your server a better place!");
         embed.setThumbnail(event.getGuild().getSelfMember().getUser().getAvatarUrl());
         embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
-        embed.addField("Commands", "throw new NotImplementedError()", false);
+        embed.addField("General", "`help` - You're viewing it\n`info` - Shows general info about Yamada\n`ping` - Pong!", false);
         event.getChannel().sendMessage(embed.build()).queue();
 
     }
