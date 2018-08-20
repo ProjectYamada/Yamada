@@ -1,6 +1,7 @@
 group = "com.yamada.notkayla"
 version = "1.0-KAYLA"
-apply plugin:'java'
+apply plugin:'application'
+mainClassName = "com.yamada.notkayla.Kayla"
 
 dependencies {
     compile 'net.dv8tion:JDA:3.7.1_397'
