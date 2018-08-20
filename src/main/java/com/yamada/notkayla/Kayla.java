@@ -2,6 +2,7 @@ package com.yamada.notkayla;
 
 import com.yamada.notkayla.commands.CommandRegistry;
 import com.yamada.notkayla.commands.general.*;
+import com.yamada.notkayla.commands.owner.PullCommand;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -41,5 +42,6 @@ public class Kayla {
         registry.register("test",new TestCommand());
         registry.register("help",new HelpCommand());
         registry.register("info", new InfoCommand());
+        registry.register("pull", new PullCommand());
     }
 }

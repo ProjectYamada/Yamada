@@ -12,7 +12,7 @@ public class HelpCommand implements Command {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(new Color(0xe91e63));
         embed.setTitle("Need some help?");
-        embed.setDescription("I'm Yamada, and my prefix is `$!`. I hope to make your server a better place!");
+        embed.setDescription("I'm Yamada, and my prefix is `!y`. I hope to make your server a better place!");
         embed.setThumbnail(event.getGuild().getSelfMember().getUser().getAvatarUrl());
         embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
         embed.addField("Commands", "throw new NotImplementedError()", false);

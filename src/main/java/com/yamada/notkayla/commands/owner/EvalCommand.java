@@ -6,14 +6,13 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 public class EvalCommand implements Command {
 //todo finish eval
     @Override
     public void run(JDA bot, GuildMessageReceivedEvent event) {
-        String arg = event.getMessage().getContentRaw().substring("$!eval ".length());//todo dont use fucking hardcoded prefix if we dont have database support
+        String arg = event.getMessage().getContentRaw().substring("!yeval ".length());//todo dont use fucking hardcoded prefix if we dont have database support
         //in which case go ahead
         ScriptEngine se = Kayla.registry.sf.getEngineByExtension("JavaScript");
         try {
