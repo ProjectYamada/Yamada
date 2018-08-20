@@ -9,9 +9,9 @@ import java.io.FileNotFoundException;
 import java.util.Map;
 import java.util.logging.Level;
 
-class Config {
+public class Config {
     private static Yaml yaml = new Yaml();
-    static Map configuration;
+    public static Map configuration;
 
     static void init(File config) {
         try{
