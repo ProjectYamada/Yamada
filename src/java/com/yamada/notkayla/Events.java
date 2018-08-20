@@ -14,7 +14,8 @@ public class Events extends ListenerAdapter {
         String prefix = "$!";//temp hardcoded prefix cause elf = gay for sagiri
         // elf sagiri megumi threesome when
         if (content.startsWith("$!")){
-
+            String command = content.substring(prefix.length());
+            if (Kayla.registry.has(command)) Kayla.registry.get(command).run(Kayla.bot,event);
         }
     }
 }
