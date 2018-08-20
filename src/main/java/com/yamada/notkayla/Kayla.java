@@ -38,8 +38,10 @@ public class Kayla {
     }
 
     private static void registerCommands() {
+        // General commands
         registry.register("test",new TestCommand());
         registry.register("help",new HelpCommand());
         registry.register("info", new InfoCommand());
+        registry.register("ping", new PingCommand());
     }
 }

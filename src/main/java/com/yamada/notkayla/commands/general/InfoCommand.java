@@ -17,6 +17,10 @@ public class InfoCommand implements Command {
         embed.setThumbnail(event.getGuild().getSelfMember().getUser().getAvatarUrl());
         embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
         embed.addField("Version:", "throw new NotImplementedError();", false);
+        embed.addField("JDA: ", "3.7.1_397", false);
+        embed.addField("Users: ", String.valueOf(bot.getUsers().size()), false);
+        embed.addField("Guilds: ", String.valueOf(bot.getGuilds().size()), false);
+        //embed.addField("Shard: ", bot.getShardInfo().getShardString(), false);
         event.getChannel().sendMessage(embed.build()).queue();
     }
 }
