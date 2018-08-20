@@ -1,9 +1,11 @@
 package com.yamada.notkayla.commands;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
+import javax.script.ScriptEngineManager;
 import java.util.HashMap;
 
 public class CommandRegistry {
+    public ScriptEngineManager sf = new ScriptEngineManager();
     private HashMap<String,Command> commands = new HashMap<>();
 
     public void register(String commandName,Command command){

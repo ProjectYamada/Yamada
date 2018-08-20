@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class Kayla {
     static Logger log = Logger.getLogger("Kayla");
     static JDA bot;
-    static CommandRegistry registry = new CommandRegistry();
+    public static CommandRegistry registry = new CommandRegistry();
     public static void main(String[] args){
         File configFile = new File("./config.yml");
         Config.init(configFile);

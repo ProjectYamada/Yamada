@@ -1,2 +1,2 @@
 # Yamada
-It's not about kayla
+It's not about Kayla™
