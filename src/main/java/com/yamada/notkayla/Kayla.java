@@ -42,6 +42,7 @@ public class Kayla {
         registry.register("test",new TestCommand());
         registry.register("help",new HelpCommand());
         registry.register("info", new InfoCommand());
+        registry.register("ping", new PingCommand());
         registry.register("pull", new PullCommand());
     }
 }

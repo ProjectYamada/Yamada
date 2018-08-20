@@ -1,11 +1,14 @@
 package com.yamada.notkayla;
 
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.ExceptionEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+
+import java.awt.*;
 
 public class Events extends ListenerAdapter {
     @Override
@@ -16,7 +19,15 @@ public class Events extends ListenerAdapter {
         // elf sagiri megumi threesome when
         if (content.startsWith("!y")){
             String command = content.substring(prefix.length());
-            if (Kayla.registry.has(command)) Kayla.registry.get(command).run(Kayla.bot,event);
+            try {
+                if (Kayla.registry.has(command)) Kayla.registry.get(command).run(Kayla.bot, event);
+            } catch (Exception e) {
+                EmbedBuilder embed = new EmbedBuilder();
+                embed.setColor(new Color(0xff0000));
+                embed.setTitle("An error occurred");
+                embed.setDescription(String.format("```\n%s\n```", e.getStackTrace()));
+                event.getChannel().sendMessage(embed.build()).queue();
+            }
         }
     }
 
