@@ -1,7 +1,7 @@
 package com.yamada.notkayla;
 
 import com.yamada.notkayla.commands.CommandRegistry;
-import com.yamada.notkayla.commands.general.TestCommand;
+import com.yamada.notkayla.commands.general.*;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -37,7 +37,7 @@ public class Kayla {
 
     }
 
-    private static void registerCommands(){
+    private static void registerCommands() {
         registry.register("test",new TestCommand());
     }
 }
