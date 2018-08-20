@@ -40,5 +40,6 @@ public class Kayla {
     private static void registerCommands() {
         registry.register("test",new TestCommand());
         registry.register("help",new HelpCommand());
+        registry.register("info", new InfoCommand());
     }
 }
