@@ -19,4 +19,4 @@ config.yml
 out/
 .gradle/
 build/
-out/d
+out/
