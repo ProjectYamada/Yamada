@@ -22,6 +22,7 @@ public class Events extends ListenerAdapter {
             try {
                 if (Kayla.registry.has(command)) Kayla.registry.get(command).run(Kayla.bot, event);
             } catch (Exception e) {
+                e.printStackTrace();
                 EmbedBuilder embed = new EmbedBuilder();
                 embed.setColor(new Color(0xff0000));
                 embed.setTitle("An error occurred");

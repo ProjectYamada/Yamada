@@ -47,5 +47,6 @@ public class Kayla {
         registry.register("pull", new PullCommand());
         registry.register("user", new UserCommand());
         registry.register("dog", new RandomDogCommand());
+        registry.register("cat", new RandomCatCommand());
     }
 }
