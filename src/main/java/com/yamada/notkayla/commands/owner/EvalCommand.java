@@ -13,14 +13,13 @@ public class EvalCommand implements Command {
 //todo finish eval
     @Override
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
-        if(!Checks.isAdmin(event.getAuthor().getId())){
-
-        }
+        if(!Checks.isAdmin(event.getAuthor().getId())) return;
         String arg = event.getMessage().getContentRaw().substring("!yeval ".length());//todo dont use fucking hardcoded prefix if we dont have database support
         //in which case go ahead
         ScriptEngine se = Kayla.registry.sf.getEngineByExtension("JavaScript");
         try {
             se.eval(arg);
+
         } catch (ScriptException e) {
             StringBuilder tbuild = new StringBuilder();
             StackTraceElement[] trace = e.getStackTrace();

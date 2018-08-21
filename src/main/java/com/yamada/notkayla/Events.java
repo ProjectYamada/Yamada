@@ -29,6 +29,7 @@ public class Events extends ListenerAdapter {
                 embed.setTitle("An error occurred");
                 embed.setDescription(String.format("```\n%s\n```", e.getStackTrace()));
                 event.getChannel().sendMessage(embed.build()).queue();
+                throw e;
             }
         }
     }
@@ -42,7 +43,7 @@ public class Events extends ListenerAdapter {
         StackTraceElement[] trace = event.getCause().getStackTrace();
         for (StackTraceElement traceElement : trace)
             tbuild.append("\tat ").append(traceElement);
-        Kayla.bot.getTextChannelById(451175777996898305L).sendMessage("```"+tbuild.toString()+"```").submit();
+        Kayla.bot.getTextChannelById("481510285442547723").sendMessage("```"+tbuild.toString()+"```").submit();
 
     }
 }
