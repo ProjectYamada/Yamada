@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class UserCommand implements Command {
     @Override
-    public void run(JDA bot, GuildMessageReceivedEvent event) {
+    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         //TODO: Allow people to get user information from other people.
         //String arg = event.getMessage().getContentRaw().substring("!yuser ".length());
         EmbedBuilder embed = new EmbedBuilder();

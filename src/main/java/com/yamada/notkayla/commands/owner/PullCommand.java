@@ -9,7 +9,7 @@ import java.io.IOException;
 public class PullCommand implements Command {
 
     @Override
-    public void run(JDA bot, GuildMessageReceivedEvent event) {
+    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         try {
             event.getChannel().sendTyping().submit();
             Runtime.getRuntime().exec("git pull");

@@ -15,7 +15,7 @@ public class RandomDogCommand implements Command  {
     private static String responseBody;
 
     @Override
-    public void run(JDA bot, GuildMessageReceivedEvent event) {
+    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(new Color(0xe91e63));
         CloseableHttpClient client = HttpClientBuilder.create().build();

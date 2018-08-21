@@ -12,7 +12,7 @@ import javax.script.ScriptException;
 public class EvalCommand implements Command {
 //todo finish eval
     @Override
-    public void run(JDA bot, GuildMessageReceivedEvent event) {
+    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         if(!Checks.isAdmin(event.getAuthor().getId())){
 
         }

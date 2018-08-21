@@ -16,11 +16,12 @@ public class Events extends ListenerAdapter {
         //TODO: change prefix handler to something else and instead set it to a database prefix
         String content = event.getMessage().getContentRaw();
         String prefix = "!y";//temp hardcoded prefix cause elf = gay for sagiri
+        String[] args = event.getMessage().getContentRaw().split(" ");
         // elf sagiri megumi threesome when
         if (content.startsWith("!y")){
-            String command = content.substring(prefix.length());
+            String command = args[0].substring(prefix.length());
             try {
-                if (Kayla.registry.has(command)) Kayla.registry.get(command).run(Kayla.bot, event);
+                if (Kayla.registry.has(command)) Kayla.registry.get(command).run(Kayla.bot, event, args);
             } catch (Exception e) {
                 e.printStackTrace();
                 EmbedBuilder embed = new EmbedBuilder();

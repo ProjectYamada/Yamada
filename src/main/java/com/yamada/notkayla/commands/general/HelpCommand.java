@@ -8,7 +8,7 @@ import java.awt.Color;
 public class HelpCommand implements Command {
 
     @Override
-    public void run(JDA bot, GuildMessageReceivedEvent event) {
+    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(new Color(0xe91e63));
         embed.setTitle("Need some help?");

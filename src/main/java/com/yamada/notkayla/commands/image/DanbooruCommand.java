@@ -16,7 +16,7 @@ import org.json.*;
 
 public class DanbooruCommand implements Command {
     @Override
-    public void run(JDA bot, GuildMessageReceivedEvent event) {
+    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         if (!event.getChannel().isNSFW()) {
             event.getChannel().sendMessage("You need to be in a NSFW channel for this.").submit();
             return;

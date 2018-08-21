@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class UrbanCommand implements Command {
     @Override
-    public void run(JDA bot, GuildMessageReceivedEvent event) {
+    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         EmbedBuilder embed = new EmbedBuilder();
         //TODO: Allow this command to handle arguments.
         //String arg = event.getArgs();
