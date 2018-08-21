@@ -38,6 +38,7 @@ public class RandomCatCommand implements Command  {
             return;
         }
         embed.setImage(jsonResponse.getString("file"));
+        embed.setFooter("Powered by random.cat", null);
         event.getChannel().sendMessage(embed.build()).queue();
     }
 }

@@ -9,10 +9,12 @@ import java.io.IOException;
 import org.apache.http.client.methods.*;
 import org.apache.http.impl.client.*;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
-public class RandomDogCommand implements Command  {
+public class RandomDuckCommand implements Command  {
     private static CloseableHttpResponse response;
     private static String responseBody;
+    private static JSONObject jsonResponse;
 
     @Override
     public void run(JDA bot, GuildMessageReceivedEvent event) {
@@ -20,11 +22,12 @@ public class RandomDogCommand implements Command  {
         embed.setColor(new Color(0xe91e63));
         CloseableHttpClient client = HttpClientBuilder.create().build();
         try {
-            response = client.execute(new HttpGet("https://random.dog/woof"));
+            response = client.execute(new HttpGet("https://random-d.uk/api/v1/quack"));
             responseBody = EntityUtils.toString(response.getEntity()).replace("\n", "");
             //event.getChannel().sendMessage(String.format("```\n%s\n```", responseBody)).queue();
+            jsonResponse = new JSONObject(responseBody);
             if (response.getStatusLine().getStatusCode() != 200) {
-                throw new IOException("Request to random.dog was unsuccessful");
+                throw new IOException("Request to random-d.uk was unsuccessful");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -34,8 +37,8 @@ public class RandomDogCommand implements Command  {
             event.getChannel().sendMessage(embed.build()).queue();
             return;
         }
-        embed.setImage("https://random.dog/" + responseBody);
-        embed.setFooter("Powered by random.dog", null);
+        embed.setImage(jsonResponse.getString("url"));
+        embed.setFooter(jsonResponse.getString("message"), null);
         event.getChannel().sendMessage(embed.build()).queue();
     }
 }
