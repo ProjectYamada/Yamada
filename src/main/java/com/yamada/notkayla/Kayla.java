@@ -54,5 +54,6 @@ public class Kayla {
         registry.register("urban", new UrbanCommand());
         registry.register("danbooru", new DanbooruCommand());
         registry.register("meme", new MemeCommand());
+        registry.register("yt", new YoutubeCommand());
     }
 }
