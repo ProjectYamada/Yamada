@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 public class Kayla {
     public static Logger log = Logger.getLogger("Kayla");
-    static JDA bot;
+    public static JDA bot;
     public static CommandRegistry registry = new CommandRegistry();
     public static void main(String[] args){
         File configFile = new File("./config.yml");

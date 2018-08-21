@@ -11,7 +11,7 @@ import java.util.logging.Level;
 
 public class Config {
     private static Yaml yaml = new Yaml();
-    public static Map configuration;
+    public static Map<String, Object> configuration;
 
     static void init(File config) {
         try{
