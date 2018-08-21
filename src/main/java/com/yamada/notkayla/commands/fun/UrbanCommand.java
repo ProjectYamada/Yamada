@@ -20,18 +20,33 @@ public class UrbanCommand implements Command {
         EmbedBuilder embed = new EmbedBuilder();
         String term = "";
         int index = 0;
+        boolean page_number = false;
         CloseableHttpClient client = HttpClientBuilder.create().build();
         try {
-            term = args[1];
-            if (args.length > 2) {
-                try {
-                    index = Integer.parseInt(args[2]) - 1;
-                    if (index <= 0) index = 0;
-                } catch (Exception e) {
-                    event.getChannel().sendMessage("If your term is multiple words, replace each space with an underscore.").queue();
-                    return;
-                }
+            try {
+                index = Integer.parseInt(args[args.length - 1]);
+                page_number = true;
+            } catch (Exception e) {
+                // Left empty for obvious reasons.
             }
+            // !yurban test
+            if (args.length == 2) {
+                term = args[1];
+            }
+            // !yurban united states
+            else {
+                if (!page_number) {
+                    for (int i = 1; i < args.length; i++) {
+                        term += args[i] + " ";
+                    }
+                }
+                else {
+                    for (int i = 1; i < args.length - 1; i++)
+                        term += args[i] + " ";
+                }
+                term = term.substring(0, term.length() - 1);
+            }
+            System.out.println(term);
         } catch (Exception e) {
             event.getChannel().sendMessage("Please specify a term for the Urban Dictionary.").queue();
             return;
@@ -39,7 +54,7 @@ public class UrbanCommand implements Command {
 
         try {
             CloseableHttpResponse response = client.execute(
-                    new HttpGet(String.format("http://api.urbandictionary.com/v0/define?term=%s", term.replace(" ", "%20"))));
+                    new HttpGet(String.format("http://api.urbandictionary.com/v0/define?term=%s", term.replace(" ", "+"))));
             String responseBody = EntityUtils.toString(response.getEntity()).replace("\n", "");
             JSONObject json = new JSONObject(responseBody);
             System.out.println(responseBody);
