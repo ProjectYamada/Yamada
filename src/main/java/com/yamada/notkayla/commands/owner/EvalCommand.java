@@ -20,7 +20,7 @@ public class EvalCommand implements Command {
     SimpleScriptContext ctx = new SimpleScriptContext();
     public EvalCommand(){
         EvalReader r = new EvalReader();
-        ctx.setReader(r);
+        ctx.setReader(new InputStreamReader(System.in));
     }
     @Override
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {

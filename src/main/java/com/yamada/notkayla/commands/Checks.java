@@ -5,11 +5,12 @@ import com.yamada.notkayla.Config;
 import java.util.List;
 
 public class Checks {
-    private static List<String> owners;
+    private static List<String> owners = null;
     public static boolean isAdmin(String id){
         if (owners == null){
-            owners = (List) Config.configuration.get("owners");
+            owners = (List<String>) Config.configuration.get("owners");
+            for (String owner : owners)System.out.println(owner);
         }
-        return owners.contains(id);
+        return owners.contains((String) id);
     }
 }
