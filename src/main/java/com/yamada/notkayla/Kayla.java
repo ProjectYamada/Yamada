@@ -51,5 +51,6 @@ public class Kayla {
         registry.register("cat", new RandomCatCommand());
         registry.register("duck", new RandomDuckCommand());
         registry.register("urban", new UrbanCommand());
+        registry.register("danbooru", new DanbooruCommand());
     }
 }
