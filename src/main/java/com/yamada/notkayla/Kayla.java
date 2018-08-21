@@ -1,6 +1,7 @@
 package com.yamada.notkayla;
 
 import com.yamada.notkayla.commands.CommandRegistry;
+import com.yamada.notkayla.commands.fun.MemeCommand;
 import com.yamada.notkayla.commands.fun.UrbanCommand;
 import com.yamada.notkayla.commands.general.*;
 import com.yamada.notkayla.commands.image.*;
@@ -52,5 +53,6 @@ public class Kayla {
         registry.register("duck", new RandomDuckCommand());
         registry.register("urban", new UrbanCommand());
         registry.register("danbooru", new DanbooruCommand());
+        registry.register("meme", new MemeCommand());
     }
 }
