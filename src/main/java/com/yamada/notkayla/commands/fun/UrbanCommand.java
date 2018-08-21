@@ -19,16 +19,18 @@ public class UrbanCommand implements Command {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         EmbedBuilder embed = new EmbedBuilder();
         String term = "";
-        int index = 1;
-        embed.setTitle("Test Definition");
+        int index = 0;
         CloseableHttpClient client = HttpClientBuilder.create().build();
         try {
             term = args[1];
-            try {
-                index = Integer.parseInt(args[2]);
-            } catch (Exception e) {
-                event.getChannel().sendMessage("If your term is multiple words, replace each space with an underscore.").queue();
-                return;
+            if (args.length > 2) {
+                try {
+                    index = Integer.parseInt(args[2]) - 1;
+                    if (index <= 0) index = 0;
+                } catch (Exception e) {
+                    event.getChannel().sendMessage("If your term is multiple words, replace each space with an underscore.").queue();
+                    return;
+                }
             }
         } catch (Exception e) {
             event.getChannel().sendMessage("Please specify a term for the Urban Dictionary.").queue();
@@ -37,11 +39,13 @@ public class UrbanCommand implements Command {
 
         try {
             CloseableHttpResponse response = client.execute(
-                    new HttpGet(String.format("http://api.urbandictionary.com/v0/define?term=%s", term.replace("_", " "))));
+                    new HttpGet(String.format("http://api.urbandictionary.com/v0/define?term=%s", term.replace(" ", "%20"))));
             String responseBody = EntityUtils.toString(response.getEntity()).replace("\n", "");
             JSONObject json = new JSONObject(responseBody);
+            System.out.println(responseBody);
             JSONArray arr = json.getJSONArray("list");
             String definition = arr.getJSONObject(index).getString("definition");
+            embed.setTitle(args[1]);
             embed.addField("Definition: ", definition, false);
             if (arr.getJSONObject(index).getString("example").length() >= 1024) {
                 String example = arr.getJSONObject(index).getString("example").substring(0, 1020);
