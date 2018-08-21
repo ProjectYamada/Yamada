@@ -31,7 +31,7 @@ public class EvalCommand implements Command {
         }
         String arg = builder.toString();
         //in which case go ahead
-        ScriptEngine se = Kayla.registry.sf.getEngineByExtension("JavaScript");
+        ScriptEngine se = Kayla.registry.sf.getEngineByName("JavaScript");
         try {
             se.eval(arg);
         } catch (ScriptException e) {
