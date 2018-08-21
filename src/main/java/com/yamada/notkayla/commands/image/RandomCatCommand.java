@@ -27,7 +27,7 @@ public class RandomCatCommand implements Command  {
             //event.getChannel().sendMessage(String.format("```\n%s\n```", responseBody)).queue();
             jsonResponse = new JSONObject(responseBody);
             if (response.getStatusLine().getStatusCode() != 200) {
-                throw new IOException("Request to random.dog was unsuccessful");
+                throw new IOException("Request to random.cat was unsuccessful");
             }
         } catch (IOException e) {
             e.printStackTrace();
