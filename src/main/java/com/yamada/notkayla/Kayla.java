@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Kayla {
-    static Logger log = Logger.getLogger("Kayla");
+    public static Logger log = Logger.getLogger("Kayla");
     static JDA bot;
     public static CommandRegistry registry = new CommandRegistry();
     public static void main(String[] args){
