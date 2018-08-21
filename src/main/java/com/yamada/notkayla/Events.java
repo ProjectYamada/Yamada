@@ -18,7 +18,7 @@ public class Events extends ListenerAdapter {
         String prefix = "!y";//temp hardcoded prefix cause elf = gay for sagiri
         String[] args = event.getMessage().getContentRaw().split(" ");
         // elf sagiri megumi threesome when
-        if (content.startsWith("!y")){
+        if (content.startsWith(prefix)){
             String command = args[0].substring(prefix.length());
             try {
                 if (Kayla.registry.has(command)) Kayla.registry.get(command).run(Kayla.bot, event, args);
