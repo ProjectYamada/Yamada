@@ -1,4 +1,4 @@
-package com.yamada.notkayla.commands.image;
+package com.yamada.notkayla.commands.anime;
 
 import com.yamada.notkayla.commands.Command;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -9,10 +9,10 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import java.awt.*;
 import java.io.IOException;
-import org.json.*;
 
 public class DanbooruCommand implements Command {
     @Override

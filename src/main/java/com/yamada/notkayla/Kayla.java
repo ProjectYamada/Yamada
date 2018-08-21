@@ -1,10 +1,10 @@
 package com.yamada.notkayla;
 
 import com.yamada.notkayla.commands.CommandRegistry;
-import com.yamada.notkayla.commands.fun.MemeCommand;
-import com.yamada.notkayla.commands.fun.UrbanCommand;
+import com.yamada.notkayla.commands.fun.*;
 import com.yamada.notkayla.commands.general.*;
 import com.yamada.notkayla.commands.image.*;
+import com.yamada.notkayla.commands.anime.*;
 import com.yamada.notkayla.commands.owner.PullCommand;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;

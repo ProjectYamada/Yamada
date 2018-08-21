@@ -17,6 +17,8 @@ public class HelpCommand implements Command {
         embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
         embed.addField("General", "`help` - You're viewing it\n`info` - Shows general info about Yamada\n`ping` - Pong!\n`user` - View information on a server member", false);
         embed.addField("Image", "`dog` - Fetches a random dog\n`cat` - Fetches a random cat\n`duck` - Fetches a random duck", false);
+        embed.addField("Fun", "`meme` - Fetches a random meme\n`urban` - Look up Urban Dictionary definitions", false);
+        embed.addField("Anime", "`danbooru` - Fetches an image from danbooru", false);
         event.getChannel().sendMessage(embed.build()).queue();
 
     }
