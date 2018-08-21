@@ -18,24 +18,38 @@ public class UrbanCommand implements Command {
     @Override
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         EmbedBuilder embed = new EmbedBuilder();
-        //TODO: Allow this command to handle arguments.
-        //String arg = event.getArgs();
-        //System.out.println(arg);
+        String term = "";
+        int index = 1;
         embed.setTitle("Test Definition");
         CloseableHttpClient client = HttpClientBuilder.create().build();
         try {
+            term = args[1];
+            try {
+                index = Integer.parseInt(args[2]);
+            } catch (Exception e) {
+                event.getChannel().sendMessage("If your term is multiple words, replace each space with an underscore.").queue();
+                return;
+            }
+        } catch (Exception e) {
+            event.getChannel().sendMessage("Please specify a term for the Urban Dictionary.").queue();
+            return;
+        }
+
+        try {
             CloseableHttpResponse response = client.execute(
-                    new HttpGet(String.format("http://api.urbandictionary.com/v0/define?term=%s", "test")));
+                    new HttpGet(String.format("http://api.urbandictionary.com/v0/define?term=%s", term.replace("_", " "))));
             String responseBody = EntityUtils.toString(response.getEntity()).replace("\n", "");
             JSONObject json = new JSONObject(responseBody);
             JSONArray arr = json.getJSONArray("list");
-            String definition = arr.getJSONObject(0).getString("definition");
-            System.out.println(definition);
-            System.out.println(responseBody);
+            String definition = arr.getJSONObject(index).getString("definition");
             embed.addField("Definition: ", definition, false);
-            embed.addField("Example: ", arr.getJSONObject(0).getString("example"), false);
-            embed.addField(":thumbsup: ", String.valueOf(arr.getJSONObject(0).getInt("thumbs_up")), true);
-            embed.addField(":thumbsdown: ", String.valueOf(arr.getJSONObject(0).getInt("thumbs_down")), true);
+            if (arr.getJSONObject(index).getString("example").length() >= 1024) {
+                String example = arr.getJSONObject(index).getString("example").substring(0, 1020);
+                embed.addField("Example: ", example + "...", false);
+            }
+            else embed.addField("Example: ", arr.getJSONObject(index).getString("example"), false);
+            embed.addField(":thumbsup: ", String.valueOf(arr.getJSONObject(index).getInt("thumbs_up")), true);
+            embed.addField(":thumbsdown: ", String.valueOf(arr.getJSONObject(index).getInt("thumbs_down")), true);
             embed.setFooter(String.format("Requested by %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
             event.getChannel().sendMessage(embed.build()).queue();
         } catch (IOException e) {
