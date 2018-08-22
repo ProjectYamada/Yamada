@@ -14,9 +14,11 @@ public class Database {
     public Database() throws SQLException, ClassNotFoundException {
         try {
             Class.forName("org.postgresql.Driver");
-            Map db = (Map<String,String>)Config.configuration.get("db");// we can manually set the host and database instead of making it
-            connection = new PGPooledConnection(DriverManager.getConnection("jdbc:postgresql://localhost/yamada",
-                    (String) db.get("user"), (String) db.get("pass")),true);
+            Map db = (Map)Config.configuration.get("db");// we can manually set the host and database instead of making it
+            if (db.get("user") != null && db.get("pass") != null)connection = new PGPooledConnection(DriverManager.getConnection(
+                    String.format("jdbc:postgresql://%s/%s", db.get("host") == null ? "localhost" : db.get("host"),
+                            db.get("name") == null ? "yamada" : db.get("name")),(String) db.get("user")
+                    , (String) db.get("pass")),true);
             if (10 >connection.getConnection().getMetaData().getDatabaseMajorVersion()) throw new SQLException("Postgres major version must be 10 or newer.");
         } catch (ClassNotFoundException e) {
             Kayla.log.log(Level.SEVERE,"Uh oh, looks like the driver wasn't found for the database ;P");
@@ -26,6 +28,8 @@ public class Database {
             Kayla.log.log(Level.SEVERE,"oof the bad thing happened and there was an error from getConnection");
             e.printStackTrace();
             throw e;
+        }catch (NullPointerException e){
+            Kayla.log.log(Level.SEVERE,"Whoops! You forgot a database key");
         }
     }
 

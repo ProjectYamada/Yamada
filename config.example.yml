@@ -8,5 +8,5 @@ owners:
 db: #todo add database name and host
   host: "host"
   name: "db name"
-  user: "db user"
-  pass: "db pass"
+  user: "db user" # must be set
+  pass: "db pass" # must be set
