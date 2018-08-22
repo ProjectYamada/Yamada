@@ -1,14 +1,23 @@
+# API tokens
 token: "discord api token"
 reddit-api: "reddit api token"
-prefix: "!y" # todo read prefix from config
 youtube-api: "youtube api token"
+
+# Bot prefix
+prefix: "!y" # todo read prefix from config
+
+# Only those with the user IDs specified can run the "eval" command.
 owners:
   - "user ids"
   - "can be multiple"
+
+# Database settings. You need to use PostgreSQL for this to operate properly.
 db: #todo add database name and host
   host: "host"
   name: "db name"
   user: "db user" # must be set
   pass: "db pass" # must be set
+
+# The "report" and "suggest" commands need a text channel ID to send reports and suggestions to.
 report-id: "text channel id"
 suggest-id: "text channel id"
