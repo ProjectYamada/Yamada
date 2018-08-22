@@ -19,6 +19,7 @@ public class HelpCommand implements Command {
         embed.addField("Image", "`dog` - Fetches a random dog\n`cat` - Fetches a random cat\n`duck` - Fetches a random duck", false);
         embed.addField("Fun", "`meme` - Fetches a random meme\n`urban` - Look up Urban Dictionary definitions", false);
         embed.addField("Anime", "`danbooru` - Fetches an image from danbooru", false);
+        embed.addField("Moderation", "`kick` - Kicks the specified user from your server", false);
         event.getChannel().sendMessage(embed.build()).queue();
 
     }
