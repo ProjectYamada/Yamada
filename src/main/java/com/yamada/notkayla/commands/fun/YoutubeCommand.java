@@ -22,7 +22,7 @@ public class YoutubeCommand implements Command {
 
     @Override
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
-        String query = String.join(" ", args).replace("!yyt ", "");
+        String query = String.join(" ", args);
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(new Color(0xe91e63));
         embed.setTitle("YouTube Search Result - " + query);

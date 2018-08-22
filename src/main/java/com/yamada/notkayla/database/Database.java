@@ -2,32 +2,41 @@ package com.yamada.notkayla.database;
 
 import com.yamada.notkayla.Config;
 import com.yamada.notkayla.Kayla;
+import com.yamada.notkayla.database.entities.GuildData;
+import org.postgresql.ds.PGPooledConnection;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Map;
 import java.util.logging.Level;
 
 public class Database {
-    static Connection connection;
-    public static void init(){
+    private PGPooledConnection connection;
+    public Database() throws SQLException, ClassNotFoundException {
         try {
             Class.forName("org.postgresql.Driver");
             Map db = (Map<String,String>)Config.configuration.get("db");// we can manually set the host and database instead of making it
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost/yamada", (String) db.get("user"), (String) db.get("pass"));
+            connection = new PGPooledConnection(DriverManager.getConnection("jdbc:postgresql://localhost/yamada",
+                    (String) db.get("user"), (String) db.get("pass")),true);
+            if (10 >connection.getConnection().getMetaData().getDatabaseMajorVersion()) throw new SQLException("Postgres major version must be 10 or newer.");
         } catch (ClassNotFoundException e) {
             Kayla.log.log(Level.SEVERE,"Uh oh, looks like the driver wasn't found for the database ;P");
             e.printStackTrace();
+            throw e;
         } catch (SQLException e) {
             Kayla.log.log(Level.SEVERE,"oof the bad thing happened and there was an error from getConnection");
             e.printStackTrace();
+            throw e;
         }
     }
 
-    public static ResultSet blockingQuery() throws SQLException {
-        connection.createStatement();// incomplete
-        return null;
+    public ResultSet query(String query) throws SQLException {
+        Statement st = connection.getConnection().createStatement();
+        return st.executeQuery(query);
+    }
+
+    public GuildData guildData(String id) throws SQLException {
+        ResultSet query = query("SELECT * from guilds");
+        query.first(); // just wanna make sure row is first row
+        return new GuildData(query.getString("gid"),query.getString("prefix"),query.getBoolean("customPrefix"));
     }
 }

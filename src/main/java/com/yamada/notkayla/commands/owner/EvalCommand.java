@@ -19,17 +19,13 @@ public class EvalCommand implements Command {
 //todo finish eval
     SimpleScriptContext ctx = new SimpleScriptContext();
     public EvalCommand(){
-        EvalReader r = new EvalReader();
-        ctx.setReader(new InputStreamReader(System.in));
+        EvalWriter r = new EvalWriter();
+        ctx.setWriter(r);
     }
     @Override
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         if(!Checks.isAdmin(event.getAuthor().getId())) return;//don't even say anything, just ignore the call
-        StringBuilder builder = new StringBuilder();
-        for(String s : args) {
-            builder.append(s);
-        }
-        String arg = builder.toString();
+        String arg = String.join(" ", args);
         //in which case go ahead
         ScriptEngine se = Kayla.registry.sf.getEngineByName("JavaScript");
         try {
@@ -43,12 +39,17 @@ public class EvalCommand implements Command {
             e.printStackTrace();
         }
     }
-    class EvalReader extends Reader {
+    class EvalWriter extends Writer {
         TextChannel tc = Kayla.bot.getTextChannelById("481528711720730634");
+
         @Override
-        public int read(@NotNull char[] cbuf, int off, int len) {
+        public void write(@NotNull char[] cbuf, int off, int len) throws IOException {
             tc.sendMessage(Arrays.toString(cbuf)).queue();
-            return 0;
+        }
+
+        @Override
+        public void flush() throws IOException {
+
         }
 
         @Override//ignore this
