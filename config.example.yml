@@ -1,4 +1,12 @@
-token: ""
-reddit-api: ""
-prefix: "!y"
-youtube-api: ""
+token: "discord api token"
+reddit-api: "reddit api token"
+prefix: "!y" # todo read prefix from config
+youtube-api: "youtube api token"
+owners:
+  - "user ids"
+  - "can be multiple"
+db: #todo add database name and host
+  host: "host"
+  name: "db name"
+  user: "db user"
+  pass: "db pass"
