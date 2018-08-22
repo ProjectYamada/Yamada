@@ -52,7 +52,7 @@ public class Kayla {
 
     private static void setupDatabase() throws SQLException, ClassNotFoundException {
         db = new Database();
-        db.query("");
+        //db.query("");
     }
 
     private static void registerCommands() {
