@@ -15,7 +15,7 @@ public class Events extends ListenerAdapter {
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         //TODO: change prefix handler to something else and instead set it to a database prefix
         String content = event.getMessage().getContentRaw();
-        String prefix = "!y";//temp hardcoded prefix cause elf = gay for sagiri
+        String prefix = String.valueOf(Config.configuration.get("prefix"));
         // elf sagiri megumi threesome when
         if (content.startsWith(prefix)){
             String command = content.split(" ")[0].substring(prefix.length());
