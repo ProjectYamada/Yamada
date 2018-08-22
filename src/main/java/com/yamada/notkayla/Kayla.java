@@ -71,5 +71,6 @@ public class Kayla {
         registry.register("meme", new MemeCommand());
         registry.register("yt", new YoutubeCommand());
         registry.register("kick", new KickCommand());
+        registry.register("ban", new BanCommand());
     }
 }
