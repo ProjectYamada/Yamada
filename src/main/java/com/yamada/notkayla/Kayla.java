@@ -62,6 +62,7 @@ public class Kayla {
         registry.register("ping", new PingCommand());
         registry.register("pull", new PullCommand());
         registry.register("user", new UserCommand());
+        registry.register("report", new ReportCommand());
         registry.register("eval", new EvalCommand());
         registry.register("dog", new RandomDogCommand());
         registry.register("cat", new RandomCatCommand());

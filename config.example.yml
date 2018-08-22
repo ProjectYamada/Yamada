@@ -10,3 +10,4 @@ db: #todo add database name and host
   name: "db name"
   user: "db user"
   pass: "db pass"
+report-id: "text channel id"
