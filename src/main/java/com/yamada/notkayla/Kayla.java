@@ -62,6 +62,8 @@ public class Kayla {
         registry.register("ping", new PingCommand());
         registry.register("pull", new PullCommand());
         registry.register("user", new UserCommand());
+        registry.register("report", new ReportCommand());
+        registry.register("suggest", new SuggestCommand());
         registry.register("eval", new EvalCommand());
         registry.register("dog", new RandomDogCommand());
         registry.register("cat", new RandomCatCommand());
@@ -71,5 +73,6 @@ public class Kayla {
         registry.register("meme", new MemeCommand());
         registry.register("yt", new YoutubeCommand());
         registry.register("kick", new KickCommand());
+        registry.register("ban", new BanCommand());
     }
 }
