@@ -5,6 +5,7 @@ import com.yamada.notkayla.commands.fun.*;
 import com.yamada.notkayla.commands.general.*;
 import com.yamada.notkayla.commands.image.*;
 import com.yamada.notkayla.commands.anime.*;
+import com.yamada.notkayla.commands.mod.*;
 import com.yamada.notkayla.commands.owner.EvalCommand;
 import com.yamada.notkayla.commands.owner.PullCommand;
 import net.dv8tion.jda.core.AccountType;
@@ -57,5 +58,6 @@ public class Kayla {
         registry.register("danbooru", new DanbooruCommand());
         registry.register("meme", new MemeCommand());
         registry.register("yt", new YoutubeCommand());
+        registry.register("kick", new KickCommand());
     }
 }
