@@ -16,6 +16,7 @@ public class Config {
     static void init(File config) {
         try{
             configuration = (Map) yaml.load(new FileInputStream(config));
+            System.out.println(configuration + "\n" + config);
         } catch (FileNotFoundException e) {
             Kayla.log.log(Level.SEVERE, "FileNotFoundError: file 'config.yml' does not exist");
             e.printStackTrace();

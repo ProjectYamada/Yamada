@@ -16,7 +16,7 @@ public class Database {
             Class.forName("org.postgresql.Driver");
             Map db = (Map)Config.configuration.get("db");// we can manually set the host and database instead of making it
             if (db.get("user") != null && db.get("pass") != null)connection = new PGPooledConnection(DriverManager.getConnection(
-                    String.format("jdbc:postgresql://%s/%s", db.get("host") == null ? "localhost" : db.get("host"),
+                    String.format("jdbc:postgresql://%s/%s?allowMultiQueries=true", db.get("host") == null ? "localhost" : db.get("host"),
                             db.get("name") == null ? "yamada" : db.get("name")),(String) db.get("user")
                     , (String) db.get("pass")),true);
             if (10 >connection.getConnection().getMetaData().getDatabaseMajorVersion()) throw new SQLException("Postgres major version must be 10 or newer.");
@@ -29,7 +29,7 @@ public class Database {
             e.printStackTrace();
             throw e;
         }catch (NullPointerException e){
-            Kayla.log.log(Level.SEVERE,"Whoops! You forgot a database key");
+            Kayla.log.log(Level.SEVERE,"Whoops! You forgot a database key, you gotta have db.user and db.pass at least.");
         }
     }
 
