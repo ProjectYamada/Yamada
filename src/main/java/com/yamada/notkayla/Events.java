@@ -3,6 +3,7 @@ package com.yamada.notkayla;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.ExceptionEvent;
+import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
@@ -16,7 +17,7 @@ public class Events extends ListenerAdapter {
         //TODO: change prefix handler to something else and instead set it to a database prefix
         String content = event.getMessage().getContentRaw();
         String prefix = String.valueOf(Config.configuration.get("prefix"));
-        // elf sagiri megumi threesome when
+        // elf sagiri megumin threesome when
         if (content.startsWith(prefix)){
             String command = content.split(" ")[0].substring(prefix.length());
             String[] args = event.getMessage().getContentRaw().substring(prefix.length()+command.length()).split(" ");
@@ -46,6 +47,10 @@ public class Events extends ListenerAdapter {
         for (StackTraceElement traceElement : trace)
             tbuild.append("\tat ").append(traceElement);
         Kayla.bot.getTextChannelById("481510285442547723").sendMessage("```"+tbuild.toString()+"```").submit();
-
+    }
+    
+    @Override
+    public void onReady(ReadyEvent event) {
+        System.out.println("Yamada has connected to Discord.");
     }
 }
