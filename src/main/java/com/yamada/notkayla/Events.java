@@ -49,6 +49,6 @@ public class Events extends ListenerAdapter {
     
     @Override
     public void onReady(ReadyEvent event) {
-        System.out.println("Yamada has established connected to Discord.");
+        System.out.println("Yamada has connected to Discord.");
     }
 }
