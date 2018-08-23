@@ -7,9 +7,9 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.io.IOException;
 
-public class PullCommand implements Command {
-
-    @Override
+@Command(name="pull",group="owner",hidden=true)
+public class PullCommand {
+    public PullCommand(){}
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         if(!Checks.isAdmin(event.getAuthor().getId())) return;
         try {

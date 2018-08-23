@@ -6,9 +6,8 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
-
-public class InfoCommand implements Command {
-    @Override
+@Command(name="info",group="general")
+public class InfoCommand{
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(new Color(0xe91e63));

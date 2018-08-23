@@ -15,6 +15,7 @@ import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import org.reflections.Reflections;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
@@ -27,6 +28,7 @@ public class Kayla {
     public static JDA bot;
     public static CommandRegistry registry = new CommandRegistry();
     public static Database db;
+    public static Reflections refl = new Reflections();
     public static void main(String[] args){
         File configFile = new File("./config.yml");
         Config.init(configFile);
@@ -56,23 +58,5 @@ public class Kayla {
     }
 
     private static void registerCommands() {
-        registry.register("test",new TestCommand());
-        registry.register("help",new HelpCommand());
-        registry.register("info", new InfoCommand());
-        registry.register("ping", new PingCommand());
-        registry.register("pull", new PullCommand());
-        registry.register("user", new UserCommand());
-        registry.register("report", new ReportCommand());
-        registry.register("suggest", new SuggestCommand());
-        registry.register("eval", new EvalCommand());
-        registry.register("dog", new RandomDogCommand());
-        registry.register("cat", new RandomCatCommand());
-        registry.register("duck", new RandomDuckCommand());
-        registry.register("urban", new UrbanCommand());
-        registry.register("danbooru", new DanbooruCommand());
-        registry.register("meme", new MemeCommand());
-        registry.register("yt", new YoutubeCommand());
-        registry.register("kick", new KickCommand());
-        registry.register("ban", new BanCommand());
     }
 }

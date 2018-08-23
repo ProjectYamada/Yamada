@@ -6,8 +6,8 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
-public class ReportCommand implements Command {
-    @Override
+@Command(name="report",group="general")
+public class ReportCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         StringBuilder reported = new StringBuilder();
         EmbedBuilder embed = new EmbedBuilder();

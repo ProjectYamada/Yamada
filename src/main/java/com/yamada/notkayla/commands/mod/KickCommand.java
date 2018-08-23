@@ -4,9 +4,9 @@ import com.yamada.notkayla.commands.Command;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
-public class KickCommand implements Command {
-
-    @Override
+@Command(name = "kick",group="mod")
+public class KickCommand {
+    public KickCommand(){}
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
 
         try {

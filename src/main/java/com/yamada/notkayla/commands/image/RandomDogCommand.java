@@ -10,11 +10,10 @@ import org.apache.http.client.methods.*;
 import org.apache.http.impl.client.*;
 import org.apache.http.util.EntityUtils;
 
-public class RandomDogCommand implements Command  {
+@Command(name="dog",group="image")
+public class RandomDogCommand  {
     private static CloseableHttpResponse response;
     private static String responseBody;
-
-    @Override
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(new Color(0xe91e63));

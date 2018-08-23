@@ -5,9 +5,11 @@ import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import java.awt.Color;
 
-public class HelpCommand implements Command {
+@Command(name = "help",group="general")
+public class HelpCommand {
+    public void reload(){
 
-    @Override
+    }
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(new Color(0xe91e63));

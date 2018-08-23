@@ -14,6 +14,7 @@ dependencies {
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5'
     compile 'org.postgresql:postgresql:42.2.4.jre7'
     compile group: 'org.json', name: 'json', version: '20180813'
+    compile 'org.reflections:reflections:0.9.11'
 }
 
 repositories {

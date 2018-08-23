@@ -13,9 +13,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-
-public class UrbanCommand implements Command {
-    @Override
+@Command(name = "urban", group = "fun")
+public class UrbanCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         EmbedBuilder embed = new EmbedBuilder();
         String term = "";

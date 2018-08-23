@@ -10,13 +10,11 @@ import org.apache.http.client.methods.*;
 import org.apache.http.impl.client.*;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
-
-public class RandomCatCommand implements Command  {
+@Command(name="cat",group="image")
+public class RandomCatCommand {
     private static CloseableHttpResponse response;
     private static String responseBody;
     private static JSONObject jsonResponse;
-
-    @Override
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(new Color(0xe91e63));

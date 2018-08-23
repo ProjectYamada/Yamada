@@ -7,8 +7,9 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
 
-public class UserCommand implements Command {
-    @Override
+@Command(name="user",group="general")
+public class UserCommand {
+    public UserCommand(){}
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         //TODO: Allow people to get user information from other people.
         //String arg = event.getMessage().getContentRaw().substring("!yuser ".length());

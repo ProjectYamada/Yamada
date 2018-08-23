@@ -21,7 +21,9 @@ public class Events extends ListenerAdapter {
             String command = content.split(" ")[0].substring(prefix.length());
             String[] args = event.getMessage().getContentRaw().substring(prefix.length()+command.length()).split(" ");
             try {
-                if (Kayla.registry.has(command)) Kayla.registry.get(command).run(Kayla.bot, event, args);
+                if (Kayla.registry.has(command)) {
+                    Kayla.registry.get(command);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 EmbedBuilder embed = new EmbedBuilder();

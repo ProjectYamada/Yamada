@@ -15,12 +15,12 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class YoutubeCommand implements Command {
+@Command(name="yt",group="fun")
+public class YoutubeCommand{
     private static CloseableHttpResponse response;
     private static String responseBody;
     private static JSONObject jsonResponse;
-
-    @Override
+    public YoutubeCommand(){}
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         String query = String.join(" ", args);
         EmbedBuilder embed = new EmbedBuilder();

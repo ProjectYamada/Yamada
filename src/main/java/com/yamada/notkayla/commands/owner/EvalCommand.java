@@ -6,7 +6,6 @@ import com.yamada.notkayla.commands.Command;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import org.apache.commons.codec.binary.CharSequenceUtils;
 import org.jetbrains.annotations.NotNull;
 
 import javax.script.*;
@@ -15,7 +14,8 @@ import java.lang.reflect.Array;
 import java.nio.CharBuffer;
 import java.util.Arrays;
 
-public class EvalCommand implements Command {
+@Command(name = "eval",group="owner",hidden=true)
+public class EvalCommand {
 //todo finish eval
     SimpleScriptContext ctx = new SimpleScriptContext();
     public EvalCommand(){
@@ -27,7 +27,6 @@ public class EvalCommand implements Command {
         bindings.put("bot",Kayla.bot);
         ctx.setBindings(bindings,ScriptContext.GLOBAL_SCOPE);
     }
-    @Override
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         if(!Checks.isAdmin(event.getAuthor().getId())) return;//don't even say anything, just ignore the call
         String arg = String.join(" ", args);
