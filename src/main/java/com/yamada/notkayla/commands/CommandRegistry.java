@@ -1,5 +1,6 @@
 package com.yamada.notkayla.commands;
 
+import com.yamada.notkayla.Kayla;
 import com.yamada.notkayla.module.SanaeClassLoader;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -12,6 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.logging.Level;
 
 public class CommandRegistry {
     public ScriptEngineManager sf = new ScriptEngineManager();
@@ -24,6 +26,7 @@ public class CommandRegistry {
         for (Class<?> cmd : annotCommands) {
             commands.put(cmd.getAnnotation(Command.class).name(),new RegCommand(cmd.getPackage()+"."+cmd.getSimpleName()));
         }
+        Kayla.log.log(Level.INFO,commands.toString());
 /*        if(has(commandName)) throw new KeyAlreadyExistsException("What???");
         Kayla.log.log(Level.INFO, String.format("%s is now registered", commandName));*/
     }
