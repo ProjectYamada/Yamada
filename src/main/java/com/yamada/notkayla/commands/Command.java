@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
+//@Retention(RetentionPolicy.RUNTIME)
 public @interface Command {
     String name();
     String description() default "Not yet set.";
