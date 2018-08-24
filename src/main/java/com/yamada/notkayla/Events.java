@@ -32,7 +32,7 @@ public class Events extends ListenerAdapter {
                 embed.setTitle("An error occurred");
                 embed.setDescription(String.format("```\n%s\n```", e.getStackTrace()));
                 event.getChannel().sendMessage(embed.build()).queue();
-                throw e;
+                onException(new ExceptionEvent(Kayla.bot, e, true));
             }
         }
     }
