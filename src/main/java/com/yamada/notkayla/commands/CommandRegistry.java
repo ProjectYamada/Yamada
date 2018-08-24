@@ -24,7 +24,7 @@ public class CommandRegistry {
         Kayla.log.log(Level.INFO,annotCommands.toString());
         for (Class<?> cmd : annotCommands) {
             Kayla.log.log(Level.INFO,cmd.getCanonicalName());
-            Kayla.log.log(Level.INFO,cmd.getAnnotation(Command.class).toString());
+            Kayla.log.log(Level.INFO,cmd.getAnnotation(Command.class).name());
             commands.put(cmd.getAnnotation(Command.class).name(),new RegCommand(cmd.getPackage()+"."+cmd.getSimpleName()));
         }
     }
