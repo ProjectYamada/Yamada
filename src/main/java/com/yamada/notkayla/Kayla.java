@@ -56,7 +56,11 @@ public class Kayla {
     private static void registerModules() {
         //todo: reflect modules like how i practiced
         registry.register();
-        modules.put("database",new DatabaseAdapter());
+        try {
+            modules.put("database", new DatabaseAdapter());
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     public static String reloadModule(String name){
