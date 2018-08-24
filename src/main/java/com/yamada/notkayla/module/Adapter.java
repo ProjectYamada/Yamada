@@ -19,6 +19,6 @@ public abstract class Adapter {
         ReflectionUtils.getMethods(clazz);
     }
     public Object runMethod(String method,String[] args) throws NotImplementedException {
-        throw new NotImplementedException();
+        return null;
     }
 }
