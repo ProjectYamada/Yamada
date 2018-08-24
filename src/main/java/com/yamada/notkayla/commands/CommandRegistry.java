@@ -21,11 +21,12 @@ public class CommandRegistry {
     public void register(){
         Reflections r = new Reflections("com.yamada.notkayla.commands");
         Set<Class<?>> annotCommands = r.getTypesAnnotatedWith(com.yamada.notkayla.commands.Command.class);
+        Kayla.log.log(Level.INFO,annotCommands.toString());
         for (Class<?> cmd : annotCommands) {
+            Kayla.log.log(Level.INFO,cmd.getCanonicalName());
+            Kayla.log.log(Level.INFO,cmd.getAnnotation(Command.class).name());
             commands.put(cmd.getAnnotation(Command.class).name(),new RegCommand(cmd.getPackage()+"."+cmd.getSimpleName()));
         }
-        Kayla.log.log(Level.INFO,commands.toString());
-        Kayla.log.log(Level.INFO,annotCommands.toString());
     }
 
     public boolean has(String commandName) {
