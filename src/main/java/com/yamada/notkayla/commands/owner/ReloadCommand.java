@@ -11,7 +11,13 @@ public class ReloadCommand {
         switch(args[0]){
             case "command":
                 Kayla.registry.reload(args[1]);
-
+                break;
+            case "module":
+                String response = Kayla.reloadModule("");
+                break;
+            default:
+                event.getChannel().sendMessage("").queue();
+                break;
         }
     }
 }

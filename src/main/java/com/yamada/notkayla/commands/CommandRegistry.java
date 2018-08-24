@@ -3,10 +3,13 @@ package com.yamada.notkayla.commands;
 import com.yamada.notkayla.module.SanaeClassLoader;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 
 import javax.script.ScriptEngineManager;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -19,7 +22,7 @@ public class CommandRegistry {
         Reflections r = new Reflections(new ConfigurationBuilder().addClassLoader(classLoader).addClassLoader(ClassLoader.getSystemClassLoader()));
         Set<Class<?>> annotCommands = r.getTypesAnnotatedWith(Command.class);
         for (Class<?> cmd : annotCommands) {
-            commands.put("",new RegCommand(cmd.getPackage()+"."+cmd.getSimpleName(),classLoader.loadClass(cmd.getPackage()+"."+cmd.getSimpleName())));
+            commands.put("",new RegCommand(cmd.getPackage()+"."+cmd.getSimpleName()));
         }
 /*        if(has(commandName)) throw new KeyAlreadyExistsException("What???");
         Kayla.log.log(Level.INFO, String.format("%s is now registered", commandName));*/
@@ -33,17 +36,25 @@ public class CommandRegistry {
         return commands.get(commandName);
     }
 
-    public void run(String commandName, JDA bot, GuildMessageReceivedEvent event, String[] args){
-
+    public void run(String commandName, JDA bot, GuildMessageReceivedEvent event, String[] args) throws InvocationTargetException, IllegalAccessException {
+        RegCommand regCommand = get(commandName);
+        regCommand.run.invoke(regCommand.cmd,bot,event,args);
     }
     public void reload(String commandName) {
+        
     }
 
     public class RegCommand{
-        String packageName;
-        Object cmd;
-        public RegCommand(String aPackage, Class<?> aClass){
+        public String packageName;
+        public Object cmd;
+        public Method run;
+        public boolean loaded;
+        public RegCommand(String aPackage){
             packageName=aPackage;
+            cmd = classLoader.loadClass(packageName);
+        }
+        public void unload(){
+
         }
     }
 }

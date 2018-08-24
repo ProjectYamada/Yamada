@@ -14,11 +14,14 @@ public class PullCommand {
         if(!Checks.isAdmin(event.getAuthor().getId())) return;
         try {
             event.getChannel().sendTyping().submit();
-            Runtime.getRuntime().exec("git pull");
+            Runtime.getRuntime().exec("git pull").waitFor();
+            Runtime.getRuntime().exec("gradle build").waitFor();
             event.getChannel().sendMessage("\uD83D\uDC4C").submit();
         } catch (IOException e) {
             e.printStackTrace();
             event.getChannel().sendMessage("\uD83D\uDC4E").submit();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

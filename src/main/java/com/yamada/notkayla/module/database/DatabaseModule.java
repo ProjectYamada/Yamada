@@ -1,8 +1,8 @@
-package com.yamada.notkayla.database;
+package com.yamada.notkayla.module.database;
 
 import com.yamada.notkayla.Config;
 import com.yamada.notkayla.Kayla;
-import com.yamada.notkayla.database.entities.GuildData;
+import com.yamada.notkayla.module.database.entities.GuildData;
 import com.yamada.notkayla.module.Module;
 import org.postgresql.ds.PGPooledConnection;
 
@@ -10,9 +10,9 @@ import java.sql.*;
 import java.util.Map;
 import java.util.logging.Level;
 @Module(name="database",guarded=false)
-public class Database {
+public class DatabaseModule {
     private PGPooledConnection connection;
-    public Database() throws SQLException, ClassNotFoundException {
+    public DatabaseModule() throws SQLException, ClassNotFoundException {
         try {
             Class.forName("org.postgresql.Driver");
             Map db = (Map)Config.configuration.get("db");// we can manually set the host and database instead of making it

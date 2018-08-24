@@ -1,4 +1,4 @@
-package com.yamada.notkayla.database.entities;
+package com.yamada.notkayla.module.database.entities;
 
 public class GuildData {
     public String id;
