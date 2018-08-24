@@ -58,8 +58,7 @@ public class Kayla {
         registry.register();
         try {
             modules.put("database", new DatabaseAdapter());
-        }catch (NullPointerException e){
-            e.printStackTrace();
+        }catch (NullPointerException ignored){
         }
     }
 

@@ -22,7 +22,7 @@ public class CommandRegistry {
         Reflections r = new Reflections(new ConfigurationBuilder().addClassLoader(classLoader).addClassLoader(ClassLoader.getSystemClassLoader()));
         Set<Class<?>> annotCommands = r.getTypesAnnotatedWith(Command.class);
         for (Class<?> cmd : annotCommands) {
-            commands.put("",new RegCommand(cmd.getPackage()+"."+cmd.getSimpleName()));
+            commands.put(cmd.getAnnotation(Command.class).name(),new RegCommand(cmd.getPackage()+"."+cmd.getSimpleName()));
         }
 /*        if(has(commandName)) throw new KeyAlreadyExistsException("What???");
         Kayla.log.log(Level.INFO, String.format("%s is now registered", commandName));*/
