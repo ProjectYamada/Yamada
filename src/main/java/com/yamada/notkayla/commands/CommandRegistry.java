@@ -26,8 +26,6 @@ public class CommandRegistry {
         }
         Kayla.log.log(Level.INFO,commands.toString());
         Kayla.log.log(Level.INFO,annotCommands.toString());
-/*        if(has(commandName)) throw new KeyAlreadyExistsException("What???");
-        Kayla.log.log(Level.INFO, String.format("%s is now registered", commandName));*/
     }
 
     public boolean has(String commandName) {
