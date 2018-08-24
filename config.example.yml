@@ -12,7 +12,7 @@ owners:
   - "can be multiple"
 
 # Database settings. You need to use PostgreSQL for this to operate properly.
-db: #todo add database name and host
+db:
   host: "host"
   name: "db name"
   user: "db user" # must be set
