@@ -24,7 +24,8 @@ public class CommandRegistry {
         for (Class<?> cmd : annotCommands) {
             commands.put(cmd.getAnnotation(Command.class).name(),new RegCommand(cmd.getPackage()+"."+cmd.getSimpleName()));
         }
-        Kayla.log.log(Level.INFO,commands+"\n",annotCommands);
+        Kayla.log.log(Level.INFO,commands.toString());
+        Kayla.log.log(Level.INFO,annotCommands.toString());
 /*        if(has(commandName)) throw new KeyAlreadyExistsException("What???");
         Kayla.log.log(Level.INFO, String.format("%s is now registered", commandName));*/
     }
