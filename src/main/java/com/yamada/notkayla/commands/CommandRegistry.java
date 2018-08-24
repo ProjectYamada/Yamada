@@ -4,15 +4,12 @@ import com.yamada.notkayla.Kayla;
 import com.yamada.notkayla.module.SanaeClassLoader;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
-import org.reflections.util.ConfigurationBuilder;
 
 import javax.script.ScriptEngineManager;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -23,7 +20,7 @@ public class CommandRegistry {
 
     public void register(){
         Reflections r = new Reflections();
-        HashSet<Class<?>> annotCommands = new HashSet<>(r.getTypesAnnotatedWith(Command.class));
+        Set<Class<?>> annotCommands = r.getTypesAnnotatedWith(Command.class);
         for (Class<?> cmd : annotCommands) {
             commands.put(cmd.getAnnotation(Command.class).name(),new RegCommand(cmd.getPackage()+"."+cmd.getSimpleName()));
         }
