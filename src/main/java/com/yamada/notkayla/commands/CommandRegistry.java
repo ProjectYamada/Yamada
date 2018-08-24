@@ -19,8 +19,8 @@ public class CommandRegistry {
     private SanaeClassLoader classLoader = new SanaeClassLoader();
 
     public void register(){
-        Reflections r = new Reflections();
-        Set<Class<?>> annotCommands = r.getTypesAnnotatedWith(Command.class);
+        Reflections r = new Reflections("com.yamada.notkayla.commands");
+        Set<Class<?>> annotCommands = r.getTypesAnnotatedWith(com.yamada.notkayla.commands.Command.class);
         for (Class<?> cmd : annotCommands) {
             commands.put(cmd.getAnnotation(Command.class).name(),new RegCommand(cmd.getPackage()+"."+cmd.getSimpleName()));
         }
