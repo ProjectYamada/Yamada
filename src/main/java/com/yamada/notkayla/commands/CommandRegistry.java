@@ -19,7 +19,7 @@ public class CommandRegistry {
         Reflections r = new Reflections(new ConfigurationBuilder().addClassLoader(classLoader).addClassLoader(ClassLoader.getSystemClassLoader()));
         Set<Class<?>> annotCommands = r.getTypesAnnotatedWith(Command.class);
         for (Class<?> cmd : annotCommands) {
-            commands.put("",new RegCommand(cmd.getPackage()+"."+cmd.getSimpleName()));
+            commands.put("",new RegCommand(cmd.getPackage()+"."+cmd.getSimpleName(),classLoader.loadClass(cmd.getPackage()+"."+cmd.getSimpleName())));
         }
 /*        if(has(commandName)) throw new KeyAlreadyExistsException("What???");
         Kayla.log.log(Level.INFO, String.format("%s is now registered", commandName));*/
@@ -34,14 +34,15 @@ public class CommandRegistry {
     }
 
     public void run(String commandName, JDA bot, GuildMessageReceivedEvent event, String[] args){
-    }
 
+    }
     public void reload(String commandName) {
     }
 
     public class RegCommand{
         String packageName;
-        public RegCommand(String aPackage){
+        Object cmd;
+        public RegCommand(String aPackage, Class<?> aClass){
             packageName=aPackage;
         }
     }

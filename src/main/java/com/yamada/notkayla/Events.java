@@ -23,7 +23,7 @@ public class Events extends ListenerAdapter {
             String[] args = event.getMessage().getContentRaw().substring(prefix.length()+command.length()).split(" ");
             try {
                 if (Kayla.registry.has(command)) {
-                    Kayla.registry.get(command);
+                    Kayla.registry.run(command,Kayla.bot,event,args);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

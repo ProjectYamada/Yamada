@@ -3,12 +3,13 @@ package com.yamada.notkayla.database;
 import com.yamada.notkayla.Config;
 import com.yamada.notkayla.Kayla;
 import com.yamada.notkayla.database.entities.GuildData;
+import com.yamada.notkayla.module.Module;
 import org.postgresql.ds.PGPooledConnection;
 
 import java.sql.*;
 import java.util.Map;
 import java.util.logging.Level;
-
+@Module(name="database",guarded=false)
 public class Database {
     private PGPooledConnection connection;
     public Database() throws SQLException, ClassNotFoundException {

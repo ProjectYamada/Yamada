@@ -27,7 +27,6 @@ public class Kayla {
     public static Logger log = Logger.getLogger("Kayla");
     public static JDA bot;
     public static CommandRegistry registry = new CommandRegistry();
-    public static Database db;
     public static Reflections refl = new Reflections();
     public static void main(String[] args){
         File configFile = new File("./config.yml");
@@ -36,8 +35,7 @@ public class Kayla {
         try {
             bot = new JDABuilder(AccountType.BOT).setToken((String) Config.configuration.get("token")).addEventListener(new Events()).build();
             bot.awaitReady().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+bot.getGuilds().size() + " guilds - !yhelp"));
-            registerCommands();
-            setupDatabase();
+            registerModules();
         } catch (LoginException e){
             log.log(Level.SEVERE,"kayla is cool ™");
             e.printStackTrace();
@@ -45,18 +43,11 @@ public class Kayla {
             log.log(Level.SEVERE,"i can't get ready for school mom");
             e.printStackTrace();
             System.exit(1);
-        } catch (SQLException | ClassNotFoundException e) {
-            log.log(Level.SEVERE,"oh shit the database gave me a bad time something happened");
-            e.printStackTrace();
-            System.exit(1);
         }
     }
 
-    private static void setupDatabase() throws SQLException, ClassNotFoundException {
-        db = new Database();
-
-    }
-
-    private static void registerCommands() {
+    private static void registerModules() {
+        //todo: reflect modules like how i practiced
+        registry.register();
     }
 }
