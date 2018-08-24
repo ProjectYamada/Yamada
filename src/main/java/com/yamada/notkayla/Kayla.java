@@ -45,21 +45,18 @@ public class Kayla {
         } catch (LoginException e){
             log.log(Level.SEVERE,"kayla is cool ™");
             e.printStackTrace();
+            System.exit(1);
         } catch (InterruptedException e) {
             log.log(Level.SEVERE,"mom don't interrupt me");
-            e.printStackTrace();
-            System.exit(1);
-        } catch (IllegalAccessException | InstantiationException e) {
-            log.log(Level.SEVERE,"my soup spilled mom clean it for me");
             e.printStackTrace();
             System.exit(1);
         }
     }
 
-    private static void registerModules() throws IllegalAccessException, InstantiationException {
+    private static void registerModules() {
         //todo: reflect modules like how i practiced
         registry.register();
-        modules.put("",new DatabaseAdapter());
+        modules.put("database",new DatabaseAdapter());
     }
 
     public static String reloadModule(String name){
