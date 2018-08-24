@@ -41,7 +41,7 @@ public class CommandRegistry {
         regCommand.run.invoke(regCommand.cmd,bot,event,args);
     }
     public void reload(String commandName) {
-        
+
     }
 
     public class RegCommand{

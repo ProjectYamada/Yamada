@@ -16,7 +16,7 @@ public class ReloadCommand {
                 String response = Kayla.reloadModule("");
                 break;
             default:
-                event.getChannel().sendMessage("").queue();
+                event.getChannel().sendMessage("choose `command` or `module` and set the object to reload as the argument").queue();
                 break;
         }
     }
