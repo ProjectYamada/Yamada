@@ -2,7 +2,6 @@ package com.yamada.notkayla.module;
 
 import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -18,7 +17,7 @@ public abstract class Adapter {
         attachedClass = clazz;
         ReflectionUtils.getMethods(clazz);
     }
-    public Object runMethod(String method,String[] args) throws NotImplementedException {
+    public Object runMethod(String method,String[] args) {
         return null;
     }
 }
