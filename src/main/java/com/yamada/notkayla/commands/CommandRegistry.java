@@ -22,7 +22,7 @@ public class CommandRegistry {
     private SanaeClassLoader classLoader = new SanaeClassLoader();
 
     public void register(){
-        Reflections r = new Reflections(new ConfigurationBuilder().addClassLoader(classLoader).addClassLoader(ClassLoader.getSystemClassLoader()));
+        Reflections r = new Reflections("");
         HashSet<Class<?>> annotCommands = new HashSet<>(r.getTypesAnnotatedWith(Command.class));
         for (Class<?> cmd : annotCommands) {
             commands.put(cmd.getAnnotation(Command.class).name(),new RegCommand(cmd.getPackage()+"."+cmd.getSimpleName()));
