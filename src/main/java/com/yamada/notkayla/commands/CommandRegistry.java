@@ -12,6 +12,7 @@ import javax.script.ScriptEngineManager;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -22,7 +23,7 @@ public class CommandRegistry {
 
     public void register(){
         Reflections r = new Reflections(new ConfigurationBuilder().addClassLoader(classLoader).addClassLoader(ClassLoader.getSystemClassLoader()));
-        Set<Class<?>> annotCommands = r.getTypesAnnotatedWith(Command.class);
+        HashSet<Class<?>> annotCommands = new HashSet<>(r.getTypesAnnotatedWith(Command.class));
         for (Class<?> cmd : annotCommands) {
             commands.put(cmd.getAnnotation(Command.class).name(),new RegCommand(cmd.getPackage()+"."+cmd.getSimpleName()));
         }
