@@ -33,7 +33,6 @@ public class CommandRegistry {
         Set<Class<?>> annotCommands = r.getTypesAnnotatedWith(com.yamada.notkayla.commands.Command.class);
         Kayla.log.log(Level.INFO,annotCommands.toString());
         for (Class<?> cmd : annotCommands) {
-            Kayla.log.log(Level.INFO,cmd.getCanonicalName());
             Kayla.log.log(Level.INFO,cmd.getAnnotation(Command.class).name());
             commands.put(cmd.getAnnotation(Command.class).name(),new RegCommand(cmd.getPackage().getName()+"."+cmd.getSimpleName()));
         }

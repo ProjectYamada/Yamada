@@ -18,8 +18,10 @@ import java.util.Arrays;
 public class EvalCommand {
 //todo finish eval
     SimpleScriptContext ctx = new SimpleScriptContext();
+    private EvalWriter w;
+
     public EvalCommand(){
-        EvalWriter w = new EvalWriter();
+        w = new EvalWriter();
         ctx.setReader(null);
         ctx.setWriter(w);
         ctx.setErrorWriter(w);
@@ -29,6 +31,7 @@ public class EvalCommand {
     }
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         if(!Checks.isAdmin(event.getAuthor().getId())) return;//don't even say anything, just ignore the call
+        if(w.tc == null) w.tc = Kayla.bot.getTextChannelById("481528711720730634");
         String arg = String.join(" ", args);
         //in which case go ahead
         ScriptEngine se = Kayla.registry.sf.getEngineByName("JavaScript");
@@ -44,9 +47,9 @@ public class EvalCommand {
         }
     }
     class EvalWriter extends Writer {
-        TextChannel tc = Kayla.bot.getTextChannelById("481528711720730634");
+        TextChannel tc;
         StringBuffer sb = new StringBuffer();
-        public EvalWriter(){
+        EvalWriter(){
             sb.setLength(9970);// 9970 character string buffer to account for ```text```
         }
         @Override
@@ -65,7 +68,7 @@ public class EvalCommand {
                 chars[1997] = '`';
                 chars[1998] = '`';
                 chars[1999] = '`';
-                tc.sendMessage(new String(chars));
+                tc.sendMessage(new String(chars)).queue();
             }
             sb.delete(0,sb.length());
         }
