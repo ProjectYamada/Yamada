@@ -17,8 +17,15 @@ public class CommandRegistry {
     public ScriptEngineManager sf = new ScriptEngineManager();
     private HashMap<String,RegCommand> commands = new HashMap<>();
     private SanaeClassLoader classLoader = new SanaeClassLoader();
+    Class<?>[] runClasses = new Class[3];
 
-    public void register(){
+    public CommandRegistry(){
+        runClasses[0] = JDA.class;
+        runClasses[1] = GuildMessageReceivedEvent.class;
+        runClasses[2] = String[].class;
+    }
+
+    public void register() throws NoSuchMethodException {
         Reflections r = new Reflections("com.yamada.notkayla.commands");
         Set<Class<?>> annotCommands = r.getTypesAnnotatedWith(com.yamada.notkayla.commands.Command.class);
         Kayla.log.log(Level.INFO,annotCommands.toString());
@@ -46,16 +53,20 @@ public class CommandRegistry {
     }
 
     public class RegCommand{
-        public String packageName;
-        public Object cmd;
+        String packageName;
+        Class<?> cmd;
         public Method run;
-        public boolean loaded;
-        public RegCommand(String aPackage){
+        boolean loaded;
+        RegCommand(String aPackage) throws NoSuchMethodException {
             packageName=aPackage;
             cmd = classLoader.loadClass(packageName);
+            run = (cmd).getMethod("",runClasses);
         }
         public void unload(){
+            if (!loaded || cmd == null) {
+            }else{
 
+            }
         }
     }
 }
