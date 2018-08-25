@@ -61,7 +61,7 @@ public class CommandRegistry {
         RegCommand(String aPackage) throws NoSuchMethodException {
             packageName=aPackage;
             cmd = classLoader.loadClass(packageName);
-            run = (cmd).getMethod("run",runClasses);
+            run = (cmd).getMethod("run");
         }
         public void unload(){
             if (!loaded || cmd == null) {
