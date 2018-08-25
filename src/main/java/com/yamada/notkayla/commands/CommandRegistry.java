@@ -4,6 +4,7 @@ import com.yamada.notkayla.Kayla;
 import com.yamada.notkayla.module.SanaeClassLoader;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
 
 import javax.script.ScriptEngineManager;
@@ -62,7 +63,7 @@ public class CommandRegistry {
         RegCommand(String aPackage) throws NoSuchMethodException {
             packageName=aPackage;
             cmd = classLoader.loadClass(packageName);
-            run = (cmd).getMethod("run",JDA.class,GuildMessageReceivedEvent.class,Array.class);
+            run = new ArrayList<Method>(ReflectionUtils.getMethods(cmd,ReflectionUtils.withName("run"))).get(0);
         }
         public void unload(){
             if (!loaded || cmd == null) {
