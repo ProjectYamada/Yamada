@@ -10,6 +10,7 @@ import javax.script.ScriptEngineManager;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.logging.Level;
@@ -61,7 +62,7 @@ public class CommandRegistry {
         RegCommand(String aPackage) throws NoSuchMethodException {
             packageName=aPackage;
             cmd = classLoader.loadClass(packageName);
-            run = (cmd).getMethod("run");
+            run = (cmd).getMethod("run",JDA.class,GuildMessageReceivedEvent.class,Array.class);
         }
         public void unload(){
             if (!loaded || cmd == null) {
