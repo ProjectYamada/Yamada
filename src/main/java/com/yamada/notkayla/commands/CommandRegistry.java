@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import org.reflections.Reflections;
 
 import javax.script.ScriptEngineManager;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class CommandRegistry {
     public CommandRegistry(){
         runClasses[0] = JDA.class;
         runClasses[1] = GuildMessageReceivedEvent.class;
-        runClasses[2] = String[].class;
+        runClasses[2] = Array.class;
     }
 
     public void register() throws NoSuchMethodException {
