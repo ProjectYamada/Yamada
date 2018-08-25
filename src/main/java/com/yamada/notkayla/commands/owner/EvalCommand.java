@@ -36,7 +36,7 @@ public class EvalCommand {
         //in which case go ahead
         ScriptEngine se = Kayla.registry.sf.getEngineByName("JavaScript");
         try {
-            se.eval(arg);
+            se.eval(arg,ctx);
         } catch (ScriptException e) {
             StringBuilder tbuild = new StringBuilder();
             StackTraceElement[] trace = e.getStackTrace();

@@ -9,15 +9,16 @@ import java.util.Map;
 
 public abstract class Adapter {
     private Class<?> attachedClass;
-    Map<String,Method> map = new HashMap<>();
     Reflections r = new Reflections();
+    Map<String,Method> methods = new HashMap<>();
     protected static SanaeClassLoader cl = new SanaeClassLoader();
 
-    public Adapter(Class<?> clazz){
+    public Adapter(Class<?> clazz) {
         attachedClass = clazz;
-        ReflectionUtils.getMethods(clazz);
+        for(Method m : attachedClass.getMethods()) methods.put(m.getName(),m);
     }
-    public Object runMethod(String method,String[] args) {
-        return null;
+
+    Object runMethod(String name, Object... args) {
+        return methods;
     }
 }

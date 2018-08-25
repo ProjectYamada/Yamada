@@ -18,7 +18,7 @@ import java.util.logging.Level;
 
 public class CommandRegistry {
     public ScriptEngineManager sf = new ScriptEngineManager();
-    private HashMap<String,RegCommand> commands = new HashMap<>();
+    public HashMap<String,RegCommand> commands = new HashMap<>();
     private SanaeClassLoader classLoader = new SanaeClassLoader();
     Class[] runClasses = new Class[3];
 
@@ -50,7 +50,14 @@ public class CommandRegistry {
         RegCommand regCommand = get(commandName);
         if (regCommand.cmd != null && regCommand.instance != null)regCommand.run.invoke(regCommand.instance,bot,event,args);
     }
-    public void reload(String commandName) {
+    public void reload(String commandName) throws InstantiationException, IllegalAccessException {
+        if (!has(commandName)) return;
+            RegCommand reg = get(commandName);
+        reg.unload();
+        reg.load();
+    }
+
+    public void load() {
 
     }
 
@@ -64,18 +71,20 @@ public class CommandRegistry {
             packageName=aPackage;
             cmd = classLoader.loadClass(packageName);
             instance = cmd.newInstance();
-            run = new ArrayList<Method>(ReflectionUtils.getMethods(cmd,ReflectionUtils.withName("run"))).get(0);
+            run = new ArrayList<>(ReflectionUtils.getMethods(cmd, ReflectionUtils.withName("run"))).get(0);
         }
         public void unload(){
-            if (instance == null) {
+            if (instance == null && cmd == null) {
             }else{
-
+                instance = null;
+                cmd = null;
             }
         }
-        public void load(){
+        public void load() throws IllegalAccessException, InstantiationException {
             if (instance != null){}
             else {
-
+                cmd = classLoader.loadClass(packageName);
+                instance = cmd.newInstance();
             }
         }
     }

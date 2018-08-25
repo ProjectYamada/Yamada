@@ -34,13 +34,15 @@ public class DatabaseModule {
         }
     }
 
+    public void preparedStatements(){}
+
     public ResultSet query(String query) throws SQLException {
         Statement st = connection.getConnection().createStatement();
         return st.executeQuery(query);
     }
 
     public GuildData guildData(String id) throws SQLException {
-        ResultSet query = query("SELECT * from guilds");
+        ResultSet query = query("SELECT * from guilds WHERE id = ");
         query.first(); // just wanna make sure row is first row
         return new GuildData(query.getString("gid"),query.getString("prefix"),query.getBoolean("customPrefix"));
     }
