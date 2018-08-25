@@ -50,16 +50,19 @@ public class Kayla {
             log.log(Level.SEVERE,"mom don't interrupt me");
             e.printStackTrace();
             System.exit(1);
+        } catch (NoSuchMethodException e) {
+            log.log(Level.SEVERE,"touhou 9 is a not bad game");
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 
-    private static void registerModules() {
+    private static void registerModules() throws NoSuchMethodException {
         //todo: reflect modules like how i practiced
         registry.register();
         try {
             modules.put("database", new DatabaseAdapter());
-        }catch (NullPointerException ignored){
-        }
+        }catch (NullPointerException ignored){}
     }
 
     public static String reloadModule(String name){

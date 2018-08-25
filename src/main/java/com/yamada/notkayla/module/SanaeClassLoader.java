@@ -1,12 +1,10 @@
 package com.yamada.notkayla.module;
 
-import com.yamada.notkayla.Kayla;
 
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.logging.Level;
 
 public class SanaeClassLoader extends ClassLoader {
     @Override
@@ -30,7 +28,6 @@ public class SanaeClassLoader extends ClassLoader {
 
     private byte[] loadClassData(String className) throws IOException {
         File f = new File("./build/classes/main/" + className.replaceAll("\\.", "/") + ".class");
-        Kayla.log.log(Level.INFO,f.toPath().toString());
         int size = (int) f.length();
         byte buff[] = new byte[size];
         FileInputStream fis = new FileInputStream(f);
