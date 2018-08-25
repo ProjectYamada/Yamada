@@ -28,7 +28,7 @@ public class CommandRegistry {
         runClasses[2] = Array.class;
     }
 
-    public void register() throws NoSuchMethodException {
+    public void register() throws InstantiationException, IllegalAccessException {
         Reflections r = new Reflections("com.yamada.notkayla.commands");
         Set<Class<?>> annotCommands = r.getTypesAnnotatedWith(com.yamada.notkayla.commands.Command.class);
         Kayla.log.log(Level.INFO,annotCommands.toString());
@@ -49,7 +49,7 @@ public class CommandRegistry {
 
     public void run(String commandName, JDA bot, GuildMessageReceivedEvent event, String[] args) throws InvocationTargetException, IllegalAccessException {
         RegCommand regCommand = get(commandName);
-        regCommand.run.invoke(regCommand.cmd,bot,event,args);
+        if (regCommand.cmd != null && regCommand.instance != null)regCommand.run.invoke(regCommand.instance,bot,event,args);
     }
     public void reload(String commandName) {
 
@@ -58,16 +58,24 @@ public class CommandRegistry {
     public class RegCommand{
         String packageName;
         Class<?> cmd;
+        Object instance;
         public Method run;
         boolean loaded;
-        RegCommand(String aPackage) throws NoSuchMethodException {
+        RegCommand(String aPackage) throws IllegalAccessException, InstantiationException {
             packageName=aPackage;
             cmd = classLoader.loadClass(packageName);
+            instance = cmd.newInstance();
             run = new ArrayList<Method>(ReflectionUtils.getMethods(cmd,ReflectionUtils.withName("run"))).get(0);
         }
         public void unload(){
-            if (!loaded || cmd == null) {
+            if (instance == null) {
             }else{
+
+            }
+        }
+        public void load(){
+            if (instance != null){}
+            else {
 
             }
         }

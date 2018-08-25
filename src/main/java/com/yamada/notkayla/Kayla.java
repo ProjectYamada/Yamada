@@ -50,14 +50,14 @@ public class Kayla {
             log.log(Level.SEVERE,"mom don't interrupt me");
             e.printStackTrace();
             System.exit(1);
-        } catch (NoSuchMethodException e) {
+        } catch (IllegalAccessException | InstantiationException e) {
             log.log(Level.SEVERE,"touhou 9 is a not bad game");
             e.printStackTrace();
             System.exit(1);
         }
     }
 
-    private static void registerModules() throws NoSuchMethodException {
+    private static void registerModules() throws IllegalAccessException, InstantiationException {
         //todo: reflect modules like how i practiced
         registry.register();
         try {
