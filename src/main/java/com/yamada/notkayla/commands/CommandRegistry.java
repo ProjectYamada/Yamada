@@ -17,7 +17,7 @@ public class CommandRegistry {
     public ScriptEngineManager sf = new ScriptEngineManager();
     private HashMap<String,RegCommand> commands = new HashMap<>();
     private SanaeClassLoader classLoader = new SanaeClassLoader();
-    Class<?>[] runClasses = new Class[3];
+    Class[] runClasses = new Class[3];
 
     public CommandRegistry(){
         runClasses[0] = JDA.class;
@@ -60,7 +60,7 @@ public class CommandRegistry {
         RegCommand(String aPackage) throws NoSuchMethodException {
             packageName=aPackage;
             cmd = classLoader.loadClass(packageName);
-            run = (cmd).getMethod("",runClasses);
+            run = (cmd).getMethod("run",runClasses);
         }
         public void unload(){
             if (!loaded || cmd == null) {
