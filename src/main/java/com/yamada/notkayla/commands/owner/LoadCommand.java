@@ -8,12 +8,19 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 @Command(name="load",group = "owner")
 public class LoadCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args){
-        if (args[1] == null){
-            event.getChannel().sendMessage("You need to specify a command to load!").queue();
+        if (args[0] == null || args[1] == null) {
+            event.getChannel().sendMessage("choose `command` or `module` and set the object to load as the argument").queue();
         }
         switch(args[0]){
             case "command":
-                Kayla.registry.get(args[1]);
+                Kayla.registry.load(args[1]);
+                break;
+            case "module":
+                String response = Kayla.reloadModule(args[1]);
+                break;
+            default:
+                event.getChannel().sendMessage("choose `command` or `module` for the first argument and set the object to load as the second").queue();
+                return;
         }
     }
 }

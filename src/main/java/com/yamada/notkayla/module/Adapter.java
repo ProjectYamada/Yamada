@@ -11,7 +11,8 @@ public abstract class Adapter {
     private Class<?> attachedClass;
     Reflections r = new Reflections();
     Map<String,Method> methods = new HashMap<>();
-    protected static SanaeClassLoader cl = new SanaeClassLoader();
+    static SanaeClassLoader cl = new SanaeClassLoader();
+    Object module;
 
     public Adapter(Class<?> clazz) {
         attachedClass = clazz;

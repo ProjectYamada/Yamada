@@ -57,7 +57,10 @@ public class CommandRegistry {
         reg.load();
     }
 
-    public void load() {
+    public void load(String arg) {
+
+    }
+    public void unload(String arg) {
 
     }
 

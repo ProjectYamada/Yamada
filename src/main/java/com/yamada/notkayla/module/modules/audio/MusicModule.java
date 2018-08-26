@@ -1,4 +1,4 @@
-package com.yamada.notkayla.module.audio;
+package com.yamada.notkayla.module.modules.audio;
 
 import com.yamada.notkayla.module.Module;
 

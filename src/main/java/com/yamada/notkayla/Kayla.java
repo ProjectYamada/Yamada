@@ -69,4 +69,8 @@ public class Kayla {
 
         return "not ready yet kiddo";
     }
+
+    public static String unloadModule(String s) {
+        return "not ready yet kiddo";
+    }
 }

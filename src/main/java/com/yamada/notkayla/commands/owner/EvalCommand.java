@@ -35,6 +35,7 @@ public class EvalCommand {
         String arg = String.join(" ", args);
         //in which case go ahead
         ScriptEngine se = Kayla.registry.sf.getEngineByName("JavaScript");
+        se.setContext(ctx);
         try {
             se.eval(arg,ctx);
         } catch (ScriptException e) {
