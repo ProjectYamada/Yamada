@@ -10,7 +10,7 @@ import org.apache.http.client.methods.*;
 import org.apache.http.impl.client.*;
 import org.apache.http.util.EntityUtils;
 
-@Command(name="dog",group="image")
+@Command(name="dog",group="image",description = "Fetches a random dog")
 public class RandomDogCommand  {
     private static CloseableHttpResponse response;
     private static String responseBody;

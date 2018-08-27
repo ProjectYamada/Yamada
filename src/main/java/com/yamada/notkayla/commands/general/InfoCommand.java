@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
-@Command(name="info",group="general")
+@Command(name="info",group="general",description = "Shows general info about Yamada")
 public class InfoCommand{
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         EmbedBuilder embed = new EmbedBuilder();

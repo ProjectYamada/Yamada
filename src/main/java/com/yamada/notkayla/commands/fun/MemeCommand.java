@@ -10,15 +10,15 @@ import org.json.*;
 import java.awt.Color;
 import java.io.IOException;
 
-@Command(name="meme",group="fun")
-public class MemeCommand  {
+@Command(name="meme",group="fun",description="Fetches a random meme")
+public class MemeCommand {
     private static CloseableHttpResponse response;
     private static String responseBody;
     private static JSONObject jsonResponse;
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(new Color(0xe91e63));
-        CloseableHttpClient client = HttpClientBuilder.create().build();
+        CloseableHttpClient client = HttpClients.createDefault();
         try {
             HttpGet getRequest = new HttpGet("https://api.reddit.com/r/memes/random");
             getRequest.setHeader("User-Agent", "web:com.yamada.notkayla:v0.1 (by /u/akireee)");

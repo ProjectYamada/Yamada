@@ -7,7 +7,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
 
-@Command(name="user",group="general")
+@Command(name="user",group="general",description="View information on a server member")
 public class UserCommand {
     public UserCommand(){}
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {

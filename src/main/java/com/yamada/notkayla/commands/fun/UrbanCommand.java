@@ -17,7 +17,7 @@ import java.io.IOException;
 public class UrbanCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         EmbedBuilder embed = new EmbedBuilder();
-        String term = "";
+        StringBuilder term = new StringBuilder();
         int index = 0;
         boolean page_number = false;
         CloseableHttpClient client = HttpClientBuilder.create().build();
@@ -30,20 +30,20 @@ public class UrbanCommand {
             }
             // !yurban test
             if (args.length == 2) {
-                term = args[1];
+                term = new StringBuilder(args[1]);
             }
             // !yurban united states
             else {
                 if (!page_number) {
                     for (int i = 1; i < args.length; i++) {
-                        term += args[i] + " ";
+                        term.append(args[i]).append(" ");
                     }
                 }
                 else {
                     for (int i = 1; i < args.length - 1; i++)
-                        term += args[i] + " ";
+                        term.append(args[i]).append(" ");
                 }
-                term = term.substring(0, term.length() - 1);
+                term = new StringBuilder(term.substring(0, term.length() - 1));
             }
             System.out.println(term);
         } catch (Exception e) {
@@ -53,7 +53,7 @@ public class UrbanCommand {
 
         try {
             CloseableHttpResponse response = client.execute(
-                    new HttpGet(String.format("http://api.urbandictionary.com/v0/define?term=%s", term.replace(" ", "+"))));
+                    new HttpGet(String.format("http://api.urbandictionary.com/v0/define?term=%s", term.toString().replace(" ", "+"))));
             String responseBody = EntityUtils.toString(response.getEntity()).replace("\n", "");
             JSONObject json = new JSONObject(responseBody);
             System.out.println(responseBody);

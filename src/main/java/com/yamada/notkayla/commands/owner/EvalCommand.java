@@ -10,9 +10,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.script.*;
 import java.io.*;
-import java.lang.reflect.Array;
-import java.nio.CharBuffer;
-import java.util.Arrays;
 
 @Command(name = "eval",group="owner",hidden=true)
 public class EvalCommand {
@@ -30,7 +27,7 @@ public class EvalCommand {
         ctx.setBindings(bindings,ScriptContext.GLOBAL_SCOPE);
     }
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
-        if(!Checks.isAdmin(event.getAuthor().getId())) return;//don't even say anything, just ignore the call
+        if(Checks.isNotAdmin(event.getAuthor().getId())) return;//don't even say anything, just ignore the call
         if(w.tc == null) w.tc = Kayla.bot.getTextChannelById("481528711720730634");
         String arg = String.join(" ", args);
         //in which case go ahead
