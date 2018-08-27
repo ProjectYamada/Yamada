@@ -1,20 +1,19 @@
 package com.yamada.notkayla.commands.anime;
 
 import com.yamada.notkayla.commands.Command;
-import com.yamada.notkayla.module.Module;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
-@Command(name = "danbooru",group="anime")
+@Command(name = "danbooru",group="anime",description="Get an image from Danbooru.")
 public class DanbooruCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         String params = "[-status]=deleted";
@@ -45,7 +44,7 @@ public class DanbooruCommand {
         }
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(0xe91e63);
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
             CloseableHttpResponse response = httpClient.execute(
                     new HttpGet(String.format("https://danbooru.donmai.us/posts/random.json?search%s", params)));
