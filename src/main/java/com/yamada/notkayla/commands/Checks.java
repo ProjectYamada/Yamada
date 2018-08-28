@@ -1,7 +1,7 @@
 package com.yamada.notkayla.commands;
 
 import com.yamada.notkayla.Config;
-import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ public class Checks {
         }
         return !owners.contains((String) id);
     }
-    
-    public static boolean isNSFW(MessageChannel channel) {
-        return !channel.isNSFW();   
+
+    public static boolean isNSFW(TextChannel channel) {
+        return channel.isNSFW();
     }
 }
