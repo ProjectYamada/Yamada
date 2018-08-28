@@ -19,7 +19,10 @@ import java.io.IOException;
 public class DanbooruCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         String params = "[-status]=deleted";
-        if (Checks.isNSFW(event.getChannel()) return event.getChannel().sendMessage("You need to be in a NSFW channel for this.").queue();
+        if (!Checks.isNSFW(event.getChannel())) {
+            event.getChannel().sendMessage("You need to be in a NSFW channel for this.").queue();
+            return;
+        }
         // Check for any tags, then run them.
         try {
             if (args[1].contains("loli") || args[1].contains("shota")) {
