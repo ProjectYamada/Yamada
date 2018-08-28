@@ -9,7 +9,6 @@ import java.awt.*;
 
 @Command(name="user",group="general",description="View information on a server member")
 public class UserCommand {
-    public UserCommand(){}
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         //TODO: Allow people to get user information from other people.
         //String arg = event.getMessage().getContentRaw().substring("!yuser ".length());

@@ -11,6 +11,6 @@ public class Checks {
             owners = (List<String>) Config.configuration.get("owners");
             for (String owner : owners)System.out.println(owner);
         }
-        return !owners.contains((String) id);
+        return !owners.contains(id);
     }
 }
