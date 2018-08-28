@@ -15,7 +15,7 @@ public class Checks {
         return !owners.contains(id);
     }
 
-    public static boolean isNSFW(TextChannel channel) {
+    public static boolean isNotNSFW(TextChannel channel) {
         return !channel.isNSFW();
     }
 }
