@@ -27,7 +27,7 @@ public class SanaeClassLoader extends ClassLoader {
     }
 
     private byte[] loadClassData(String className) throws IOException {
-        File f = new File("./build/classes/main/" + className.replaceAll("\\.", "/") + ".class");
+        File f = new File("./build/classes/java/main/" + className.replaceAll("\\.", "/") + ".class");
         int size = (int) f.length();
         byte buff[] = new byte[size];
         FileInputStream fis = new FileInputStream(f);
