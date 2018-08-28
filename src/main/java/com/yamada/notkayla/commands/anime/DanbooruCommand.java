@@ -1,7 +1,6 @@
 package com.yamada.notkayla.commands.anime;
 
 import com.yamada.notkayla.commands.Command;
-import com.yamada.notkayla.module.Module;
 import com.yamada.notkayla.commands.Checks;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
@@ -19,7 +18,7 @@ import java.io.IOException;
 public class DanbooruCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         String params = "[-status]=deleted";
-        if (!Checks.isNSFW(event.getChannel())) {
+        if (!Checks.isNotNSFW(event.getChannel())) {
             event.getChannel().sendMessage("You need to be in a NSFW channel for this.").queue();
             return;
         }
