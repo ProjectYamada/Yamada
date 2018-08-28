@@ -16,6 +16,6 @@ public class Checks {
     }
 
     public static boolean isNSFW(TextChannel channel) {
-        return channel.isNSFW();
+        return !channel.isNSFW();
     }
 }
