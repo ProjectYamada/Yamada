@@ -33,6 +33,7 @@ public class Kayla {
     private static HashMap<String, Adapter> modules;
     private static Yaml yaml = new Yaml();
 
+    public static List<String> getOwners(){return owners;}
     @SuppressWarnings("unchecked")
     public static void main(String[] args){
         Kayla.log.log(Level.INFO,"Setting up config");
