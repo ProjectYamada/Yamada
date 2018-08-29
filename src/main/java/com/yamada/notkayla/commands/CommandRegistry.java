@@ -55,7 +55,6 @@ public class CommandRegistry {
 
     public void run(String commandName, JDA bot, GuildMessageReceivedEvent event, String[] args) throws InvocationTargetException, IllegalAccessException {
         RegCommand regCommand = get(commandName);
-        if (Checks.isNotAdmin(event.getAuthor().getId())) return;
         if (regCommand.cmd != null && regCommand.instance != null)regCommand.run.invoke(regCommand.instance,bot,event,args);
     }
     public void reload(String commandName) throws InstantiationException, IllegalAccessException {
