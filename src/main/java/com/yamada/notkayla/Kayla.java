@@ -29,7 +29,7 @@ public class Kayla {
     public static CommandRegistry registry = new CommandRegistry();
     public static Reflections refl = new Reflections();
     public static Map configuration;
-    private static List<String> owners;
+    public static List<String> owners;
     private static HashMap<String, Adapter> modules;
     private static Yaml yaml = new Yaml();
 
@@ -41,7 +41,7 @@ public class Kayla {
             Path config = Paths.get(curdir.toString(),"config.yml");
             configuration = (Map) yaml.load(new FileInputStream(config.toFile()));
             System.out.println(configuration.get("owners").getClass().getName());
-            owners = (ArrayList<String>) configuration.get("owners");
+            owners = (ArrayList) configuration.get("owners");
         } catch (FileNotFoundException e) {
             Kayla.log.log(Level.SEVERE, "FileNotFoundError: file 'config.yml' does not exist");
             e.printStackTrace();
@@ -82,10 +82,5 @@ public class Kayla {
 
     public static String unloadModule(String s) {
         return "not ready yet kiddo";
-    }
-
-    public static boolean isNotAdmin(String id){
-        log.log(Level.INFO,owners.toString());
-        return !owners.contains(id);
     }
 }
