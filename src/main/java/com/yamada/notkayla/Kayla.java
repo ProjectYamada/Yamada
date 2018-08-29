@@ -72,12 +72,18 @@ public class Kayla {
         }catch (NullPointerException ignored){}
     }
 
-    public static String reloadModule(String name){
-
+    public static String reloadModule(String name) {
+        /*registry.unload(name);
+        try {
+            registry.load(name);
+        } catch (Exception e) {
+            // Gotta figure this one out.
+        }*/
         return "not ready yet kiddo";
     }
 
     public static String unloadModule(String s) {
+        //registry.unload(s);
         return "not ready yet kiddo";
     }
 }
