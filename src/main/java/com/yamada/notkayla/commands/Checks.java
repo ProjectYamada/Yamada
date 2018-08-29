@@ -14,7 +14,7 @@ public class Checks {
     private static List owners = null;
     public static boolean isNotAdmin(String id){
         if (owners == null) {
-            Kayla.log.log(Level.INFO, (String) configuration.get("owners"));
+            Kayla.log.log(Level.INFO,configuration.toString());
             owners = (List) configuration.get("owners");
         }
         return !owners.contains(id);
