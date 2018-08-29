@@ -31,7 +31,6 @@ public class CommandRegistry {
     public void register() throws InstantiationException, IllegalAccessException {
         Reflections r = new Reflections("com.yamada.notkayla.commands");
         Set<Class<?>> annotCommands = r.getTypesAnnotatedWith(com.yamada.notkayla.commands.Command.class);
-        Kayla.log.log(Level.INFO,annotCommands.toString());
         Class<?> help = null;
         for (Class<?> cmd : annotCommands) {
             if (cmd.getAnnotation(Command.class).name().equals("help")) {

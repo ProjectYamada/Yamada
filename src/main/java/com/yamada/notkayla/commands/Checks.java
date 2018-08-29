@@ -11,13 +11,12 @@ import java.util.logging.Level;
 import static com.yamada.notkayla.Config.*;
 
 public class Checks {
-    private static ArrayList<String> owners = null;
+    private static List owners = null;
     public static boolean isNotAdmin(String id){
-        Kayla.log.log(Level.INFO, String.valueOf(configuration));
-        if (owners == null)
-            owners =
-                    (ArrayList<String>) configuration.get("owners");
-        return !((List<String>)owners).contains(id);
+        if (owners == null) {
+            owners = (List) configuration.get("owners");
+        }
+        return !owners.contains(id);
     }
 
     public static boolean isNotNSFW(TextChannel channel) {
