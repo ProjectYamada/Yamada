@@ -29,7 +29,7 @@ public class Kayla {
     public static CommandRegistry registry = new CommandRegistry();
     public static Reflections refl = new Reflections();
     public static Map configuration;
-    public static List<String> owners;
+    public static String owners;
     private static HashMap<String, Adapter> modules;
     private static Yaml yaml = new Yaml();
 
@@ -40,8 +40,8 @@ public class Kayla {
             Path curdir = Paths.get(System.getProperty("user.dir"));
             Path config = Paths.get(curdir.toString(),"config.yml");
             configuration = (Map) yaml.load(new FileInputStream(config.toFile()));
-            owners = (ArrayList) configuration.get("owners");
-            System.out.println(owners.toString());
+            owners = configuration.get("owners").toString();
+            System.out.println(owners);
         } catch (FileNotFoundException e) {
             Kayla.log.log(Level.SEVERE, "FileNotFoundError: file 'config.yml' does not exist");
             e.printStackTrace();
