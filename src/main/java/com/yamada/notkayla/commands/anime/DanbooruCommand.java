@@ -1,7 +1,6 @@
 package com.yamada.notkayla.commands.anime;
 
 import com.yamada.notkayla.commands.Command;
-import com.yamada.notkayla.commands.Checks;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
