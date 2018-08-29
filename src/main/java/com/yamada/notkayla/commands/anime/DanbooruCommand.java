@@ -18,7 +18,7 @@ import java.io.IOException;
 public class DanbooruCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         String params = "[-status]=deleted";
-        if (Checks.isNotNSFW(event.getChannel())) {
+        if (!event.getChannel().isNSFW()) {
             event.getChannel().sendMessage("You need to be in a NSFW channel for this.").queue();
             return;
         }

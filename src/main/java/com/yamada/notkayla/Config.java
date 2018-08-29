@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-class Config {
+public class Config {
     private static Yaml yaml = new Yaml();
-    static Map configuration;
+    public static Map configuration;
 
     @SuppressWarnings("unchecked")
     static void init() {
