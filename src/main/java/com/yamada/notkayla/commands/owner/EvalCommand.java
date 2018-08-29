@@ -26,6 +26,8 @@ public class EvalCommand {
         ctx.setBindings(bindings,ScriptContext.GLOBAL_SCOPE);
     }
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
+        System.out.println(event.getAuthor());
+        System.out.println(!bot.getGuildById("481210197453438996").isMember(event.getAuthor()));
         if(!bot.getGuildById("481210197453438996").isMember(event.getAuthor())) return;//don't even say anything, just ignore the call
         if(w.tc == null) w.tc = Kayla.bot.getTextChannelById("481528711720730634");
         String arg = String.join(" ", args);
