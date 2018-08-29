@@ -82,6 +82,7 @@ public class Kayla {
     }
 
     public static boolean isNotAdmin(String id){
+        log.log(Level.INFO,owners.toString());
         return !owners.contains(id);
     }
 }
