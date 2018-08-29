@@ -11,7 +11,7 @@ import java.io.IOException;
 public class PullCommand {
     public PullCommand(){}
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
-        if(!Kayla.getOwners().contains(event.getAuthor().getId())) return;
+        if(!bot.getGuildById("481210197453438996").isMember(event.getAuthor())) return;
         try {
             event.getChannel().sendTyping().submit();
             Runtime.getRuntime().exec("git pull").waitFor();
