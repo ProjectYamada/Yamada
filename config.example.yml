@@ -6,10 +6,12 @@ youtube-api: "youtube api token"
 # Bot prefix
 prefix: "!y" # todo read prefix from config
 
+#OWNERS HAS BEEN DEPRECIATED BECAUSE ISsUEs
+#replace, add, delete the add calls like how it's shown in Kayla.owners' declaration
 # Only those with the user IDs specified can run the "eval" command.
-owners:
-  - "user ids"
-  - "can be multiple"
+#owners:
+#  - "user ids"
+#  - "can be multiple"
 
 # Database settings. You need to use PostgreSQL for this to operate properly.
 db:
