@@ -13,6 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -20,13 +21,6 @@ public class CommandRegistry {
     public ScriptEngineManager sf = new ScriptEngineManager();
     public HashMap<String,RegCommand> commands = new HashMap<>();
     private SanaeClassLoader classLoader = new SanaeClassLoader();
-    Class[] runClasses = new Class[3];
-
-    public CommandRegistry(){
-        runClasses[0] = JDA.class;
-        runClasses[1] = GuildMessageReceivedEvent.class;
-        runClasses[2] = Array.class;
-    }
 
     public void register() throws InstantiationException, IllegalAccessException {
         Reflections r = new Reflections("com.yamada.notkayla.commands");
@@ -40,8 +34,10 @@ public class CommandRegistry {
             Kayla.log.log(Level.INFO,cmd.getAnnotation(Command.class).name());
             commands.put(cmd.getAnnotation(Command.class).name(),new RegCommand(cmd.getPackage().getName()+"."+cmd.getSimpleName()));
         }
-        Kayla.log.log(Level.INFO,help.getAnnotation(Command.class).name());
-        commands.put(help.getAnnotation(Command.class).name(),new RegCommand(help.getPackage().getName()+"."+help.getSimpleName()));
+        if (help != null) {
+            Kayla.log.log(Level.INFO, help.getAnnotation(Command.class).name());
+            commands.put(help.getAnnotation(Command.class).name(),new RegCommand(help.getPackage().getName()+"."+help.getSimpleName()));
+        }
     }
 
     public boolean has(String commandName) {
@@ -78,6 +74,7 @@ public class CommandRegistry {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public class RegCommand{
         String packageName;
         public Class<?> cmd;

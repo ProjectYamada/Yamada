@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import static com.yamada.notkayla.Config.*;
 
 public class Checks {
-    public static List owners = null;
+    public static List owners;
     public static boolean isNotAdmin(String id){
         return !owners.contains(id);
     }
