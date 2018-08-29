@@ -35,8 +35,7 @@ public class Kayla {
     public static Reflections refl = new Reflections();
     private static HashMap<String, Adapter> modules;
     public static void main(String[] args){
-        File configFile = new File("./config.yml");
-        Config.init(configFile);
+        Config.init();
         log.log(Level.INFO,"Logging in");
         try {
             bot = new JDABuilder(AccountType.BOT).setToken((String) Config.configuration.get("token")).addEventListener(new Events()).build();

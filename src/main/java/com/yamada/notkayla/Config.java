@@ -6,6 +6,8 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -13,9 +15,11 @@ public class Config {
     private static Yaml yaml = new Yaml();
     public static Map configuration;
 
-    static void init(File config) {
+    static void init() {
         try{
-            configuration = (Map) yaml.load(new FileInputStream(config));
+            Path curdir = Paths.get(System.getProperty("user.dir"));
+            Path config = Paths.get(curdir.toString(),"config.yml");
+            configuration = (Map) yaml.load(new FileInputStream(config.toFile()));
         } catch (FileNotFoundException e) {
             Kayla.log.log(Level.SEVERE, "FileNotFoundError: file 'config.yml' does not exist");
             e.printStackTrace();
