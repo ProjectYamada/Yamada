@@ -1,7 +1,6 @@
 package com.yamada.notkayla.commands.owner;
 
 import com.yamada.notkayla.Kayla;
-import com.yamada.notkayla.commands.Checks;
 import com.yamada.notkayla.commands.Command;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -13,8 +12,8 @@ import java.io.*;
 
 @Command(name = "eval",group="owner",hidden=true)
 public class EvalCommand {
-//todo finish eval
-    SimpleScriptContext ctx = new SimpleScriptContext();
+    //todo finish eval
+    private SimpleScriptContext ctx = new SimpleScriptContext();
     private EvalWriter w;
 
     public EvalCommand(){
@@ -27,7 +26,7 @@ public class EvalCommand {
         ctx.setBindings(bindings,ScriptContext.GLOBAL_SCOPE);
     }
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
-        if(Checks.isNotAdmin(event.getAuthor().getId())) return;//don't even say anything, just ignore the call
+        if(!Kayla.owners.contains(event.getAuthor().getId())) return;//don't even say anything, just ignore the call
         if(w.tc == null) w.tc = Kayla.bot.getTextChannelById("481528711720730634");
         String arg = String.join(" ", args);
         //in which case go ahead
@@ -51,12 +50,12 @@ public class EvalCommand {
             sb.setLength(9970);// 9970 character string buffer to account for ```text```
         }
         @Override
-        public void write(@NotNull char[] cbuf, int off, int len) throws IOException {
+        public void write(@NotNull char[] cbuf, int off, int len) {
             sb.append(cbuf).append("\n");
         }
 
         @Override
-        public void flush() throws IOException {
+        public void flush() {
             for (int i=0;i<Math.ceil(sb.length()/5);i++){
                 char[] chars = new char[2000];
                 sb.getChars(3+(1996*i),(1996*i)-3,chars,0);

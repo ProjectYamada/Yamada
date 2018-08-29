@@ -1,6 +1,5 @@
 package com.yamada.notkayla.commands.general;
 
-import com.yamada.notkayla.Config;
 import com.yamada.notkayla.Kayla;
 import com.yamada.notkayla.commands.Command;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -13,7 +12,7 @@ public class ReportCommand {
         StringBuilder reported = new StringBuilder();
         EmbedBuilder embed = new EmbedBuilder();
         try {
-            bot.getTextChannelById(String.valueOf(Config.configuration.get("report-id")));
+            bot.getTextChannelById(String.valueOf(Kayla.configuration.get("report-id")));
         } catch (Exception e) {
             event.getChannel().sendMessage("Invalid integer").queue();
             return;
@@ -25,7 +24,7 @@ public class ReportCommand {
         embed.setColor(0xff0000);
         embed.addField("Report: ", String.valueOf(reported), false);
         embed.addField("Sender: ", event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator(), false);
-        bot.getTextChannelById(String.valueOf(Config.configuration.get("report-id"))).sendMessage(embed.build()).queue();
+        bot.getTextChannelById(String.valueOf(Kayla.configuration.get("report-id"))).sendMessage(embed.build()).queue();
         event.getChannel().sendMessage("Your report has been sent.").queue();
     }
 }
