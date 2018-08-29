@@ -3,15 +3,12 @@ package com.yamada.notkayla;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.ExceptionEvent;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.EventListener;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.awt.*;
@@ -22,7 +19,7 @@ public class Events extends ListenerAdapter {
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         //TODO: change prefix handler to something else and instead set it to a database prefix
         String content = event.getMessage().getContentRaw();
-        String prefix = String.valueOf(Config.configuration.get("prefix"));
+        String prefix = String.valueOf(Kayla.Config.configuration.get("prefix"));
         // elf sagiri megumin threesome when
         if (content.startsWith(prefix)){
             String command = content.split(" ")[0].substring(prefix.length());

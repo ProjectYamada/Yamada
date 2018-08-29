@@ -1,17 +1,11 @@
 package com.yamada.notkayla.commands;
 
-import com.yamada.notkayla.Config;
-import com.yamada.notkayla.Kayla;
 import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-
-import static com.yamada.notkayla.Config.*;
 
 public class Checks {
-    public static List owners = new ArrayList();
+    public static ArrayList owners = new ArrayList();
     public static boolean isNotAdmin(String id){
         return !owners.contains(id);
     }

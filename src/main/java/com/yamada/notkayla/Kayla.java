@@ -1,30 +1,25 @@
 package com.yamada.notkayla;
 
+import com.yamada.notkayla.commands.Checks;
 import com.yamada.notkayla.commands.CommandRegistry;
-import com.yamada.notkayla.commands.fun.*;
-import com.yamada.notkayla.commands.general.*;
-import com.yamada.notkayla.commands.image.*;
-import com.yamada.notkayla.commands.anime.*;
-import com.yamada.notkayla.commands.mod.*;
-import com.yamada.notkayla.commands.owner.EvalCommand;
-import com.yamada.notkayla.commands.owner.PullCommand;
 import com.yamada.notkayla.module.Adapter;
 import com.yamada.notkayla.module.DatabaseAdapter;
-import com.yamada.notkayla.module.Module;
-import com.yamada.notkayla.module.SanaeClassLoader;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.reflections.Reflections;
+import org.yaml.snakeyaml.Yaml;
 
 import javax.security.auth.login.LoginException;
-import java.io.File;
-import java.sql.SQLException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -71,5 +66,23 @@ public class Kayla {
 
     public static String unloadModule(String s) {
         return "not ready yet kiddo";
+    }
+
+    public static class Config {
+        private static Yaml yaml = new Yaml();
+        public static Map configuration;
+
+        static void init() {
+            try{
+                Path curdir = Paths.get(System.getProperty("user.dir"));
+                Path config = Paths.get(curdir.toString(),"config.yml");
+                configuration = (Map) yaml.load(new FileInputStream(config.toFile()));
+                Checks.owners = (ArrayList) configuration.get("owners");
+            } catch (FileNotFoundException e) {
+                log.log(Level.SEVERE, "FileNotFoundError: file 'config.yml' does not exist");
+                e.printStackTrace();
+                System.exit(1);
+            }
+        }
     }
 }
