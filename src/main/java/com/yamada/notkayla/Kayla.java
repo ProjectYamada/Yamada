@@ -29,7 +29,8 @@ public class Kayla {
     public static CommandRegistry registry = new CommandRegistry();
     public static Reflections refl = new Reflections();
     private static HashMap<String, Adapter> modules;
-    public static Config config;
+    public static Config config = new Config();
+    public static Checks checks = new Checks();
     public static void main(String[] args){
         config.init();
         log.log(Level.INFO,"Logging in");
@@ -78,7 +79,7 @@ public class Kayla {
                 Path curdir = Paths.get(System.getProperty("user.dir"));
                 Path config = Paths.get(curdir.toString(),"config.yml");
                 configuration = (Map) yaml.load(new FileInputStream(config.toFile()));
-                Checks.owners = (ArrayList) configuration.get("owners");
+                checks.owners = (ArrayList) configuration.get("owners");
             } catch (FileNotFoundException e) {
                 log.log(Level.SEVERE, "FileNotFoundError: file 'config.yml' does not exist");
                 e.printStackTrace();
@@ -88,12 +89,12 @@ public class Kayla {
     }
 
     public static class Checks {
-        static ArrayList owners = new ArrayList();
-        public static boolean isNotAdmin(String id){
+        ArrayList owners = new ArrayList();
+        public boolean isNotAdmin(String id){
             return !owners.contains(id);
         }
 
-        public static boolean isNotNSFW(TextChannel channel) {
+        public boolean isNotNSFW(TextChannel channel) {
             return !channel.isNSFW();
         }
     }

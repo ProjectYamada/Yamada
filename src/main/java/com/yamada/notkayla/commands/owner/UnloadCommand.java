@@ -8,7 +8,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 @Command(name="unload", group="owner")
 public class UnloadCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) throws IllegalAccessException, InstantiationException {
-        if(Kayla.Checks.isNotAdmin(event.getAuthor().getId())) return;
+        if(Kayla.checks.isNotAdmin(event.getAuthor().getId())) return;
         if (args[0] == null || args[1] == null) {
             event.getChannel().sendMessage("choose `command` or `module` and set the object to unload as the argument").queue();
         }
