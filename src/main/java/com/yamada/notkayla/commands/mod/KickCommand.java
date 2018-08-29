@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
-@Command(name = "kick",group="mod")
+@Command(name = "kick",group="mod",description="Kicks a user.")
 public class KickCommand {
     public KickCommand(){}
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
