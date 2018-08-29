@@ -9,10 +9,16 @@ import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
 import org.reflections.Reflections;
+import org.yaml.snakeyaml.Yaml;
 
 import javax.security.auth.login.LoginException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,13 +27,26 @@ public class Kayla {
     public static JDA bot;
     public static CommandRegistry registry = new CommandRegistry();
     public static Reflections refl = new Reflections();
-    private static HashMap<String, Adapter> modules;
+    public static Map configuration;
     public static List<String> owners;
+    private static HashMap<String, Adapter> modules;
+    static Yaml yaml = new Yaml();
+
     public static void main(String[] args){
-        Config.init();
+        Kayla.log.log(Level.INFO,"Setting up config");
+        try{
+            Path curdir = Paths.get(System.getProperty("user.dir"));
+            Path config = Paths.get(curdir.toString(),"config.yml");
+            configuration = (Map) Kayla.yaml.load(new FileInputStream(config.toFile()));
+            owners = (List<String>) Kayla.configuration.get("owners");
+        } catch (FileNotFoundException e) {
+            Kayla.log.log(Level.SEVERE, "FileNotFoundError: file 'config.yml' does not exist");
+            e.printStackTrace();
+            System.exit(1);
+        }
         log.log(Level.INFO,"Logging in");
         try {
-            bot = new JDABuilder(AccountType.BOT).setToken((String) Config.configuration.get("token")).addEventListener(new Events()).build();
+            bot = new JDABuilder(AccountType.BOT).setToken((String) configuration.get("token")).addEventListener(new Events()).build();
             bot.awaitReady().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+bot.getGuilds().size() + " guilds - !yhelp"));
             registerModules();
         } catch (LoginException e){
@@ -62,4 +81,7 @@ public class Kayla {
         return "not ready yet kiddo";
     }
 
+    public static boolean isNotAdmin(String id){
+        return !owners.contains(id);
+    }
 }
