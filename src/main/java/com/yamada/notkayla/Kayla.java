@@ -29,13 +29,6 @@ public class Kayla {
     public static CommandRegistry registry = new CommandRegistry();
     public static Reflections refl = new Reflections();
     public static Map configuration;
-    public static List<String> owners = new ArrayList<String>(){{
-        add("201745963394531328");
-        add("236251438685093889");
-        add("310496481435975693");
-        add("280158289667555328");
-        add("319503910895222784");
-    }};
     private static HashMap<String, Adapter> modules;
     private static Yaml yaml = new Yaml();
 

@@ -8,7 +8,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 @Command(name="load",group = "owner")
 public class LoadCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) throws IllegalAccessException, InstantiationException {
-        if(!Kayla.owners.contains(event.getAuthor().getId())) return;
+        if(!bot.getGuildById("481210197453438996").isMember(event.getAuthor())) return;
         if (args[0] == null || args[1] == null) {
             event.getChannel().sendMessage("choose `command` or `module` and set the object to load as the argument").queue();
         }
