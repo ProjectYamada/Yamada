@@ -1,6 +1,5 @@
 package com.yamada.notkayla;
 
-import com.yamada.notkayla.commands.Checks;
 import com.yamada.notkayla.commands.CommandRegistry;
 import com.yamada.notkayla.module.Adapter;
 import com.yamada.notkayla.module.DatabaseAdapter;
@@ -9,6 +8,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.core.entities.TextChannel;
 import org.reflections.Reflections;
 import org.yaml.snakeyaml.Yaml;
 
@@ -29,11 +29,12 @@ public class Kayla {
     public static CommandRegistry registry = new CommandRegistry();
     public static Reflections refl = new Reflections();
     private static HashMap<String, Adapter> modules;
+    public static Config config;
     public static void main(String[] args){
-        Config.init();
+        config.init();
         log.log(Level.INFO,"Logging in");
         try {
-            bot = new JDABuilder(AccountType.BOT).setToken((String) Config.configuration.get("token")).addEventListener(new Events()).build();
+            bot = new JDABuilder(AccountType.BOT).setToken((String) config.configuration.get("token")).addEventListener(new Events()).build();
             bot.awaitReady().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+bot.getGuilds().size() + " guilds - !yhelp"));
             registerModules();
         } catch (LoginException e){
@@ -70,9 +71,9 @@ public class Kayla {
 
     public static class Config {
         private static Yaml yaml = new Yaml();
-        public static Map configuration;
+        public Map configuration;
 
-        static void init() {
+        void init() {
             try{
                 Path curdir = Paths.get(System.getProperty("user.dir"));
                 Path config = Paths.get(curdir.toString(),"config.yml");
@@ -83,6 +84,17 @@ public class Kayla {
                 e.printStackTrace();
                 System.exit(1);
             }
+        }
+    }
+
+    public static class Checks {
+        static ArrayList owners = new ArrayList();
+        public static boolean isNotAdmin(String id){
+            return !owners.contains(id);
+        }
+
+        public static boolean isNotNSFW(TextChannel channel) {
+            return !channel.isNSFW();
         }
     }
 }

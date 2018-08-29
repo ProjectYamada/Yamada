@@ -12,7 +12,7 @@ public class SuggestCommand {
         StringBuilder reported = new StringBuilder();
         EmbedBuilder embed = new EmbedBuilder();
         try {
-            bot.getTextChannelById(String.valueOf(Kayla.Config.configuration.get("suggest-id")));
+            bot.getTextChannelById(String.valueOf(Kayla.config.configuration.get("suggest-id")));
         } catch (Exception e) {
             event.getChannel().sendMessage("Invalid integer").queue();
             return;
@@ -24,7 +24,7 @@ public class SuggestCommand {
         embed.setColor(0xff0000);
         embed.addField("Report: ", String.valueOf(reported), false);
         embed.addField("Sender: ", event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator(), false);
-        bot.getTextChannelById(String.valueOf(Kayla.Config.configuration.get("suggest"))).sendMessage(embed.build()).queue();
+        bot.getTextChannelById(String.valueOf(Kayla.config.configuration.get("suggest"))).sendMessage(embed.build()).queue();
         event.getChannel().sendMessage("Your suggestion has been sent.").queue();
     }
 }

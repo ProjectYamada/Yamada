@@ -19,7 +19,7 @@ public class Events extends ListenerAdapter {
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         //TODO: change prefix handler to something else and instead set it to a database prefix
         String content = event.getMessage().getContentRaw();
-        String prefix = String.valueOf(Kayla.Config.configuration.get("prefix"));
+        String prefix = String.valueOf(Kayla.config.configuration.get("prefix"));
         // elf sagiri megumin threesome when
         if (content.startsWith(prefix)){
             String command = content.split(" ")[0].substring(prefix.length());
