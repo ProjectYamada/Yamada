@@ -38,7 +38,7 @@ public class Kayla {
             Path curdir = Paths.get(System.getProperty("user.dir"));
             Path config = Paths.get(curdir.toString(),"config.yml");
             configuration = (Map) yaml.load(new FileInputStream(config.toFile()));
-            System.out.println(configuration.get("owners"));
+            System.out.println(configuration.get("owners").getClass().getName());
             owners = (List<String>) configuration.get("owners");
         } catch (FileNotFoundException e) {
             Kayla.log.log(Level.SEVERE, "FileNotFoundError: file 'config.yml' does not exist");
