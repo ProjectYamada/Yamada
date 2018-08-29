@@ -1,5 +1,6 @@
 package com.yamada.notkayla.commands.fun;
 
+import com.yamada.notkayla.Config;
 import com.yamada.notkayla.Kayla;
 import com.yamada.notkayla.commands.Command;
 import net.dv8tion.jda.core.*;
@@ -26,7 +27,7 @@ public class YoutubeCommand{
         embed.setTitle("YouTube Search Result - " + query);
         CloseableHttpClient client = HttpClientBuilder.create().build();
         try {
-            response = client.execute(new HttpGet("https://www.googleapis.com/youtube/v3/search?maxResults=1&part=snippet&type=video&key=" + Kayla.config.configuration.get("youtube-api") + "&q=" + query.replace(" ", "%20")));
+            response = client.execute(new HttpGet("https://www.googleapis.com/youtube/v3/search?maxResults=1&part=snippet&type=video&key=" + Config.configuration.get("youtube-api") + "&q=" + query.replace(" ", "%20")));
             responseBody = EntityUtils.toString(response.getEntity()).replace("\n", "");
             //event.getChannel().sendMessage(String.format("```\n%s\n```", responseBody)).queue();
             jsonResponse = new JSONObject(responseBody);
