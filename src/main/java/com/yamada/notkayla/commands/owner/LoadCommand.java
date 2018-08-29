@@ -20,7 +20,7 @@ public class LoadCommand {
                 break;
             default:
                 event.getChannel().sendMessage("choose `command` or `module` for the first argument and set the object to load as the second").queue();
-                return;
+                break;
         }
     }
 }

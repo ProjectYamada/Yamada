@@ -5,13 +5,12 @@ import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.util.List;
 
+import static com.yamada.notkayla.Config.*;
+
 public class Checks {
     private static List<String> owners = null;
     public static boolean isNotAdmin(String id){
-        if (owners == null){
-            owners = (List<String>) Config.configuration.get("owners");
-            for (String owner : owners)System.out.println(owner);
-        }
+        if (owners == null) owners = (List<String>) configuration.get("owners");
         return !owners.contains(id);
     }
 

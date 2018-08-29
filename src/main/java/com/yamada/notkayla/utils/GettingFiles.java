@@ -27,7 +27,8 @@ public class GettingFiles {
 
     /**
      * Smug yamada for the people who think they can get away with the shit you call them out for.
-     * @param tc
+     * @param tc d
+     * @param id d
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void didYouJustTryThat(TextChannel tc, long id){
