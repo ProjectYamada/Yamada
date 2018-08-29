@@ -8,13 +8,12 @@ import java.util.List;
 import static com.yamada.notkayla.Config.*;
 
 public class Checks {
-    private static List<String> owners = null;
+    private static Object owners = null;
     public static boolean isNotAdmin(String id){
         if (owners == null)
             owners =
-                (List<String>)
                 configuration.get("owners");
-        return !owners.contains(id);
+        return !((List<String>)owners).contains(id);
     }
 
     public static boolean isNotNSFW(TextChannel channel) {
