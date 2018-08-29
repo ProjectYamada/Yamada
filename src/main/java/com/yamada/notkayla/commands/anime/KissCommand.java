@@ -28,12 +28,12 @@ public class KissCommand {
             CloseableHttpResponse response = client.execute(new HttpGet("https://nekos.life/api/v2/img/kiss"));
             String responseBody = EntityUtils.toString(response.getEntity()).replace("\n", "");
             JSONObject json = new JSONObject(responseBody);
-            embed.setTitle("Hug!", json.getString("url"));
-            embed.setDescription(String.format("%s hugged %s. Awww...", event.getAuthor().getName(), member.getName()));
+            embed.setTitle("Kiss!", json.getString("url"));
+            embed.setDescription(String.format("%s kissed %s. Awww...", event.getAuthor().getName(), member.getName()));
         } catch (Exception e) {
             // EMPTY WOO HOO
         }
-        embed.setFooter(String.format("So cute %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
+        embed.setFooter(String.format("How intimate %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
         event.getChannel().sendMessage(embed.build()).queue();
     }
 }
