@@ -48,11 +48,11 @@ public class Events extends ListenerAdapter {
     public void onGuildLeave(GuildLeaveEvent event) {
         Kayla.bot.getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+Kayla.bot.getGuilds().size() + " guilds - !yhelp"));
     }
-    @Override
-    public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
-        event.getMessage().getChannel().sendMessage("Sorry, I don't support direct messaging. Use me in a server instead.").queue();
-    }
-
+//    @Override
+//    public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
+//        event.getMessage().getChannel().sendMessage("Sorry, I don't support direct messaging. Use me in a server instead.").queue();
+//    }
+    
     @Override
     public void onException(ExceptionEvent event) {
         StringBuilder tbuild = new StringBuilder();
