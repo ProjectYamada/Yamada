@@ -60,7 +60,7 @@ public class UrbanCommand {
             JSONArray arr = json.getJSONArray("list");
             String definition = arr.getJSONObject(index).getString("definition");
             embed.setTitle(args[1]);
-            embed.addField("Definition: ", definition, false);
+            embed.setDescription(definition);
             if (arr.getJSONObject(index).getString("example").length() >= 1024) {
                 String example = arr.getJSONObject(index).getString("example").substring(0, 1020);
                 embed.addField("Example: ", example + "...", false);
