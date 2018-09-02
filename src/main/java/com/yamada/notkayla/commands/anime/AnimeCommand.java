@@ -50,7 +50,7 @@ public class AnimeCommand {
             embed.setTitle(obj.getString("title"));
             embed.setDescription(obj.getString("description"));
             embed.addField("Type", obj.getString("type"), true);
-            embed.addField("Score", obj.getString("score"), true);
+            embed.addField("Score", Integer.toString(obj.getInt("score")), true);
             embed.setThumbnail(obj.getString("image_url"));
             embed.addField("Episodes", Integer.toString(obj.getInt("episodes")), true);
             embed.addField("Members", Integer.toString(obj.getInt("members")), true);
