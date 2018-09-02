@@ -1,5 +1,6 @@
 package com.yamada.notkayla;
 
+import com.yamada.notkayla.utils.MiscTools;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
@@ -29,17 +30,17 @@ public class Events extends ListenerAdapter {
                     Kayla.registry.run(command,Kayla.bot,event,args);
                 }
             } catch (Exception e) {
+                Throwable cause = MiscTools.getCause(e);
                 e.printStackTrace();
                 EmbedBuilder embed = new EmbedBuilder();
                 embed.setColor(new Color(0xff0000));
                 embed.setTitle("An error occurred");
-                embed.setDescription(String.format("```\n%s\n```", Arrays.toString(e.getStackTrace())));
+                embed.setDescription(String.format("```\n%s\n```", Arrays.toString(cause.getStackTrace())));
                 event.getChannel().sendMessage(embed.build()).queue();
-                onException(new ExceptionEvent(Kayla.bot, e, true));
+                onException(new ExceptionEvent(Kayla.bot, cause, true));
             }
         }
     }
-
     @Override
     public void onGuildJoin(GuildJoinEvent event) {
         Kayla.bot.getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+Kayla.bot.getGuilds().size() + " guilds - !yhelp"));
@@ -48,18 +49,19 @@ public class Events extends ListenerAdapter {
     public void onGuildLeave(GuildLeaveEvent event) {
         Kayla.bot.getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+Kayla.bot.getGuilds().size() + " guilds - !yhelp"));
     }
-//    @Override
-//    public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
-//        event.getMessage().getChannel().sendMessage("Sorry, I don't support direct messaging. Use me in a server instead.").queue();
-//    }
+    @Override
+    public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
+        if (!event.getAuthor().isBot())event.getMessage().getChannel().sendMessage("Sorry, I don't support direct messaging. Use me in a server instead.").queue();
+    }
     
     @Override
     public void onException(ExceptionEvent event) {
+        Throwable cause = MiscTools.getCause(event.getCause());
         StringBuilder tbuild = new StringBuilder();
-        String s = event.getCause().getClass().getName();
-        String message = event.getCause().getLocalizedMessage();
+        String s = cause.getClass().getName();
+        String message = cause.getLocalizedMessage();
         tbuild.append((message != null) ? (s + ": " + message) : s);
-        StackTraceElement[] trace = event.getCause().getStackTrace();
+        StackTraceElement[] trace = cause.getStackTrace();
         for (StackTraceElement traceElement : trace)
             tbuild.append("\tat ").append(traceElement);
         Kayla.bot.getTextChannelById("481510285442547723").sendMessage("```"+tbuild.toString()+"```").submit();

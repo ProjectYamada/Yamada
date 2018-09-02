@@ -26,10 +26,7 @@ public class EvalCommand {
         ctx.setBindings(bindings,ScriptContext.GLOBAL_SCOPE);
     }
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
-        System.out.println(event.getAuthor());
-        boolean isallowed = bot.getGuildById("481210197453438996").isMember(event.getAuthor());
-        System.out.println(isallowed);
-        if(!isallowed) return;//don't even say anything, just ignore the call
+        if(bot.getGuildById("481210197453438996").getMemberById(event.getAuthor().getId()) == null) return;//don't even say anything, just ignore the call
         w.tc = Kayla.bot.getTextChannelById("481528711720730634");
         String arg = String.join(" ", args);
         //in which case go ahead
