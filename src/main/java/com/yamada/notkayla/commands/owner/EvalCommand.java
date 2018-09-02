@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.script.*;
 import java.io.*;
+import java.util.Objects;
 
 @Command(name = "eval",group="owner",hidden=true)
 public class EvalCommand {
@@ -26,7 +27,7 @@ public class EvalCommand {
         ctx.setBindings(bindings,ScriptContext.GLOBAL_SCOPE);
     }
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
-        if(bot.getGuildById("481210197453438996").getMemberById(event.getAuthor().getId()) == null) return;//don't even say anything, just ignore the call
+        if(Objects.equals(bot.getGuildById("481210197453438996").getMemberById(event.getAuthor().getId()),null)) return;//don't even say anything, just ignore the call
         w.tc = Kayla.bot.getTextChannelById("481528711720730634");
         String arg = String.join(" ", args);
         //in which case go ahead
