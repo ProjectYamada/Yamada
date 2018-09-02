@@ -15,7 +15,7 @@ public class PullCommand {
         try {
             event.getChannel().sendTyping().submit();
             Runtime.getRuntime().exec("git pull").waitFor();
-            Runtime.getRuntime().exec("gradle build").waitFor();
+            Runtime.getRuntime().exec("gradle compileJava").waitFor();
             event.getChannel().sendMessage("\uD83D\uDC4C").submit();
         } catch (IOException e) {
             e.printStackTrace();
