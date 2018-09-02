@@ -26,9 +26,9 @@ public class EvalCommand {
         bindings.put("bot",Kayla.bot);
         ctx.setBindings(bindings,ScriptContext.GLOBAL_SCOPE);
     }
-    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
-        if(Objects.equals(bot.getGuildById("481210197453438996").getMemberById(event.getAuthor().getId()),null)) return;//don't even say anything, just ignore the call
-        w.tc = Kayla.bot.getTextChannelById("481528711720730634");
+    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {//i returned the previous one because it didn't need to even get changed
+        if(bot.getGuildById("481210197453438996").getMemberById(event.getAuthor().getId()) == null) return;//don't even say anything, just ignore the call
+        w.tc = bot.getGuildById("481210197453438996").getTextChannelsByName("eval",true).get(0);
         String arg = String.join(" ", args);
         //in which case go ahead
         ScriptEngine se = Kayla.registry.sf.getEngineByName("JavaScript");

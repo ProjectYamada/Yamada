@@ -66,19 +66,20 @@ public class Kayla {
 
     private static void registerModules() throws IllegalAccessException, InstantiationException {
         //todo: reflect modules like how i practiced
-        registry.register();
+        registry.register();//the command system is a form of module
         try {
             modules.put("database", new DatabaseAdapter());
         }catch (NullPointerException ignored){}
     }
 
     public static String reloadModule(String name) {
-        /*registry.unload(name);
         try {
-            registry.load(name);
-        } catch (Exception e) {
-            // Gotta figure this one out.
-        }*/
+            Adapter adapter = modules.get(name);
+            if (adapter==null)return "That's not a module";
+            adapter.reload();
+        }catch (Exception e){
+            //it catches general exceptions
+        }
         return "not ready yet kiddo";
     }
 
