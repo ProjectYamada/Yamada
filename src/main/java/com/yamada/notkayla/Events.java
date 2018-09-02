@@ -27,7 +27,7 @@ public class Events extends ListenerAdapter {
             String[] args = event.getMessage().getContentRaw().substring(prefix.length()+command.length()).split(" ");
             try {
                 if (Kayla.registry.has(command)) {
-                    Kayla.registry.run(command,Kayla.bot,event,args);
+                    Kayla.registry.run(command,event.getJDA(),event,args);
                 }
             } catch (Exception e) {
                 Throwable cause = MiscTools.getCause(e);
@@ -37,17 +37,17 @@ public class Events extends ListenerAdapter {
                 embed.setTitle("An error occurred");
                 embed.setDescription(String.format("```\n%s\n```", Arrays.toString(cause.getStackTrace())));
                 event.getChannel().sendMessage(embed.build()).queue();
-                onException(new ExceptionEvent(Kayla.bot, cause, true));
+                onException(new ExceptionEvent(event.getJDA(), cause, true));
             }
         }
     }
     @Override
     public void onGuildJoin(GuildJoinEvent event) {
-        Kayla.bot.getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+Kayla.bot.getGuilds().size() + " guilds - !yhelp"));
+        event.getJDA().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+event.getJDA().getGuilds().size() + " guilds - !yhelp"));
     }
     @Override
     public void onGuildLeave(GuildLeaveEvent event) {
-        Kayla.bot.getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+Kayla.bot.getGuilds().size() + " guilds - !yhelp"));
+        event.getJDA().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+event.getJDA().getGuilds().size() + " guilds - !yhelp"));
     }
     @Override
     public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
@@ -64,7 +64,7 @@ public class Events extends ListenerAdapter {
         StackTraceElement[] trace = cause.getStackTrace();
         for (StackTraceElement traceElement : trace)
             tbuild.append("\tat ").append(traceElement);
-        Kayla.bot.getTextChannelById("481510285442547723").sendMessage("```"+tbuild.toString()+"```").submit();
+        event.getJDA().getTextChannelById("481510285442547723").sendMessage("```"+tbuild.toString()+"```").submit();
     }
     
     @Override

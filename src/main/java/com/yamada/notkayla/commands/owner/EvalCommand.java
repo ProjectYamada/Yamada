@@ -22,9 +22,6 @@ public class EvalCommand {
         ctx.setReader(null);
         ctx.setWriter(w);
         ctx.setErrorWriter(w);
-        Bindings bindings = new SimpleBindings();
-        bindings.put("bot",Kayla.bot);
-        ctx.setBindings(bindings,ScriptContext.GLOBAL_SCOPE);
     }
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {//i returned the previous one because it didn't need to even get changed
         if(bot.getGuildById("481210197453438996").getMemberById(event.getAuthor().getId()) == null) return;//don't even say anything, just ignore the call
@@ -32,6 +29,7 @@ public class EvalCommand {
         String arg = String.join(" ", args);
         //in which case go ahead
         ScriptEngine se = Kayla.registry.sf.getEngineByName("JavaScript");
+        ctx.setBindings(new SimpleBindings(){{put("","");}},ScriptContext.GLOBAL_SCOPE);
         se.setContext(ctx);
         try {
             se.eval(arg,ctx);

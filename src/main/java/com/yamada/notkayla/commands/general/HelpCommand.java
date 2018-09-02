@@ -23,7 +23,8 @@ public class HelpCommand {
         embed.setTitle("Need some help?");
         Kayla.registry.commands.forEach((cmdName,cmd)->{
             Command command = cmd.cmd.getAnnotation(Command.class);
-            if (command.hidden()) return;
+//            if (command.hidden()) {
+//            }
 
         });
     }
@@ -41,7 +42,7 @@ public class HelpCommand {
 
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         embed.setDescription("I'm Yamada, and my prefix is `!y`. I hope to make your server a better place!");
-        embed.setThumbnail(event.getGuild().getSelfMember().getUser().getAvatarUrl());
+        embed.setThumbnail(bot.getSelfUser().getAvatarUrl());
         embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
         embed.addField("Image", "`dog` - Fetches a random dog\n`cat` - Fetches a random cat\n`duck` - Fetches a random duck", false);
         embed.addField("Fun", "`meme` - Fetches a random meme\n`urban` - Look up Urban Dictionary definitions", false);
@@ -53,7 +54,7 @@ public class HelpCommand {
     private class Group{
         String name;
         Map<String, String> commands;
-        public Group(String name) {
+        Group(String name) {
             this.name = name;
         }
     }
