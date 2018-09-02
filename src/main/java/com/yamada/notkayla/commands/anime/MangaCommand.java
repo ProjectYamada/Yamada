@@ -50,7 +50,7 @@ public class MangaCommand {
             embed.setTitle(obj.getString("title"));
             embed.setDescription(obj.getString("description"));
             embed.addField("Type", obj.getString("type"), true);
-            embed.addField("Score", obj.getInt("score"), true);
+            embed.addField("Score", Integer.toString(obj.getInt("score")), true);
             embed.setThumbnail(obj.getString("image_url"));
             embed.addField("Volumes", Integer.toString(obj.getInt("volumes")), true);
             embed.addField("Members", Integer.toString(obj.getInt("members")), true);
