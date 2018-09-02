@@ -46,7 +46,11 @@ public class Kayla {
         }
         log.log(Level.INFO,"Logging in");
         try {
-            bot = new JDABuilder(AccountType.BOT).setToken((String) configuration.get("token")).addEventListener(new Events()).build();
+            JDABuilder builder = new JDABuilder(AccountType.BOT).setToken((String) configuration.get("token")).addEventListener(new Events());
+            for (int i = 0; i < 1; i++) {
+                builder.useSharding(i, 1);
+                bot = builder.build();
+            }
             bot.awaitReady().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+bot.getGuilds().size() + " guilds - !yhelp"));
             registerModules();
         } catch (LoginException e){
