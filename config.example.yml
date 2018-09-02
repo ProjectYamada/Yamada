@@ -6,12 +6,6 @@ youtube-api: "youtube api token"
 # Bot prefix
 prefix: "!y" # todo read prefix from config
 
-#temporarily disabled
-# Only those with the user IDs specified can run the "eval" command.
-owners:
-  - "user ids"
-  - "can be multiple"
-
 # Database settings. You need to use PostgreSQL for this to operate properly.
 db:
   host: "host"
