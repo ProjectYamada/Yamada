@@ -2,11 +2,9 @@ package com.yamada.notkayla;
 
 import com.yamada.notkayla.commands.CommandRegistry;
 import com.yamada.notkayla.module.Adapter;
-import com.yamada.notkayla.module.DatabaseAdapter;
+import com.yamada.notkayla.module.modules.database.DatabaseAdapter;
 import net.dv8tion.jda.bot.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.bot.sharding.ShardManager;
-import net.dv8tion.jda.core.OnlineStatus;
-import net.dv8tion.jda.core.entities.Game;
 import org.reflections.Reflections;
 import org.yaml.snakeyaml.Yaml;
 

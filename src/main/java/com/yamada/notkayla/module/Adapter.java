@@ -10,22 +10,26 @@ import java.util.Map;
 
 public abstract class Adapter {
     private Class<?> attachedClass;
-    Reflections r = new Reflections();
-    Map<String,Method> methods = new HashMap<>();
-    static SanaeClassLoader cl = new SanaeClassLoader();
-    Object module;
+    private String classPath;
+    private Map<String,Method> methods = new HashMap<>();
+    private static SanaeClassLoader cl = new SanaeClassLoader();
+    private Object module;
 
-    public Adapter(Class<?> clazz) {
-        attachedClass = clazz;
+    protected Adapter(String classPath) throws IllegalAccessException, InstantiationException {
+        attachedClass = cl.loadClass(classPath);
+        this.classPath = classPath;
+        module = attachedClass.newInstance();
         for(Method m : attachedClass.getMethods()) methods.put(m.getName(),m);
-
     }
 
-    Object runMethod(String name, Object... args) throws InvocationTargetException, IllegalAccessException {
+    protected Object runMethod(String name, Object... args) throws InvocationTargetException, IllegalAccessException {
         return methods.get(name).invoke(module,args);
     }
 
-    public void reload() {
-
+    public void reload() throws IllegalAccessException, InstantiationException {
+        attachedClass = null;
+        module = null;
+        attachedClass = cl.loadClass(classPath);
+        module = attachedClass.newInstance();
     }
 }

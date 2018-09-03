@@ -50,7 +50,7 @@ public class CommandRegistry {
 
     public void run(String commandName, JDA bot, GuildMessageReceivedEvent event, String[] args) throws InvocationTargetException, IllegalAccessException {
         RegCommand regCommand = get(commandName);
-        if (regCommand.cmd != null && regCommand.instance != null)regCommand.run.invoke(regCommand.instance,bot,event,args);
+        if (regCommand.loaded)regCommand.run.invoke(regCommand.instance,bot,event,args);
     }
     public void reload(String commandName) throws InstantiationException, IllegalAccessException {
         if (has(commandName)) {
@@ -86,18 +86,21 @@ public class CommandRegistry {
             cmd = classLoader.loadClass(packageName);
             instance = cmd.newInstance();
             run = new ArrayList<>(ReflectionUtils.getMethods(cmd, ReflectionUtils.withName("run"))).get(0);
+            loaded = true;
         }
         void unload(){
             if (instance != null || cmd != null) {
                 instance = null;
                 cmd = null;
             }
+            loaded = false;
         }
         void load() throws IllegalAccessException, InstantiationException {
             if (instance == null) {
                 cmd = classLoader.loadClass(packageName);
                 instance = cmd.newInstance();
             }
+            loaded = true;
         }
     }
 }

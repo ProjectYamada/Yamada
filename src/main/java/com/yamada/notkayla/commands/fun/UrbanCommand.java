@@ -56,7 +56,6 @@ public class UrbanCommand {
                     new HttpGet(String.format("http://api.urbandictionary.com/v0/define?term=%s", term.toString().replace(" ", "+"))));
             String responseBody = EntityUtils.toString(response.getEntity()).replace("\n", "");
             JSONObject json = new JSONObject(responseBody);
-            System.out.println(responseBody);
             JSONArray arr = json.getJSONArray("list");
             String definition = arr.getJSONObject(index).getString("definition");
             embed.setTitle(arr.getJSONObject(index).getString("word"));

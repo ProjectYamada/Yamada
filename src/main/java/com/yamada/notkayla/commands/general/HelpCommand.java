@@ -12,7 +12,7 @@ import java.util.Map;
 @Command(name = "help",group="general",description = "You're viewing it")
 public class HelpCommand {
     private EmbedBuilder embed = new EmbedBuilder();
-    Map<String,Group> groupDefs = new HashMap<String, Group>(){{
+    private Map<String,Group> groupDefs = new HashMap<String, Group>(){{
         put("mod",new Group("Moderation"));
         put("general",new Group("General"));
         put("image",new Group("Image"));
@@ -30,10 +30,9 @@ public class HelpCommand {
             if (!command.hidden()) {
                 //add command to group
                 groupDefs.get(command.group()).commands.put(command.name(),command.description());
-
             }
-
         });
+
         /*
             then loop through the groups and add them field-group name newline-`command` - descr + usage
             we may have to do page handling, but that's not much of an issue
