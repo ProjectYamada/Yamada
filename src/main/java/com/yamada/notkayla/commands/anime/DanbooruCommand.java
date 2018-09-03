@@ -53,7 +53,7 @@ public class DanbooruCommand {
             embed.setTitle("Successfully got an image.", json.getString("file_url"));
             embed.setDescription("If you can't see this image, click the title.");
             embed.setImage(json.getString("large_file_url"));
-        } catch (IOException e) {
+        } catch (Exception e) {
             /*e.printStackTrace();
             embed.setColor(new Color(0xff0000));
             embed.setTitle("An Error Occurred");
