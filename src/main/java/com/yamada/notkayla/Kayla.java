@@ -44,8 +44,6 @@ public class Kayla {
         log.log(Level.INFO,"Logging in");
         try {
             shards = new DefaultShardManagerBuilder().setToken((String) configuration.get("token")).addEventListeners(new Events()).build();
-            shards.setGame(Game.playing("with "+shards.getGuilds().size() + " guilds - !yhelp"));
-            shards.setStatus(OnlineStatus.DO_NOT_DISTURB);
             registerModules();
         } catch (LoginException e){
             log.log(Level.SEVERE,"kayla is cool ™");
