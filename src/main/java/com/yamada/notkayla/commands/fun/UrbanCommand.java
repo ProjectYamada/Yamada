@@ -59,7 +59,7 @@ public class UrbanCommand {
             System.out.println(responseBody);
             JSONArray arr = json.getJSONArray("list");
             String definition = arr.getJSONObject(index).getString("definition");
-            embed.setTitle(args[1]);
+            embed.setTitle(arr.getJSONObject(index).getString("word"));
             embed.setDescription(definition);
             if (arr.getJSONObject(index).getString("example").length() >= 1024) {
                 String example = arr.getJSONObject(index).getString("example").substring(0, 1020);
