@@ -3,6 +3,7 @@ package com.yamada.notkayla.module;
 import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,9 +18,14 @@ public abstract class Adapter {
     public Adapter(Class<?> clazz) {
         attachedClass = clazz;
         for(Method m : attachedClass.getMethods()) methods.put(m.getName(),m);
+
     }
 
-    Object runMethod(String name, Object... args) {
-        return methods;
+    Object runMethod(String name, Object... args) throws InvocationTargetException, IllegalAccessException {
+        return methods.get(name).invoke(module,args);
+    }
+
+    public void reload() {
+
     }
 }

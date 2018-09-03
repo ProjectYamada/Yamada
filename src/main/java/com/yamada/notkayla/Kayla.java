@@ -3,9 +3,8 @@ package com.yamada.notkayla;
 import com.yamada.notkayla.commands.CommandRegistry;
 import com.yamada.notkayla.module.Adapter;
 import com.yamada.notkayla.module.DatabaseAdapter;
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.bot.sharding.DefaultShardManagerBuilder;
+import net.dv8tion.jda.bot.sharding.ShardManager;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
 import org.reflections.Reflections;
@@ -16,16 +15,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Kayla {
     public static Logger log = Logger.getLogger("Kayla");
-    public static JDA bot;
+    private static ShardManager shards;
     public static CommandRegistry registry = new CommandRegistry();
     public static Reflections refl = new Reflections();
     public static Map configuration;
@@ -46,19 +43,12 @@ public class Kayla {
         }
         log.log(Level.INFO,"Logging in");
         try {
-            JDABuilder builder = new JDABuilder(AccountType.BOT).setToken((String) configuration.get("token")).addEventListener(new Events());
-            for (int i = 0; i < 1; i++) {
-                builder.useSharding(i, 1);
-                bot = builder.build();
-            }
-            bot.awaitReady().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+bot.getGuilds().size() + " guilds - !yhelp"));
+            shards = new DefaultShardManagerBuilder().setToken((String) configuration.get("token")).addEventListeners(new Events()).build();
+            shards.setGame(Game.playing("with "+shards.getGuilds().size() + " guilds - !yhelp"));
+            shards.setStatus(OnlineStatus.DO_NOT_DISTURB);
             registerModules();
         } catch (LoginException e){
             log.log(Level.SEVERE,"kayla is cool ™");
-            e.printStackTrace();
-            System.exit(1);
-        } catch (InterruptedException e) {
-            log.log(Level.SEVERE,"mom don't interrupt me");
             e.printStackTrace();
             System.exit(1);
         } catch (IllegalAccessException | InstantiationException e) {
@@ -70,19 +60,20 @@ public class Kayla {
 
     private static void registerModules() throws IllegalAccessException, InstantiationException {
         //todo: reflect modules like how i practiced
-        registry.register();
+        registry.register();//the command system is a form of module
         try {
             modules.put("database", new DatabaseAdapter());
         }catch (NullPointerException ignored){}
     }
 
     public static String reloadModule(String name) {
-        /*registry.unload(name);
         try {
-            registry.load(name);
-        } catch (Exception e) {
-            // Gotta figure this one out.
-        }*/
+            Adapter adapter = modules.get(name);
+            if (adapter==null)return "That's not a module";
+            adapter.reload();
+        }catch (Exception e){
+            //it catches general exceptions
+        }
         return "not ready yet kiddo";
     }
 
