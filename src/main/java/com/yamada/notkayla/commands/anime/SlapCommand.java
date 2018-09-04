@@ -12,7 +12,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
-@Command(name = "Slap", description = "Slaps a user.", group = "anime")
+@Command(name = "slap", description = "Slaps a user.", group = "anime")
 public class SlapCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         User member;

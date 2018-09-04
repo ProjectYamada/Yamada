@@ -12,7 +12,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
-@Command(name = "Tickle", description = "Tickles a user", group = "anime")
+@Command(name = "tickle", description = "Tickles a user", group = "anime")
 public class TickleCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         User member;
