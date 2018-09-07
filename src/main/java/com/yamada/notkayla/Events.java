@@ -24,7 +24,8 @@ public class Events extends ListenerAdapter {
         // elf sagiri megumin threesome when
         if (content.startsWith(prefix)){
             String command = content.split(" ")[0].substring(prefix.length());
-            String[] args = event.getMessage().getContentRaw().substring(prefix.length()+command.length()).split(" ");
+            String[] args = event.getMessage().getContentRaw().substring(prefix.length()+command.length()+1).split(" ");
+
             try {
                 if (Kayla.registry.has(command)) {
                     Kayla.registry.run(command,event.getJDA(),event,args);
