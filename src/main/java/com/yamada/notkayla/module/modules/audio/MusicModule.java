@@ -75,12 +75,12 @@ public class MusicModule {
 
             @Override
             public void noMatches() {
-
+                channel.sendMessage("Can't find any matches. :(").queue();
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
-
+                channel.sendMessage("Not only did the loading fail, but what comes next will be a total disaster.").queue();
             }
         });
     }
