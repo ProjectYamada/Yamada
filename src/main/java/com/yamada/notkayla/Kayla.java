@@ -43,7 +43,7 @@ public class Kayla {
         }
         log.log(Level.INFO,"Logging in");
         try {
-            shards = new DefaultShardManagerBuilder().setToken((String) configuration.get("token")).addEventListeners(new Events(), musicModule).build();
+            shards = new DefaultShardManagerBuilder().setToken((String) configuration.get("token")).addEventListeners(new Events()).build();
             registerModules();
         } catch (LoginException e){
             log.log(Level.SEVERE,"kayla is cool ™");
