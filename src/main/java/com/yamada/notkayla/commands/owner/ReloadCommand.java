@@ -18,10 +18,10 @@ public class ReloadCommand {
         }
         switch(args[1]){
             case "command":
-                Kayla.registry.reload(args[1]);
+                Kayla.registry.reload(args[2]);
                 break;
             case "module":
-                String response = Kayla.reloadModule("");
+                String response = Kayla.reloadModule(args[2]);
                 break;
             default:
                 event.getChannel().sendMessage("choose `command` or `module` for the first argument and set the object to reload as the second").queue();

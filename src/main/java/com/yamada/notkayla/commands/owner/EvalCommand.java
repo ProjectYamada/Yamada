@@ -25,7 +25,7 @@ public class EvalCommand {
     }
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {//i returned the previous one because it didn't need to even get changed
         if(bot.getGuildById("481210197453438996").getMemberById(event.getAuthor().getId()) == null) return;//don't even say anything, just ignore the call
-        w.tc = bot.getGuildById("481210197453438996").getTextChannelsByName("eval",true).get(0);
+        if (w.tc == null)bot.getGuildById("481210197453438996").getTextChannels().forEach((tc)->{});
         String arg = String.join(" ", args);
         //in which case go ahead
         ScriptEngine se = Kayla.registry.sf.getEngineByName("JavaScript");
@@ -38,7 +38,7 @@ public class EvalCommand {
             StackTraceElement[] trace = e.getStackTrace();
             for (StackTraceElement traceElement : trace)
                 tbuild.append("\tat ").append(traceElement);
-            event.getChannel().sendMessage("```"+e.getMessage()+"```").submit();
+            event.getChannel().sendMessage("```"+tbuild.toString()+"```").submit();
             e.printStackTrace();
         }
     }
