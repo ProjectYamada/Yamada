@@ -13,10 +13,10 @@ public class ReloadCommand {
     public void run (JDA bot, GuildMessageReceivedEvent event,String[] args) throws IllegalAccessException, InstantiationException {
         if(bot.getGuildById("481210197453438996").getMemberById(event.getAuthor().getId()) == null) return;
         Kayla.log.log(Level.INFO, Arrays.toString(args));
-        if (args[0] == null || args[1] == null) {
+        if (args[1] == null || args[2] == null) {
             event.getChannel().sendMessage("choose `command` or `module` and set the object to reload as the argument").queue();
         }
-        switch(args[0]){
+        switch(args[1]){
             case "command":
                 Kayla.registry.reload(args[1]);
                 break;

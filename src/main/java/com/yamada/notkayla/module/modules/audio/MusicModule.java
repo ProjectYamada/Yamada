@@ -19,6 +19,7 @@ import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.managers.AudioManager;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -100,10 +101,11 @@ public class MusicModule {
 
     private static void connectToFirstVoiceChannel(AudioManager audioManager) {
         if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
-            for (VoiceChannel voiceChannel : audioManager.getGuild().getVoiceChannels()) {
-                audioManager.openAudioConnection(voiceChannel);
-                break;
-            }
+            List<VoiceChannel> voiceChannels = audioManager.getGuild().getVoiceChannels();
+            VoiceChannel voiceChannel = null;
+            if(voiceChannels.size() != 0) voiceChannel = voiceChannels.get(0);
+            if (voiceChannel == null) return;
+            audioManager.openAudioConnection(voiceChannel);
         }
     }
 
@@ -135,7 +137,7 @@ public class MusicModule {
         }
     }
 
-    // The following classes are pulled directly from the lavaplayer JDA demo, and possibly violate Sanae's module model.
+    // The following classes are pulled directly from the lavaplayer JDA demo, and possibly violate Sanae's module model. no longer violates my model :)
 // TODO: Find a way to simplify this.
     class TrackScheduler extends AudioEventAdapter {
         private final AudioPlayer player;
