@@ -2,6 +2,7 @@ package com.yamada.notkayla;
 
 import com.yamada.notkayla.commands.CommandRegistry;
 import com.yamada.notkayla.module.Adapter;
+import com.yamada.notkayla.module.modules.audio.MusicModule;
 import com.yamada.notkayla.module.modules.database.DatabaseAdapter;
 import net.dv8tion.jda.bot.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.bot.sharding.ShardManager;
@@ -26,6 +27,7 @@ public class Kayla {
     public static Map configuration;
     private static HashMap<String, Adapter> modules;
     private static Yaml yaml = new Yaml();
+    public static MusicModule musicModule = new MusicModule();
 
     @SuppressWarnings("unchecked")
     public static void main(String[] args){
@@ -41,7 +43,7 @@ public class Kayla {
         }
         log.log(Level.INFO,"Logging in");
         try {
-            shards = new DefaultShardManagerBuilder().setToken((String) configuration.get("token")).addEventListeners(new Events()).build();
+            shards = new DefaultShardManagerBuilder().setToken((String) configuration.get("token")).addEventListeners(new Events(), musicModule).build();
             registerModules();
         } catch (LoginException e){
             log.log(Level.SEVERE,"kayla is cool ™");
