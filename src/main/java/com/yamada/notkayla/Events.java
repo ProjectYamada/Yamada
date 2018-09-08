@@ -1,5 +1,6 @@
 package com.yamada.notkayla;
 
+import com.yamada.notkayla.commands.Command;
 import com.yamada.notkayla.utils.MiscTools;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
@@ -18,16 +19,19 @@ import java.util.Arrays;
 public class Events extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
-        //TODO: change prefix handler to something else and instead set it to a database prefix
+        if(event.getAuthor().isBot())return;
+        //TODO  : change prefix handler to something else and instead set it to a database prefix
         String content = event.getMessage().getContentRaw();
         String prefix = String.valueOf(Kayla.configuration.get("prefix"));
         // elf sagiri megumin threesome when
         if (content.startsWith(prefix)){
             String command = content.split(" ")[0].substring(prefix.length());
-            String[] args = event.getMessage().getContentRaw().substring(prefix.length()+command.length()+1).split(" ");
-
+            String[] args;
+            if (content.length() >= prefix.length()+command.length()) args = event.getMessage().getContentRaw().substring(prefix.length()+command.length()+1).split(" ");
+            else args = new String[0];
             try {
                 if (Kayla.registry.has(command)) {
+                    // TODO: command and group disabling
                     Kayla.registry.run(command,event.getJDA(),event,args);
                 }
             } catch (Exception e) {
