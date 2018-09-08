@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class GettingFiles {
 
-    public static InputStream image(){
+    private static InputStream image(){
         CloseableHttpClient cli = HttpClients.createDefault();
         try {
             CloseableHttpResponse res = cli.execute(new HttpGet("https://cdn2.desu-usergeneratedcontent.xyz/g/image/1530/34/1530341410768.png"));
@@ -33,7 +33,7 @@ public class GettingFiles {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void didYouJustTryThat(TextChannel tc, long id){
         String[] smugQuips = new String[]{"Did you really think you could get away with that?","Why would you be able to do that?","Nope.","You aren't allowed to do that"};
-        int quip = new Random(id).nextInt();
+        int quip = new Random(id).nextInt(smugQuips.length-1);
         MessageAction ma = tc.sendMessage(smugQuips[quip]);
         InputStream img = image();
         if(img !=null)ma.addFile(Objects.requireNonNull(image()), "didyoueventhinkthatwouldw.ork").queue();

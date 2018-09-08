@@ -8,7 +8,6 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 @Command(name = "kick",group="mod",description="Kicks a user.")
 public class KickCommand {
-    public KickCommand(){}
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         StringBuilder reason = new StringBuilder();
         if (!event.getMember().hasPermission(Permission.KICK_MEMBERS)) GettingFiles.didYouJustTryThat(event.getChannel(),event.getAuthor().getIdLong());
@@ -20,14 +19,14 @@ public class KickCommand {
                 for (int i = 2; i < args.length; i++) {
                     reason.append(args[i]).append(" ");
                 }
-                bot.getPrivateChannelById(event.getMember().getUser().getId()).sendMessage("You have been banned for this reason: " + reason).queue();
+                bot.getPrivateChannelById(event.getMember().getUser().getId()).sendMessage("You have been kicked for this reason: " + reason).submit();
                 event.getGuild().getController().ban(event.getGuild().getMember(event.getMessage().getMentionedUsers().get(0)), 0, String.valueOf(reason)).queue();
             }
         } catch (Exception e) {
-            event.getChannel().sendMessage("I couldn't ban the specified user.").queue();
+            event.getChannel().sendMessage("I couldn't kicked the specified user.").queue();
             return;
         }
-        event.getChannel().sendMessage("I successfully banned " + event.getMessage().getMentionedUsers().get(0).getName() + ".").queue();
+        event.getChannel().sendMessage("I successfully kicked " + event.getMessage().getMentionedUsers().get(0).getName() + ".").queue();
     }
 
 }
