@@ -45,7 +45,6 @@ public class UrbanCommand {
                 }
                 term = new StringBuilder(term.substring(0, term.length() - 1));
             }
-            System.out.println(term);
         } catch (Exception e) {
             event.getChannel().sendMessage("Please specify a term for the Urban Dictionary.").queue();
             return;
