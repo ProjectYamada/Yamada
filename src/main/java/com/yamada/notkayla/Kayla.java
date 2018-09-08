@@ -2,6 +2,7 @@ package com.yamada.notkayla;
 
 import com.yamada.notkayla.commands.CommandRegistry;
 import com.yamada.notkayla.module.Adapter;
+import com.yamada.notkayla.module.modules.audio.MusicAdapter;
 import com.yamada.notkayla.module.modules.audio.MusicModule;
 import com.yamada.notkayla.module.modules.database.DatabaseAdapter;
 import net.dv8tion.jda.bot.sharding.DefaultShardManagerBuilder;
@@ -25,9 +26,8 @@ public class Kayla {
     public static CommandRegistry registry = new CommandRegistry();
     public static Reflections refl = new Reflections();
     public static Map configuration;
-    private static HashMap<String, Adapter> modules;
+    public static HashMap<String, Adapter> modules;
     private static Yaml yaml = new Yaml();
-    public static MusicModule musicModule = new MusicModule();
 
     @SuppressWarnings("unchecked")
     public static void main(String[] args){
@@ -61,6 +61,7 @@ public class Kayla {
         registry.register();//the command system is a form of module
         try {
             modules.put("database", new DatabaseAdapter());
+            modules.put("music", new MusicAdapter());
         }catch (NullPointerException ignored){}
     }
 

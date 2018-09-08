@@ -30,7 +30,7 @@ public class UrbanCommand {
             }
             // !yurban test
             if (args.length == 2) {
-                term = new StringBuilder(args[1]);
+                term = new StringBuilder(args[0]);
             }
             // !yurban united states
             else {

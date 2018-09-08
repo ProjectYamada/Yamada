@@ -23,18 +23,18 @@ public class DanbooruCommand {
         }
         // Check for any tags, then run them.
         try {
-            if (args[1].contains("loli") || args[1].contains("shota")) {
+            if (args[0].contains("loli") || args[0].contains("shota")) {
                 event.getChannel().sendMessage("We can't display images with \"loli\" or \"shota\" tags.").queue();
                 return;
             }
             params = String.format("[-status]=deleted&[tags]=%s", args[1]);
             try {
-                if (args[2].contains("explicit"))
-                    params = String.format("[-status]=deleted&[tags]=%s+rating:e", args[1]);
-                else if (args[2].contains("questionable"))
-                    params = String.format("[-status]=deleted&[tags]=%s+rating:q", args[1]);
-                else if (args[2].contains("safe"))
-                    params = String.format("-[status]=deleted&[tags]=%s+rating:s", args[1]);
+                if (args[1].contains("explicit"))
+                    params = String.format("[-status]=deleted&[tags]=%s+rating:e", args[0]);
+                else if (args[1].contains("questionable"))
+                    params = String.format("[-status]=deleted&[tags]=%s+rating:q", args[0]);
+                else if (args[1].contains("safe"))
+                    params = String.format("-[status]=deleted&[tags]=%s+rating:s", args[0]);
                 else event.getChannel().sendMessage("Please specify a valid rating. Ratings include safe, questionable, and explicit.").queue();
             } catch (Exception e) {
                 // Intentionally left empty.
