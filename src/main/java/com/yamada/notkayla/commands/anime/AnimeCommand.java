@@ -28,7 +28,7 @@ public class AnimeCommand {
 
         try {
             if (args.length < 2) {
-                term = new StringBuilder(args[0]);
+                term = new StringBuilder(args[1]);
             } else {
                 for (int i = 1; i < args.length; i++) {
                     term.append(args[i]).append(" ");
