@@ -90,6 +90,7 @@ public class MusicModule {
         musicManager.scheduler.queue(track);
     }
 
+    @SuppressWarnings("unused")
     private void skipTrack(TextChannel channel) {
         GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
         musicManager.scheduler.nextTrack();
@@ -105,120 +106,120 @@ public class MusicModule {
             }
         }
     }
-}
 
-class GuildMusicManager {
-    /**
-     * Audio player for the guild.
-     */
-    public final AudioPlayer player;
-    /**
-     * Track scheduler for the player.
-     */
-    public final TrackScheduler scheduler;
+    class GuildMusicManager {
+        /**
+         * Audio player for the guild.
+         */
+        final AudioPlayer player;
+        /**
+         * Track scheduler for the player.
+         */
+        final TrackScheduler scheduler;
 
-    /**
-     * Creates a player and a track scheduler.
-     * @param manager Audio player manager to use for creating the player.
-     */
-    public GuildMusicManager(AudioPlayerManager manager) {
-        player = manager.createPlayer();
-        scheduler = new TrackScheduler(player);
-        player.addListener(scheduler);
+        /**
+         * Creates a player and a track scheduler.
+         * @param manager Audio player manager to use for creating the player.
+         */
+        GuildMusicManager(AudioPlayerManager manager) {
+            player = manager.createPlayer();
+            scheduler = new TrackScheduler(player);
+            player.addListener(scheduler);
+        }
+
+        /**
+         * @return Wrapper around AudioPlayer to use it as an AudioSendHandler.
+         */
+        AudioPlayerSendHandler getSendHandler() {
+            return new AudioPlayerSendHandler(player);
+        }
     }
 
-    /**
-     * @return Wrapper around AudioPlayer to use it as an AudioSendHandler.
-     */
-    public AudioPlayerSendHandler getSendHandler() {
-        return new AudioPlayerSendHandler(player);
-    }
-}
-
-// The following classes are pulled directly from the lavaplayer JDA demo, and possibly violate Sanae's module model.
+    // The following classes are pulled directly from the lavaplayer JDA demo, and possibly violate Sanae's module model.
 // TODO: Find a way to simplify this.
-class TrackScheduler extends AudioEventAdapter {
-    private final AudioPlayer player;
-    private final BlockingQueue<AudioTrack> queue;
+    class TrackScheduler extends AudioEventAdapter {
+        private final AudioPlayer player;
+        private final BlockingQueue<AudioTrack> queue;
 
-    /**
-     * @param player The audio player this scheduler uses
-     */
-    public TrackScheduler(AudioPlayer player) {
-        this.player = player;
-        this.queue = new LinkedBlockingQueue<>();
-    }
-
-    /**
-     * Add the next track to queue or play right away if nothing is in the queue.
-     *
-     * @param track The track to play or add to queue.
-     */
-    public void queue(AudioTrack track) {
-        // Calling startTrack with the noInterrupt set to true will start the track only if nothing is currently playing. If
-        // something is playing, it returns false and does nothing. In that case the player was already playing so this
-        // track goes to the queue instead.
-        if (!player.startTrack(track, true)) {
-            queue.offer(track);
-        }
-    }
-
-    /**
-     * Start the next track, stopping the current one if it is playing.
-     */
-    public void nextTrack() {
-        // Start the next track, regardless of if something is already playing or not. In case queue was empty, we are
-        // giving null to startTrack, which is a valid argument and will simply stop the player.
-        player.startTrack(queue.poll(), false);
-    }
-
-    @Override
-    public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-        // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
-        if (endReason.mayStartNext) {
-            nextTrack();
-        }
-    }
-}
-/**
- * This is a wrapper around AudioPlayer which makes it behave as an AudioSendHandler for JDA. As JDA calls canProvide
- * before every call to provide20MsAudio(), we pull the frame in canProvide() and use the frame we already pulled in
- * provide20MsAudio().
- */
-class AudioPlayerSendHandler implements AudioSendHandler {
-    private final AudioPlayer audioPlayer;
-    private AudioFrame lastFrame;
-
-    /**
-     * @param audioPlayer Audio player to wrap.
-     */
-    public AudioPlayerSendHandler(AudioPlayer audioPlayer) {
-        this.audioPlayer = audioPlayer;
-    }
-
-    @Override
-    public boolean canProvide() {
-        if (lastFrame == null) {
-            lastFrame = audioPlayer.provide();
+        /**
+         * @param player The audio player this scheduler uses
+         */
+        TrackScheduler(AudioPlayer player) {
+            this.player = player;
+            this.queue = new LinkedBlockingQueue<>();
         }
 
-        return lastFrame != null;
-    }
-
-    @Override
-    public byte[] provide20MsAudio() {
-        if (lastFrame == null) {
-            lastFrame = audioPlayer.provide();
+        /**
+         * Add the next track to queue or play right away if nothing is in the queue.
+         *
+         * @param track The track to play or add to queue.
+         */
+        public void queue(AudioTrack track) {
+            // Calling startTrack with the noInterrupt set to true will start the track only if nothing is currently playing. If
+            // something is playing, it returns false and does nothing. In that case the player was already playing so this
+            // track goes to the queue instead.
+            if (!player.startTrack(track, true)) {
+                queue.offer(track);
+            }
         }
 
-        byte[] data = lastFrame != null ? lastFrame.getData() : null;
-        lastFrame = null;
+        /**
+         * Start the next track, stopping the current one if it is playing.
+         */
+        void nextTrack() {
+            // Start the next track, regardless of if something is already playing or not. In case queue was empty, we are
+            // giving null to startTrack, which is a valid argument and will simply stop the player.
+            player.startTrack(queue.poll(), false);
+        }
 
-        return data;
+        @Override
+        public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
+            // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
+            if (endReason.mayStartNext) {
+                nextTrack();
+            }
+        }
     }
+    /**
+     * This is a wrapper around AudioPlayer which makes it behave as an AudioSendHandler for JDA. As JDA calls canProvide
+     * before every call to provide20MsAudio(), we pull the frame in canProvide() and use the frame we already pulled in
+     * provide20MsAudio().
+     */
+    class AudioPlayerSendHandler implements AudioSendHandler {
+        private final AudioPlayer audioPlayer;
+        private AudioFrame lastFrame;
 
-    @Override
-    public boolean isOpus() {
-        return true;
+        /**
+         * @param audioPlayer Audio player to wrap.
+         */
+        AudioPlayerSendHandler(AudioPlayer audioPlayer) {
+            this.audioPlayer = audioPlayer;
+        }
+
+        @Override
+        public boolean canProvide() {
+            if (lastFrame == null) {
+                lastFrame = audioPlayer.provide();
+            }
+
+            return lastFrame != null;
+        }
+
+        @Override
+        public byte[] provide20MsAudio() {
+            if (lastFrame == null) {
+                lastFrame = audioPlayer.provide();
+            }
+
+            byte[] data = lastFrame != null ? lastFrame.getData() : null;
+            lastFrame = null;
+
+            return data;
+        }
+
+        @Override
+        public boolean isOpus() {
+            return true;
+        }
     }
 }
