@@ -30,7 +30,7 @@ public class UrbanCommand {
             }
             // !yurban test
             if (args.length == 2) {
-                term = new StringBuilder(args[0]);
+                term = new StringBuilder(args[1]);
             }
             // !yurban united states
             else {
@@ -45,7 +45,6 @@ public class UrbanCommand {
                 }
                 term = new StringBuilder(term.substring(0, term.length() - 1));
             }
-            System.out.println(term);
         } catch (Exception e) {
             event.getChannel().sendMessage("Please specify a term for the Urban Dictionary.").queue();
             return;
