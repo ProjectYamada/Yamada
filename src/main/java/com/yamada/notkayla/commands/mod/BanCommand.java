@@ -12,7 +12,11 @@ import java.io.File;
 public class BanCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         StringBuilder reason = new StringBuilder();
-        if (!event.getMember().hasPermission(Permission.BAN_MEMBERS)) GettingFiles.didYouJustTryThat(event.getChannel(),event.getAuthor().getIdLong());
+        if (!event.getMember().hasPermission(Permission.BAN_MEMBERS))
+        {
+            GettingFiles.didYouJustTryThat(event.getChannel(),event.getAuthor().getIdLong());
+            return;
+        }
         try {
             if (args.length == 2) {
                 event.getGuild().getController().ban(event.getGuild().getMember(event.getMessage().getMentionedUsers().get(0)), 0).queue();

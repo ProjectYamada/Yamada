@@ -27,7 +27,7 @@ public class Events extends ListenerAdapter {
         if (content.startsWith(prefix)){
             String command = content.split(" ")[0].substring(prefix.length());
             String[] args;
-            if (content.length() >= prefix.length()+command.length()) args = event.getMessage().getContentRaw().substring(prefix.length()+command.length()+1).split(" ");
+            if (content.length() >= prefix.length()+command.length()) args = event.getMessage().getContentRaw().substring(prefix.length()+command.length()).split(" ");
             else args = new String[0];
             try {
                 if (Kayla.registry.has(command)) {
