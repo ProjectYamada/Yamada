@@ -36,7 +36,7 @@ public class GettingFiles {
         int quip = new Random(id).nextInt(smugQuips.length-1);
         MessageAction ma = tc.sendMessage(smugQuips[quip]);
         InputStream img = image("https://cdn2.desu-usergeneratedcontent.xyz/g/image/1530/34/1530341410768.png");
-        if(img !=null)ma.addFile(img, "didyoueventhinkthatwouldwork.").queue();
+        if(img !=null)ma.addFile(img, "didyoueventhinkthatwouldwork.png").queue();
         else ma.queue();
     }
 }
