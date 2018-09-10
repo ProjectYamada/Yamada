@@ -14,10 +14,10 @@ import java.util.Random;
 
 public class GettingFiles {
 
-    private static InputStream image(){
+    private static InputStream image(String url){
         CloseableHttpClient cli = HttpClients.createDefault();
         try {
-            CloseableHttpResponse res = cli.execute(new HttpGet("https://cdn2.desu-usergeneratedcontent.xyz/g/image/1530/34/1530341410768.png"));
+            CloseableHttpResponse res = cli.execute(new HttpGet(url));
             return res.getEntity().getContent();
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,8 +35,8 @@ public class GettingFiles {
         String[] smugQuips = new String[]{"Did you really think you could get away with that?","Why would you be able to do that?","Nope.","You aren't allowed to do that"};
         int quip = new Random(id).nextInt(smugQuips.length-1);
         MessageAction ma = tc.sendMessage(smugQuips[quip]);
-        InputStream img = image();
-        if(img !=null)ma.addFile(Objects.requireNonNull(image()), "didyoueventhinkthatwouldw.ork").queue();
+        InputStream img = image("https://cdn2.desu-usergeneratedcontent.xyz/g/image/1530/34/1530341410768.png");
+        if(img !=null)ma.addFile(img, "didyoueventhinkthatwouldwork.").queue();
         else ma.queue();
     }
 }
