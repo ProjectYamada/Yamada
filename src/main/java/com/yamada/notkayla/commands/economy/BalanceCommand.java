@@ -9,9 +9,6 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 @Command(name="bal",description = "Please add details Allen",group="economy")
 public class BalanceCommand {
     private DatabaseAdapter a;
-    public BalanceCommand(){
-        a=(DatabaseAdapter) Kayla.getAdapter("database");
-    }
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args){
         event.getChannel().sendMessage("this isn't implemented yet sorry").queue();
         if (a==null)a=(DatabaseAdapter) Kayla.getAdapter("database");
