@@ -9,7 +9,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 @Command(name="bal",description = "",group="economy")
 public class BalanceCommand {
     private DatabaseAdapter a;
-    BalanceCommand(){
+    public BalanceCommand(){
         a=(DatabaseAdapter) Kayla.getAdapter("database");
     }
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args){
