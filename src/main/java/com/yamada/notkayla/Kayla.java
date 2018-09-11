@@ -13,6 +13,7 @@ import org.yaml.snakeyaml.Yaml;
 import javax.security.auth.login.LoginException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -60,9 +61,15 @@ public class Kayla {
         //todo: reflect modules like how i practiced
         registry.register();//the command system is a form of module
         try {
-            modules.put("database", new DatabaseAdapter());
-            modules.put("music", new MusicAdapter());
-        }catch (NullPointerException ignored){}
+            modules.put("database", new DatabaseAdapter(configuration));
+            modules.put("music", new MusicAdapter(configuration));
+        }catch (NullPointerException ignored){} catch (NoSuchMethodException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Adapter getAdapter(String adapterName){
+        return modules.get(adapterName);
     }
 
     public static String reloadModule(String name) {

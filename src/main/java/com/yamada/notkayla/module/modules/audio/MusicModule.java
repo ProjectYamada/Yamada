@@ -28,10 +28,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class MusicModule {
     private final AudioPlayerManager playerManager;
     private final Map<Long, GuildMusicManager> musicManagers;
+    private Map config; // saved from Kayla.configuration because of reflection issues
 
-    public MusicModule() {
+    public MusicModule(Map config) {
         playerManager = new DefaultAudioPlayerManager();
         musicManagers = new HashMap<>();
+        this.config = config;
 
         AudioSourceManagers.registerLocalSource(playerManager);
         AudioSourceManagers.registerRemoteSources(playerManager);
