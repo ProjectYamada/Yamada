@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 public class BalanceCommand {
     private DatabaseAdapter a;
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args){
-        event.getChannel().sendMessage("this isn't implemented yet sorry").queue();
+        event.getChannel().sendMessage("this isn't implemented yet, but at least reloads work").queue();
         if (a==null)a=(DatabaseAdapter) Kayla.getAdapter("database");
     }
 }

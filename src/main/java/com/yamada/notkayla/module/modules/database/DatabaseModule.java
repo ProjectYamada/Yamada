@@ -2,7 +2,6 @@ package com.yamada.notkayla.module.modules.database;
 
 import com.yamada.notkayla.Kayla;
 import com.yamada.notkayla.module.Module;
-import com.yamada.notkayla.module.entities.Result;
 import org.postgresql.ds.PGPooledConnection;
 
 import java.sql.*;
