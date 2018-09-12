@@ -11,10 +11,7 @@ import javax.script.ScriptEngineManager;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 
 public class CommandRegistry {
@@ -22,7 +19,7 @@ public class CommandRegistry {
     public HashMap<String,RegCommand> commands = new HashMap<>();
     private SanaeClassLoader classLoader = new SanaeClassLoader();
 
-    public void register() throws InstantiationException, IllegalAccessException {
+    public void register() throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Reflections r = new Reflections("com.yamada.notkayla.commands");
         Set<Class<?>> annotCommands = r.getTypesAnnotatedWith(com.yamada.notkayla.commands.Command.class);
         Class<?> help = null;
@@ -81,10 +78,11 @@ public class CommandRegistry {
         Object instance;
         public Method run;
         boolean loaded;
-        RegCommand(String aPackage) throws IllegalAccessException, InstantiationException {
+        RegCommand(String aPackage) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
             packageName=aPackage;
             cmd = classLoader.loadClass(packageName);
-            instance = cmd.newInstance();
+            boolean i = aPackage.contains("HelpCommand");
+            instance = i ? cmd.getConstructor(Map.class).newInstance(commands) : cmd.newInstance();
             run = new ArrayList<>(ReflectionUtils.getMethods(cmd, ReflectionUtils.withName("run"))).get(0);
             loaded = true;
         }

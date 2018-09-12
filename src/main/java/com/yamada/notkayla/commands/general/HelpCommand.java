@@ -2,6 +2,7 @@ package com.yamada.notkayla.commands.general;
 
 import com.yamada.notkayla.Kayla;
 import com.yamada.notkayla.commands.Command;
+import com.yamada.notkayla.commands.CommandRegistry;
 import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import java.awt.Color;
@@ -17,7 +18,7 @@ public class HelpCommand {
         put("image",new Group("Image"));
         put("fun",new Group("Fun"));
     }};
-    public HelpCommand(){
+    public HelpCommand(Map<String,CommandRegistry.RegCommand> commands){
         embed.setColor(new Color(0xe91e63));
         embed.setTitle("Need some help?");//todo: set commands up :b:etter because i think it was my fault -Sanae
         embed.addField("Image", "`dog` - Fetches a random dog\n`cat` - Fetches a random cat\n`duck` - Fetches a random duck", false);
@@ -58,16 +59,10 @@ public class HelpCommand {
     }
     private class Group{
         String name;
+        @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
         Map<String, String> commands;
         Group(String name) {
             this.name = name;
         }
     }
 }
-/*
-@bot.event
-async def on_message(msg):
-    your code here
-#
-bot.run("token")
-*/
