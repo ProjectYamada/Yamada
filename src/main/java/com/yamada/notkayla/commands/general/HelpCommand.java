@@ -25,7 +25,7 @@ public class HelpCommand {
         embed.addField("Fun", "`meme` - Fetches a random meme\n`urban` - Look up Urban Dictionary definitions", false);
         embed.addField("Anime", "`danbooru` - Fetches an image from danbooru", false);
         embed.addField("Moderation", "`kick` - Kicks the specified user from your server\n`ban` - Bans the specified user from your server", false);
-        Kayla.registry.commands.forEach((cmdName,cmd)->{
+        commands.forEach((cmdName,cmd)->{
             Command command = cmd.cmd.getAnnotation(Command.class);
             if (!command.hidden()) {
                 //add command to group
