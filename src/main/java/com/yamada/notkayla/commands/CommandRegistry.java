@@ -8,10 +8,12 @@ import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
 
 import javax.script.ScriptEngineManager;
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
 public class CommandRegistry {
