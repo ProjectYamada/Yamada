@@ -15,11 +15,11 @@ public class PullCommand {
         if(bot.getGuildById("481210197453438996").getMemberById(event.getAuthor().getId()) == null) return;
         try {
             event.getChannel().sendTyping().submit();
-            ProcessBuilder git = new ProcessBuilder("git pull");
+            ProcessBuilder git = new ProcessBuilder("git","pull");
             git.redirectOutput(ProcessBuilder.Redirect.INHERIT);
             git.redirectError(ProcessBuilder.Redirect.INHERIT);
             git.start().waitFor();
-            ProcessBuilder comp = new ProcessBuilder("git pull");
+            ProcessBuilder comp = new ProcessBuilder("gradle","compileJava");
             comp.redirectOutput(ProcessBuilder.Redirect.INHERIT);
             comp.redirectError(ProcessBuilder.Redirect.INHERIT);
             int compile = comp.start().waitFor();
