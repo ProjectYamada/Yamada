@@ -18,18 +18,23 @@ public class HelpCommand {
         put("image",new Group("Image"));
         put("fun",new Group("Fun"));
     }};
-    public HelpCommand(Map<String,Object> commands){
+    public HelpCommand(Map<String,Object> commands,ClassLoader cl) throws ClassNotFoundException {
         embed.setColor(new Color(0xe91e63));
         embed.setTitle("Need some help?");//todo: set commands up :b:etter because i think it was my fault -Sanae
         embed.addField("Image", "`dog` - Fetches a random dog\n`cat` - Fetches a random cat\n`duck` - Fetches a random duck", false);
         embed.addField("Fun", "`meme` - Fetches a random meme\n`urban` - Look up Urban Dictionary definitions", false);
         embed.addField("Anime", "`danbooru` - Fetches an image from danbooru", false);
         embed.addField("Moderation", "`kick` - Kicks the specified user from your server\n`ban` - Bans the specified user from your server", false);
+        Class<?> regCmd = cl.loadClass("com.yamada.notkayla.commands.CommandRegistry.RegCommand");
         commands.forEach((cmdName,cmd)->{
-            Command command = ((CommandRegistry.RegCommand)cmd).cmd.getAnnotation(Command.class);
-            if (!command.hidden()) {
-                //add command to group
-                groupDefs.get(command.group()).commands.put(command.name(),command.description());
+            try {
+                Command command = regCmd.cast(cmd).getClass().getField("cmd").getAnnotation(Command.class);
+                if (!command.hidden()) {
+                    //add command to group
+                    groupDefs.get(command.group()).commands.put(command.name(),command.description());
+                }
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
             }
         });
 
