@@ -1,14 +1,20 @@
 package com.yamada.notkayla.module;
 
 
+import sun.util.logging.PlatformLogger;
+
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SanaeClassLoader extends ClassLoader {
+    public static Logger log = Logger.getLogger("SanaeLoader");
     @Override
     public Class<?> loadClass(String name) {
+        log.log(Level.INFO,name);
         return findClass(name);
     }
 
