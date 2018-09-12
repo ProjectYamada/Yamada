@@ -61,6 +61,7 @@ public class Kayla {
         //todo: reflect modules like how i practiced
         registry.register();//the command system is a form of module
         try {
+            Kayla.class.getMethod("getAdapter", String.class);
             modules.put("database", new DatabaseAdapter(configuration));
             modules.put("music", new MusicAdapter(configuration));
         }catch (NullPointerException ignored){} catch (NoSuchMethodException | InvocationTargetException e) {
