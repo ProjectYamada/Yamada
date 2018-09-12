@@ -2,7 +2,6 @@ package com.yamada.notkayla.commands.general;
 
 import com.yamada.notkayla.Kayla;
 import com.yamada.notkayla.commands.Command;
-import com.yamada.notkayla.commands.CommandRegistry;
 import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import java.awt.Color;

@@ -25,7 +25,7 @@ public class SanaeClassLoader extends ClassLoader {
             try {
                 return super.loadClass(s);
             } catch (ClassNotFoundException ignore) { }
-            ioe.printStackTrace(System.out);
+            ioe.printStackTrace();
             return null;
         }
     }
