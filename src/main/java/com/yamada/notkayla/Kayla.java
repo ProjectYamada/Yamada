@@ -50,14 +50,14 @@ public class Kayla {
             log.log(Level.SEVERE,"kayla is cool ™");
             e.printStackTrace();
             System.exit(1);
-        } catch (IllegalAccessException | InstantiationException e) {
+        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             log.log(Level.SEVERE,"touhou 9 is a not bad game");
             e.printStackTrace();
             System.exit(1);
         }
     }
 
-    private static void registerModules() throws IllegalAccessException, InstantiationException {
+    private static void registerModules() throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         //todo: reflect modules like how i practiced
         registry.register();//the command system is a form of module
         try {
