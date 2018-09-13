@@ -8,6 +8,8 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Command(name = "help",group="general",description = "You're viewing it")
 public class HelpCommand {
@@ -25,9 +27,11 @@ public class HelpCommand {
         embed.addField("Fun", "`meme` - Fetches a random meme\n`urban` - Look up Urban Dictionary definitions", false);
         embed.addField("Anime", "`danbooru` - Fetches an image from danbooru", false);
         embed.addField("Moderation", "`kick` - Kicks the specified user from your server\n`ban` - Bans the specified user from your server", false);
+        Logger logger = Logger.getLogger("Help");
         commands.forEach((cmdName,cmd)->{
             try {
                 Command command = regCommand.cast(cmd).getClass().getField("cmd").getAnnotation(Command.class);
+                logger.log(Level.INFO,"Registered "+command.name());
                 if (!command.hidden()) {
                     //add command to group
                     groupDefs.get(command.group()).commands.put(command.name(),command.description());
