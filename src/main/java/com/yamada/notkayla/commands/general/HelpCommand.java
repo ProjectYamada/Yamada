@@ -31,10 +31,7 @@ public class HelpCommand {
         Logger logger = Logger.getLogger("Help");
         commands.forEach((cmdName,cmd)->{
             try {
-                Class<?> comman = (Class<?>) cmd.getClass().getField("cmd").get(cmd.getClass().getField("instance"));
-                logger.log(Level.INFO,"Registered "+comman + " ("+comman.getCanonicalName()+")");
-                Command command = comman.getDeclaringClass().getAnnotationsByType(Command.class)[0];
-                logger.log(Level.INFO,comman.getDeclaringClass().getCanonicalName());
+                Command command = cmd.getClass().getField("cmd").get(cmd.getClass().getField("instance")).getClass().getAnnotation(Command.class);
                 logger.log(Level.INFO,command.toString() );
                 if (!command.hidden()) {
                     //add command to group
