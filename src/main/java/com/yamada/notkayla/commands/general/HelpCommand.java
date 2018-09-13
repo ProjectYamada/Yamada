@@ -34,6 +34,7 @@ public class HelpCommand {
                 Field comman = regCommand.cast(cmd).getClass().getField("cmd");
                 logger.log(Level.INFO,"Registered "+comman);
                 Command command = comman.getDeclaringClass().getAnnotation(Command.class);
+                logger.log(Level.INFO,command.toString() );
                 if (!command.hidden()) {
                     //add command to group
                     groupDefs.get(command.group()).commands.put(command.name(),command.description());
