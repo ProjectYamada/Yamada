@@ -32,7 +32,7 @@ public class HelpCommand {
         commands.forEach((cmdName,cmd)->{
             try {
                 Field comman = regCommand.cast(cmd).getClass().getField("cmd");
-                logger.log(Level.INFO,"Registered "+comman);
+                logger.log(Level.INFO,"Registered "+comman + " ("+cmd.getClass().getCanonicalName()+")");
                 Command command = comman.getDeclaringClass().getAnnotationsByType(Command.class)[0];
                 logger.log(Level.INFO,comman.getDeclaringClass().getCanonicalName());
                 logger.log(Level.INFO,command.toString() );
