@@ -21,7 +21,7 @@ public class HelpCommand {
         put("image",new Group("Image"));
         put("fun",new Group("Fun"));
     }};
-    public HelpCommand(Map<String,Object> commands,Class regCommand) throws ClassNotFoundException {
+    public HelpCommand(Map<String,Object> commands,Class regCommand) {
         embed.setColor(new Color(0xe91e63));
         embed.setTitle("Need some help?");//todo: set commands up :b:etter because i think it was my fault -Sanae
         embed.addField("Image", "`dog` - Fetches a random dog\n`cat` - Fetches a random cat\n`duck` - Fetches a random duck", false);
@@ -33,7 +33,7 @@ public class HelpCommand {
             try {
                 Field comman = regCommand.cast(cmd).getClass().getField("cmd");
                 logger.log(Level.INFO,"Registered "+comman);
-                Command command = comman.getDeclaringClass().getAnnotation(Command.class);
+                Command command = comman.getDeclaringClass().getAnnotationsByType(Command.class)[0];
                 logger.log(Level.INFO,comman.getDeclaringClass().getCanonicalName());
                 logger.log(Level.INFO,command.toString() );
                 if (!command.hidden()) {
