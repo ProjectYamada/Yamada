@@ -31,8 +31,8 @@ public class HelpCommand {
         Logger logger = Logger.getLogger("Help");
         commands.forEach((cmdName,cmd)->{
             try {
-                Field comman = regCommand.cast(cmd).getClass().getField("cmd");
-                logger.log(Level.INFO,"Registered "+comman + " ("+cmd.getClass().getCanonicalName()+")");
+                Class<?> comman = (Class<?>) cmd.getClass().getField("cmd").get(cmd.getClass().getField("instance"));
+                logger.log(Level.INFO,"Registered "+comman + " ("+comman.getCanonicalName()+")");
                 Command command = comman.getDeclaringClass().getAnnotationsByType(Command.class)[0];
                 logger.log(Level.INFO,comman.getDeclaringClass().getCanonicalName());
                 logger.log(Level.INFO,command.toString() );
@@ -40,7 +40,7 @@ public class HelpCommand {
                     //add command to group
                     groupDefs.get(command.group()).commands.put(command.name(),command.description());
                 }
-            } catch (NoSuchFieldException e) {
+            } catch (NoSuchFieldException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         });
