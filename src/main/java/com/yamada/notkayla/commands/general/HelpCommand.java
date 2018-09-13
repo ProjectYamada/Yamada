@@ -31,7 +31,7 @@ public class HelpCommand {
         commands.forEach((cmdName,cmd)->{
             try {
                 Command command = regCommand.cast(cmd).getClass().getField("cmd").getAnnotation(Command.class);
-                logger.log(Level.INFO,"Registered "+command.name());
+                logger.log(Level.INFO,"Registered "+command);
                 if (!command.hidden()) {
                     //add command to group
                     groupDefs.get(command.group()).commands.put(command.name(),command.description());
