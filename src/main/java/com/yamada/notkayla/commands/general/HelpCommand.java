@@ -6,6 +6,7 @@ import com.yamada.notkayla.commands.CommandRegistry;
 import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import java.awt.Color;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -30,8 +31,9 @@ public class HelpCommand {
         Logger logger = Logger.getLogger("Help");
         commands.forEach((cmdName,cmd)->{
             try {
-                Command command = regCommand.cast(cmd).getClass().getField("cmd").getAnnotation(Command.class);
-                logger.log(Level.INFO,"Registered "+command);
+                Field comman = regCommand.cast(cmd).getClass().getField("cmd");
+                logger.log(Level.INFO,"Registered "+comman);
+                Command command = comman.getDeclaringClass().getAnnotation(Command.class);
                 if (!command.hidden()) {
                     //add command to group
                     groupDefs.get(command.group()).commands.put(command.name(),command.description());
