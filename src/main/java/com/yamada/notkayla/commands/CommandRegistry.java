@@ -77,7 +77,7 @@ public class CommandRegistry {
     public class RegCommand{
         String packageName;
         public Class<?> cmd;
-        Object instance;
+        public Object instance;
         public Method run;
         boolean loaded;
         RegCommand(String aPackage) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
