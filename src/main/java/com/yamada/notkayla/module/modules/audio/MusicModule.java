@@ -30,10 +30,9 @@ public class MusicModule {
     private final Map<Long, GuildMusicManager> musicManagers;
     private Map config; // saved from Kayla.configuration because of reflection issues
 
-    public MusicModule(Map config) {
+    public MusicModule() {
         playerManager = new DefaultAudioPlayerManager();
         musicManagers = new HashMap<>();
-        this.config = config;
 
         AudioSourceManagers.registerLocalSource(playerManager);
         AudioSourceManagers.registerRemoteSources(playerManager);
