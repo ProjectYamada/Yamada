@@ -10,10 +10,9 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 @Command(name="play", description = "Play something.", group = "music")
 public class PlayCommand {
-    //TODO: Complete this command.
-    MusicModule music = new MusicModule();
+    //TODO: Add search capabilities.
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         //MusicAdapter music = (MusicAdapter) Kayla.modules.get("music");
-        music.loadAndPlay(event.getChannel(), String.join("", args));
+        Kayla.music.loadAndPlay(event.getChannel(), String.join("", args));
     }
 }
