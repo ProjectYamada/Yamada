@@ -60,6 +60,8 @@ public class MusicModule {
             @Override
             public void trackLoaded(AudioTrack track) {
                 channel.sendMessage("Now playing: " + track.getInfo().title).queue();
+
+                play(channel.getGuild(), musicManager, track);
             }
 
             @Override
