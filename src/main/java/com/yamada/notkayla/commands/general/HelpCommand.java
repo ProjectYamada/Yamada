@@ -29,7 +29,7 @@ public class HelpCommand {
         embed.addField("Anime", "`danbooru` - Fetches an image from danbooru", false);
         embed.addField("Moderation", "`kick` - Kicks the specified user from your server\n`ban` - Bans the specified user from your server", false);
         Logger logger = Logger.getLogger("Help");
-        commands.forEach((cmdName,cmd)->{
+        /*commands.forEach((cmdName,cmd)->{
             try {
                 Command command = cmd.getClass().getField("cmd").get(cmd.getClass().getField("instance")).getClass().getAnnotation(Command.class);
                 logger.log(Level.INFO,command.toString() );
