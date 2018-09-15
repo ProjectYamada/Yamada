@@ -21,7 +21,7 @@ public class HelpCommand {
         put("image",new Group("Image"));
         put("fun",new Group("Fun"));
     }};
-    public HelpCommand(Map<String,Object> commands,Class regCommand) {
+    public HelpCommand(Map<String,Object> commands) {
         embed.setColor(new Color(0xe91e63));
         embed.setTitle("Need some help?");//todo: set commands up :b:etter because i think it was my fault -Sanae
         embed.addField("Image", "`dog` - Fetches a random dog\n`cat` - Fetches a random cat\n`duck` - Fetches a random duck", false);
@@ -29,7 +29,7 @@ public class HelpCommand {
         embed.addField("Anime", "`danbooru` - Fetches an image from danbooru", false);
         embed.addField("Moderation", "`kick` - Kicks the specified user from your server\n`ban` - Bans the specified user from your server", false);
         Logger logger = Logger.getLogger("Help");
-        commands.forEach((cmdName,cmd)->{
+        /*commands.forEach((cmdName,cmd)->{
             try {
                 Command command = cmd.getClass().getField("cmd").get(cmd.getClass().getField("instance")).getClass().getAnnotation(Command.class);
                 logger.log(Level.INFO,command.toString() );
@@ -40,7 +40,7 @@ public class HelpCommand {
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 e.printStackTrace();
             }
-        });
+        });*/
 
         /*
             then loop through the groups and add them field-group name newline-`command` - descr + usage

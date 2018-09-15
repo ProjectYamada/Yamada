@@ -84,7 +84,7 @@ public class CommandRegistry {
             packageName=aPackage;
             cmd = classLoader.loadClass(packageName);
             boolean i = aPackage.contains("HelpCommand");
-            instance = i ? cmd.getConstructor(Map.class,Class.class).newInstance(commands,RegCommand.class) : cmd.newInstance();
+            instance = i ? cmd.getConstructor(Map.class).newInstance(commands) : cmd.newInstance();
             run = new ArrayList<>(ReflectionUtils.getMethods(cmd, ReflectionUtils.withName("run"))).get(0);
             loaded = true;
         }
