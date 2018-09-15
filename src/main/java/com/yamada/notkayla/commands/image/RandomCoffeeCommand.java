@@ -1,7 +1,5 @@
 package com.yamada.notkayla.commands.image;
 
-package com.yamada.notkayla.commands.image;
-
 import com.yamada.notkayla.commands.Command;
 import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
