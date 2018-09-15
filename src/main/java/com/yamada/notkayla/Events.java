@@ -1,6 +1,7 @@
 package com.yamada.notkayla;
 
 import com.yamada.notkayla.commands.CommandRegistry;
+import com.yamada.notkayla.module.modules.database.DatabaseModule;
 import com.yamada.notkayla.utils.MiscTools;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
@@ -16,6 +17,7 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.logging.Level;
 
@@ -84,8 +86,8 @@ public class Events extends ListenerAdapter {
         event.getJDA().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+event.getJDA().getGuilds().size() + " guilds - !yhelp"));
         try {
             registry.register();
-
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            DatabaseModule.init(Kayla.configuration);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             Kayla.log.log(Level.INFO,"I GUESS SOME REGISTERING COMMANDS DID AND OOPSIE WHOOPSIE");
         }
