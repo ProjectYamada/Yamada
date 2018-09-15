@@ -2,6 +2,8 @@ package com.yamada.notkayla.module.modules.database;
 
 import com.yamada.notkayla.Kayla;
 import com.yamada.notkayla.module.Module;
+import com.yamada.notkayla.module.entities.GuildData;
+import com.yamada.notkayla.module.entities.UserData;
 import org.postgresql.ds.PGPooledConnection;
 
 import java.sql.*;
@@ -11,10 +13,10 @@ import java.util.logging.Level;
 @SuppressWarnings("ALL")
 @Module(name="database",guarded=false)
 public class DatabaseModule {
-    private PGPooledConnection connection;
-    private Map<String, PreparedStatement> statements = new HashMap<>();
-    private Map config;
-    public DatabaseModule(Map config) throws SQLException, ClassNotFoundException {
+    private static PGPooledConnection connection;
+    private static Map<String, PreparedStatement> statements = new HashMap<>();
+    private static Map config;
+    public static void init(Map config) throws SQLException, ClassNotFoundException {
         try {
             Class.forName("org.postgresql.Driver");
             Map db = (Map) config.get("db");// we can manually set the host and database instead of making it
@@ -37,8 +39,8 @@ public class DatabaseModule {
         }
     }
 
-    private void prepareStatements() throws SQLException {
-        Connection conn = this.connection.getConnection();
+    private static void prepareStatements() throws SQLException {
+        Connection conn = connection.getConnection();
         statements.put("guild",conn.prepareStatement("SELECT * from guilds WHERE gid = ?"));
         statements.put("user",conn.prepareStatement("select * from users where uid = ?"));
         statements.put("cUser",conn.prepareStatement("insert into users values (?,0)"));
@@ -46,26 +48,27 @@ public class DatabaseModule {
     }
 
     //returns true if successful
-    public void createUserData(String id) throws SQLException {
+    public static void createUserData(String id) throws SQLException {
         PreparedStatement stmt = statements.get("cGuild");
         stmt.setString(0,id);
         stmt.execute();
     }
 
-    public ResultSet guildData(String id) throws SQLException {
+    public static GuildData guildData(String id) throws SQLException {
         PreparedStatement stmt = statements.get("guild");
         stmt.setString(0,id);
         ResultSet query = stmt.executeQuery();
         query.first(); // just wanna make sure row is first row
-        return query;
+        return new GuildData(query.getString("gid"),query.getString("prefix"),query.getBoolean("customPrefix"));
     }
 
-    public ResultSet userData(String id) throws SQLException {
+    public static UserData userData(String id) throws SQLException {
         PreparedStatement stmt = statements.get("user");
         stmt.setString(0,id);
         ResultSet query = stmt.executeQuery();
         query.first(); // just wanna make sure row is first row
-        return query;
+        UserData userData = new UserData(query.getString("uid"), query.getLong("coins"));
+        return userData;
     }
 
 }
