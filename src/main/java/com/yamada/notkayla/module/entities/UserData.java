@@ -11,7 +11,6 @@ public class UserData {
     public long getCoins() {
         return coins;
     }
-
     public String getId() {
         return id;
     }

@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 public class Kayla {
     public static Logger log = Logger.getLogger("Kayla");
-    private static ShardManager shards;
+    private static ShardManager shardManager;
     public static Reflections refl = new Reflections();
     public static Map configuration;
     private static Yaml yaml = new Yaml();
@@ -39,7 +39,7 @@ public class Kayla {
         }
         log.log(Level.INFO,"Logging in");
         try {
-            shards = new DefaultShardManagerBuilder().setToken((String) configuration.get("token")).addEventListeners(new Events()).build();
+            shardManager = new DefaultShardManagerBuilder().setToken((String) configuration.get("token")).addEventListeners(new Events()).build();
         } catch (LoginException e){
             log.log(Level.SEVERE,"kayla is cool ™");
             e.printStackTrace();

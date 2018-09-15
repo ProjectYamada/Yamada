@@ -13,6 +13,5 @@ import java.sql.SQLException;
 public class BalanceCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) throws SQLException {
         event.getChannel().sendMessage(new EmbedBuilder().setTitle("Unnamed Currency").addField("Erm lets try", String.valueOf(DatabaseModule.userData(event.getAuthor().getId()).getCoins()),false).build()).queue();
-
     }
 }

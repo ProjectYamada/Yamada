@@ -14,7 +14,7 @@ public class SuggestCommand {
         try {
             bot.getTextChannelById(String.valueOf(Kayla.configuration.get("suggest-id")));
         } catch (Exception e) {
-            event.getChannel().sendMessage("Invalid integer").queue();
+            event.getChannel().sendMessage("Invalid channel id").queue();
             return;
         }
         for (int i = 1; i < args.length; i++)

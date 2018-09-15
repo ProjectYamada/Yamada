@@ -42,7 +42,6 @@ public class CommandRegistry {
     public boolean has(String commandName) {
         return commands.containsKey(commandName);
     }
-
     public RegCommand get(String commandName){
         return commands.get(commandName);
     }
@@ -88,7 +87,7 @@ public class CommandRegistry {
             run = new ArrayList<>(ReflectionUtils.getMethods(cmd, ReflectionUtils.withName("run"))).get(0);
             loaded = true;
         }
-        void unload(){
+        void unload() {
             if (instance != null || cmd != null) {
                 instance = null;
                 cmd = null;

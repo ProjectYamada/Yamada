@@ -41,11 +41,12 @@ public class Events extends ListenerAdapter {
             } catch (Exception e) {
                 Throwable cause = MiscTools.getCause(e);
                 e.printStackTrace();
-                EmbedBuilder embed = new EmbedBuilder();
-                embed.setColor(new Color(0xff0000));
-                embed.setTitle("An error occurred");
-                embed.setDescription(String.format("```\n%s\n```", Arrays.toString(cause.getStackTrace())));
-                event.getChannel().sendMessage(embed.build()).queue();
+                EmbedBuilder embed = new EmbedBuilder()
+                        .setColor(new Color(0xFF0000))
+                        .setTitle("An error occured")
+                        .setDescription("```\n" + Arrays.toString(cause.getStackTrace()) + "```")
+                        .build();
+                event.getChannel().sendMessage(embed).queue();
                 onException(new ExceptionEvent(event.getJDA(), cause, true));
             }
         }
@@ -60,7 +61,7 @@ public class Events extends ListenerAdapter {
     }
     @Override
     public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
-        if (!event.getAuthor().isBot())event.getMessage().getChannel().sendMessage("Sorry, I don't support direct messaging. Use me in a server instead.").queue();
+        if (!event.getAuthor().isBot()) event.getMessage().getChannel().sendMessage("Sorry, I don't support direct messaging. Use me in a server instead.").queue();
     }
     
     @Override
@@ -87,6 +88,5 @@ public class Events extends ListenerAdapter {
             e.printStackTrace();
             Kayla.log.log(Level.INFO,"I GUESS SOME REGISTERING COMMANDS DID AND OOPSIE WHOOPSIE");
         }
-
     }
 }
