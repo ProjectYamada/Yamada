@@ -25,7 +25,7 @@ public class DatabaseModule {
             if (db.get("user") != null && db.get("pass") != null)connection = new PGPooledConnection(DriverManager.getConnection(
                     String.format("jdbc:postgresql://%s/%s?allowMultiQueries=true", db.get("host") == null ? "localhost:5433" : db.get("host"),
                             db.get("name") == null ? "yamada" : db.get("name")),(String) db.get("user"), (String) db.get("pass")),true );
-            if (10 >= connection.getConnection().getMetaData().getDatabaseMajorVersion()) throw new SQLException("Postgres major version must be 10 or newer. Current version: "+connection.getConnection().getMetaData().getDatabaseMajorVersion());
+            if (10 > connection.getConnection().getMetaData().getDatabaseMajorVersion()) throw new SQLException("Postgres major version must be 10 or newer. Current version: "+connection.getConnection().getMetaData().getDatabaseProductVersion());
             prepareStatements();
         } catch (ClassNotFoundException e) {
             Kayla.log.log(Level.SEVERE,"Uh oh, looks like the driver wasn't found for the database ;P");
