@@ -95,7 +95,7 @@ public class MusicModule {
     }
 
     @SuppressWarnings("unused")
-    private void skipTrack(TextChannel channel) {
+    public void skipTrack(TextChannel channel) {
         GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
         musicManager.scheduler.nextTrack();
 
