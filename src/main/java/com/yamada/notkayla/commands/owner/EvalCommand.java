@@ -1,6 +1,6 @@
 package com.yamada.notkayla.commands.owner;
 
-import com.yamada.notkayla.Kayla;
+import com.yamada.notkayla.Events;
 import com.yamada.notkayla.commands.Command;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.script.*;
 import java.io.*;
-import java.util.Objects;
 
 @Command(name = "eval",group="owner",hidden=true)
 public class EvalCommand {
@@ -28,7 +27,7 @@ public class EvalCommand {
         if (w.tc == null)bot.getGuildById("481210197453438996").getTextChannels().forEach((tc)->{});
         String arg = String.join(" ", args);
         //in which case go ahead
-        ScriptEngine se = Kayla.registry.sf.getEngineByName("JavaScript");
+        ScriptEngine se = Events.registry.sf.getEngineByName("JavaScript");
         se.setContext(ctx);
         try {
             se.eval(arg,ctx);

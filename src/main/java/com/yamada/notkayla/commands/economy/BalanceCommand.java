@@ -1,16 +1,18 @@
 package com.yamada.notkayla.commands.economy;
 
-import com.yamada.notkayla.Kayla;
 import com.yamada.notkayla.commands.Command;
-import com.yamada.notkayla.module.modules.database.DatabaseAdapter;
+import com.yamada.notkayla.module.modules.database.DatabaseModule;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+
+import java.sql.SQLException;
 
 @Command(name="bal",description = "Please add details Allen",group="economy")
 public class BalanceCommand {
-    private DatabaseAdapter a;
-    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args){
-        event.getChannel().sendMessage("this isn't implemented yet, but at least reloads work").queue();
-        if (a==null)a=(DatabaseAdapter) Kayla.getAdapter("database");
+    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) throws SQLException {
+        event.getChannel().sendMessage(new EmbedBuilder().setTitle("Unnamed Currency").addField("Erm lets try", String.valueOf(DatabaseModule.userData(event.getAuthor().getId()).getCoins()),false).build()).queue();
+
     }
 }

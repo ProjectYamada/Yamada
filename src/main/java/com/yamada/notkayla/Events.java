@@ -1,6 +1,6 @@
 package com.yamada.notkayla;
 
-import com.yamada.notkayla.commands.Command;
+import com.yamada.notkayla.commands.CommandRegistry;
 import com.yamada.notkayla.utils.MiscTools;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
@@ -14,9 +14,13 @@ import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.logging.Level;
 
 public class Events extends ListenerAdapter {
+    public static CommandRegistry registry = new CommandRegistry();
+
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         if(event.getAuthor().isBot())return;
@@ -30,9 +34,9 @@ public class Events extends ListenerAdapter {
             if (content.length() >= prefix.length()+command.length()) args = event.getMessage().getContentRaw().substring(prefix.length()+command.length()).split(" ");
             else args = new String[0];
             try {
-                if (Kayla.registry.has(command)) {
+                if (registry.has(command)) {
                     // TODO: command and group disabling
-                    Kayla.registry.run(command,event.getJDA(),event,args);
+                    registry.run(command,event.getJDA(),event,args);
                 }
             } catch (Exception e) {
                 Throwable cause = MiscTools.getCause(e);
@@ -76,5 +80,13 @@ public class Events extends ListenerAdapter {
     public void onReady(ReadyEvent event) {
         System.out.println("Yamada has connected to Discord.");
         event.getJDA().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+event.getJDA().getGuilds().size() + " guilds - !yhelp"));
+        try {
+            registry.register();
+
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+            Kayla.log.log(Level.INFO,"I GUESS SOME REGISTERING COMMANDS DID AND OOPSIE WHOOPSIE");
+        }
+
     }
 }
