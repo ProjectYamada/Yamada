@@ -14,9 +14,9 @@ public class BalanceCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) throws SQLException {
         EmbedBuilder b = new EmbedBuilder();
         b.setTitle("Unnamed Currency");
-        b.addField("Erm lets try", String.valueOf(DatabaseModule.userData(event.getAuthor().getId()).getCoins()),false);
+        b.addField("You have a balance of ", String.valueOf(DatabaseModule.userData(event.getAuthor().getId()).getCoins()),false);
         MessageEmbed m = b.build();
         event.getChannel().sendMessage(m).queue();
-
+        
     }
 }

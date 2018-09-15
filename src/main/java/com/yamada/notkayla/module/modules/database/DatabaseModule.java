@@ -44,12 +44,17 @@ public class DatabaseModule {
         Connection conn = connection.getConnection();
         statements.put("guild",conn.prepareStatement("SELECT * from guilds WHERE gid = ?"));
         statements.put("user",conn.prepareStatement("select * from users where uid = ?"));
-        statements.put("cUser",conn.prepareStatement("insert into users values (?,0)"));
-        statements.put("cGuild",conn.prepareStatement("insert into guilds values (?,'!y','FALSE')"));
+        statements.put("cUser",conn.prepareStatement("insert into users values (?,100)"));
+        statements.put("cGuild",conn.prepareStatement("insert into guilds values (?,"+(config.get("prefix") == null?"'!y'":config.get("prefix"))+",'FALSE')"));
     }
 
     //returns true if successful
     public static void createUserData(String id) throws SQLException {
+        PreparedStatement stmt = statements.get("cUser");
+        stmt.setString(1,id);
+        stmt.execute();
+    }
+    public static void createGuildData(String id) throws SQLException {
         PreparedStatement stmt = statements.get("cGuild");
         stmt.setString(1,id);
         stmt.execute();
@@ -57,6 +62,7 @@ public class DatabaseModule {
 
     public static GuildData guildData(String id) throws SQLException {
         PreparedStatement stmt = statements.get("guild");
+        createGuildData(id);
         stmt.setString(1,id);
         ResultSet query = stmt.executeQuery();
         query.first(); // just wanna make sure row is first row
@@ -65,6 +71,7 @@ public class DatabaseModule {
 
     public static UserData userData(String id) throws SQLException {
         PreparedStatement stmt = statements.get("user");
+        createUserData(id);
         stmt.setString(1,id);
         ResultSet query = stmt.executeQuery();
         query.first(); // just wanna make sure row is first row
