@@ -15,7 +15,8 @@ public class BalanceCommand {
         EmbedBuilder b = new EmbedBuilder();
         b.setTitle("Unnamed Currency");
         b.addField("Erm lets try", String.valueOf(DatabaseModule.userData(event.getAuthor().getId()).getCoins()),false);
-        event.getChannel().sendMessage(b.build()).queue();
+        MessageEmbed m = b.build();
+        event.getChannel().sendMessage(m).queue();
 
     }
 }
