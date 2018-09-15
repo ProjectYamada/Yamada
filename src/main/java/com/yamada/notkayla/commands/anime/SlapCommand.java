@@ -30,6 +30,7 @@ public class SlapCommand {
             JSONObject json = new JSONObject(responseBody);
             embed.setTitle("Slap!", json.getString("url"));
             embed.setDescription(String.format("%s slapped %s. Oof...", event.getAuthor().getName(), member.getName()));
+            embed.setImage(json.getString("url"));
         } catch (Exception e) {
             // EMPTY WOO HOO
         }

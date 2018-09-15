@@ -30,6 +30,7 @@ public class HugCommand {
             JSONObject json = new JSONObject(responseBody);
             embed.setTitle("Hug!", json.getString("url"));
             embed.setDescription(String.format("%s hugged %s. Awww...", event.getAuthor().getName(), member.getName()));
+            embed.setImage(json.getString("url"));
         } catch (Exception e) {
             // EMPTY WOO HOO
         }
