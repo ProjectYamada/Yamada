@@ -21,9 +21,10 @@ public class DatabaseModule {
         try {
             Class.forName("org.postgresql.Driver");
             Map db = (Map) config.get("db");// we can manually set the host and database instead of making it
+            Kayla.log.log(Level.INFO,String.valueOf(db));
             if (db.get("user") != null && db.get("pass") != null)connection = new PGPooledConnection(DriverManager.getConnection(
-                    String.format("jdbc:postgresql://%s/%s?allowMultiQueries=true", db.get("host") == null ? "localhost" : db.get("host"),
-                            db.get("name") == null ? "yamada" : db.get("name")),(String) db.get("user")
+                    String.format("jdbc:postgresql://%s/%s?allowMultiQueries=true&user=%s&", db.get("host") == null ? "localhost" : db.get("host"),
+                            db.get("name") == null ? "yamada" : db.get("name")),"user"+(String) db.get("user")
                     , (String) db.get("pass")),true);
             if (10 >= connection.getConnection().getMetaData().getDatabaseMajorVersion()) throw new SQLException("Postgres major version must be 10 or newer. Current version: "+connection.getConnection().getMetaData().getDatabaseProductVersion());
             prepareStatements();
