@@ -72,7 +72,7 @@ public class MusicModule {
                     firstTrack = playlist.getTracks().get(0);
                 }
 
-                channel.sendMessage("Adding to queue " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")").queue();
+                channel.sendMessage("Adding to queue " + firstTrack.getInfo().title + " (first track of playlist: " + playlist.getName() + ")").queue();
 
                 play(channel.getGuild(), musicManager, firstTrack);
             }
@@ -90,7 +90,6 @@ public class MusicModule {
     }
     private void play(Guild guild, GuildMusicManager musicManager, AudioTrack track) {
         connectToFirstVoiceChannel(guild.getAudioManager());
-
         musicManager.scheduler.queue(track);
     }
 
@@ -98,7 +97,6 @@ public class MusicModule {
     public void skipTrack(TextChannel channel) {
         GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
         musicManager.scheduler.nextTrack();
-
         channel.sendMessage("Skipped to next track.").queue();
     }
 

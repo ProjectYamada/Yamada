@@ -10,6 +10,7 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
+
 @SuppressWarnings("ALL")
 @Module(name="database",guarded=false)
 public class DatabaseModule {
@@ -70,5 +71,4 @@ public class DatabaseModule {
         UserData userData = new UserData(query.getString("uid"), query.getLong("coins"));
         return userData;
     }
-
 }
