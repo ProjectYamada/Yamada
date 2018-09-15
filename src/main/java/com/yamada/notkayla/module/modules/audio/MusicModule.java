@@ -30,10 +30,9 @@ public class MusicModule {
     private final Map<Long, GuildMusicManager> musicManagers;
     private Map config; // saved from Kayla.configuration because of reflection issues
 
-    public MusicModule(Map config) {
+    public MusicModule() {
         playerManager = new DefaultAudioPlayerManager();
         musicManagers = new HashMap<>();
-        this.config = config;
 
         AudioSourceManagers.registerLocalSource(playerManager);
         AudioSourceManagers.registerRemoteSources(playerManager);
@@ -61,6 +60,8 @@ public class MusicModule {
             @Override
             public void trackLoaded(AudioTrack track) {
                 channel.sendMessage("Now playing: " + track.getInfo().title).queue();
+
+                play(channel.getGuild(), musicManager, track);
             }
 
             @Override
@@ -94,7 +95,7 @@ public class MusicModule {
     }
 
     @SuppressWarnings("unused")
-    private void skipTrack(TextChannel channel) {
+    public void skipTrack(TextChannel channel) {
         GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
         musicManager.scheduler.nextTrack();
 

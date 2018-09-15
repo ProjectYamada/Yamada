@@ -29,6 +29,7 @@ public class Kayla {
     public static Map configuration;
     public static HashMap<String, Adapter> modules;
     private static Yaml yaml = new Yaml();
+    public static MusicModule music = new MusicModule();
 
     @SuppressWarnings("unchecked")
     public static void main(String[] args){

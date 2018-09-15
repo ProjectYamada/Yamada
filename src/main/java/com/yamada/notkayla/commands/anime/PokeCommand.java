@@ -30,6 +30,7 @@ public class PokeCommand {
             JSONObject json = new JSONObject(responseBody);
             embed.setTitle("Poke!", json.getString("url"));
             embed.setDescription(String.format("%s poked %s. Oof...", event.getAuthor().getName(), member.getName()));
+            embed.setImage(json.getString("url"));
         } catch (Exception e) {
             // EMPTY WOO HOO
         }
