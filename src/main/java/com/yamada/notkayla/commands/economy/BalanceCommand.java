@@ -12,7 +12,10 @@ import java.sql.SQLException;
 @Command(name="bal",description = "Please add details Allen",group="economy")
 public class BalanceCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) throws SQLException {
-        event.getChannel().sendMessage(new EmbedBuilder().setTitle("Unnamed Currency").addField("Erm lets try", String.valueOf(DatabaseModule.userData(event.getAuthor().getId()).getCoins()),false).build()).queue();
+        EmbedBuilder b = new EmbedBuilder();
+        b.setTitle("Unnamed Currency");
+        b.addField("Erm lets try", String.valueOf(DatabaseModule.userData(event.getAuthor().getId()).getCoins()),false);
+        event.getChannel().sendMessage(b.build()).queue();
 
     }
 }
