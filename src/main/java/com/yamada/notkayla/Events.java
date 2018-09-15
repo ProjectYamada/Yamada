@@ -5,6 +5,7 @@ import com.yamada.notkayla.utils.MiscTools;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.ExceptionEvent;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
@@ -41,7 +42,7 @@ public class Events extends ListenerAdapter {
             } catch (Exception e) {
                 Throwable cause = MiscTools.getCause(e);
                 e.printStackTrace();
-                EmbedBuilder embed = new EmbedBuilder()
+                MessageEmbed embed = new EmbedBuilder()
                         .setColor(new Color(0xFF0000))
                         .setTitle("An error occured")
                         .setDescription("```\n" + Arrays.toString(cause.getStackTrace()) + "```")
