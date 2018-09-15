@@ -51,13 +51,13 @@ public class DatabaseModule {
     //returns true if successful
     public static void createUserData(String id) throws SQLException {
         PreparedStatement stmt = statements.get("cGuild");
-        stmt.setString(0,id);
+        stmt.setString(1,id);
         stmt.execute();
     }
 
     public static GuildData guildData(String id) throws SQLException {
         PreparedStatement stmt = statements.get("guild");
-        stmt.setString(0,id);
+        stmt.setString(1,id);
         ResultSet query = stmt.executeQuery();
         query.first(); // just wanna make sure row is first row
         return new GuildData(query.getString("gid"),query.getString("prefix"),query.getBoolean("customPrefix"));
@@ -65,7 +65,7 @@ public class DatabaseModule {
 
     public static UserData userData(String id) throws SQLException {
         PreparedStatement stmt = statements.get("user");
-        stmt.setString(0,id);
+        stmt.setString(1,id);
         ResultSet query = stmt.executeQuery();
         query.first(); // just wanna make sure row is first row
         UserData userData = new UserData(query.getString("uid"), query.getLong("coins"));
