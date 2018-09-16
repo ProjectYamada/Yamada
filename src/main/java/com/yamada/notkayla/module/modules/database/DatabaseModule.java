@@ -42,17 +42,20 @@ public class DatabaseModule {
 
     private static void prepareStatements() throws SQLException {
         Connection conn = connection.getConnection();
-        statements.put("guild",conn.prepareStatement("SELECT * from guilds WHERE gid = ?"));
-        statements.put("user",conn.prepareStatement("select * from users where uid = ?"));
-        statements.put("cUser",conn.prepareStatement("insert into users values (?,100)"));
-        statements.put("cGuild",conn.prepareStatement("insert into guilds values (?,"+(config.get("prefix") == null?"'!y'":config.get("prefix"))+",'FALSE')"));
+        statements.put("guild",conn.prepareStatement("SELECT * from guilds WHERE gid = ?,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE"));
+        statements.put("user",conn.prepareStatement("select * from users where uid = ?",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE));
+        statements.put("cUser",conn.prepareStatement("insert into users values (?,100)",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE));
+        statements.put("cGuild",conn.prepareStatement("insert into guilds values (?,"+(config.get("prefix") == null?"'!y'":config.get("prefix"))+",'FALSE')",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE));
     }
 
     //returns true if successful
     public static void createUserData(String id) throws SQLException {
+
         PreparedStatement stmt = statements.get("cUser");
         stmt.setString(1,id);
-        stmt.execute();
+        try {
+            stmt.execute();
+        }catch (SQLException ignored){}
     }
     public static void createGuildData(String id) throws SQLException {
         PreparedStatement stmt = statements.get("cGuild");
