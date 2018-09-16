@@ -22,9 +22,10 @@ public class DatabaseModule {
             Class.forName("org.postgresql.Driver");
             Map db = (Map) config.get("db");// we can manually set the host and database instead of making it
             Kayla.log.log(Level.INFO,"username: "+db.get("user") +" password: "+ db.get("pass"));
-            if (db.get("user") != null && db.get("pass") != null)connection = new PGPooledConnection(DriverManager.getConnection(
+            connection = new PGPooledConnection(DriverManager.getConnection(
                     String.format("jdbc:postgresql://%s/%s?allowMultiQueries=true", db.get("host") == null ? "localhost:5433" : db.get("host"),
                             db.get("name") == null ? "yamada" : db.get("name")),(String) db.get("user"), (String) db.get("pass")),true );
+
             if (10 > connection.getConnection().getMetaData().getDatabaseMajorVersion()) throw new SQLException("Postgres major version must be 10 or newer. Current version: "+connection.getConnection().getMetaData().getDatabaseProductVersion());
             prepareStatements();
             DatabaseModule.config = config;
@@ -38,6 +39,8 @@ public class DatabaseModule {
             throw e;
         }catch (NullPointerException e){
             Kayla.log.log(Level.SEVERE,"Whoops! You forgot a database key, you gotta have db.user and db.pass at least.");
+            e.printStackTrace();
+            throw e;
         }
     }
 
