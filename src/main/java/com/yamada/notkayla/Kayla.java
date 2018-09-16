@@ -10,6 +10,7 @@ import org.yaml.snakeyaml.Yaml;
 import javax.security.auth.login.LoginException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,7 +27,12 @@ public class Kayla {
     public static MusicModule music = new MusicModule();
 
     @SuppressWarnings("unchecked")
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException, InterruptedException {
+        Kayla.log.log(Level.INFO,"Pulling changes from Git before doing the stuffs");
+        ProcessBuilder git = new ProcessBuilder("git","pull");
+        git.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+        git.redirectError(ProcessBuilder.Redirect.INHERIT);
+        git.start().waitFor();
         Kayla.log.log(Level.INFO,"Setting up config");
         try{
             Path curdir = Paths.get(System.getProperty("user.dir"));
