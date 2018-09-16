@@ -14,15 +14,12 @@ public class GuildData {
     public String getId() {
         return id;
     }
-
     public String getPrefix() {
         return prefix;
     }
-
     public boolean isCustomPrefix() {
         return customPrefix;
     }
-
     public void setCustomPrefix(boolean customPrefix) {
         this.customPrefix = customPrefix;
     }

@@ -9,13 +9,16 @@ import org.apache.http.util.EntityUtils;
 import org.json.*;
 import java.awt.Color;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Command(name="meme",group="fun",description="Fetches a random meme")
 public class MemeCommand {
     private static CloseableHttpResponse response;
     private static String responseBody;
     private static JSONObject jsonResponse;
-    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
+    public Map<String,Integer> retries = new HashMap<>();
+    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) throws IOException {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(new Color(0xe91e63));
         CloseableHttpClient client = HttpClients.createDefault();
@@ -29,12 +32,14 @@ public class MemeCommand {
                 throw new IOException("Request to reddit api was unsuccessful");
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            embed.setColor(new Color(0xff0000));
-            embed.setTitle("An Error Occurred");
-            embed.setDescription(String.format("```\n%s\n```", e.getMessage()));
-            event.getChannel().sendMessage(embed.build()).queue();
-            return;
+            if (retries.get(event.getMessageId()) == 5) {
+                e.printStackTrace();
+                embed.setColor(new Color(0xff0000));
+                embed.setTitle("An Error Occurred");
+                embed.setDescription(String.format("```\n%s\n```", e.getMessage()));
+                event.getChannel().sendMessage(embed.build()).queue();
+                return;
+            }
         }
         embed.setAuthor(jsonResponse.getString("title"), "https://reddit.com" + jsonResponse.getString("permalink"));
         embed.setImage(jsonResponse.getString("url"));

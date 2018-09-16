@@ -14,7 +14,7 @@ public class ReportCommand {
         try {
             bot.getTextChannelById(String.valueOf(Kayla.configuration.get("report-id")));
         } catch (Exception e) {
-            event.getChannel().sendMessage("Invalid integer").queue();
+            event.getChannel().sendMessage("Invalid channel id").queue();
             return;
         }
         for (int i = 1; i < args.length; i++)

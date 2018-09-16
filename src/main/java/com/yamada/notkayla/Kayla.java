@@ -1,10 +1,7 @@
 package com.yamada.notkayla;
 
 import com.yamada.notkayla.commands.CommandRegistry;
-import com.yamada.notkayla.module.Adapter;
-import com.yamada.notkayla.module.modules.audio.MusicAdapter;
 import com.yamada.notkayla.module.modules.audio.MusicModule;
-import com.yamada.notkayla.module.modules.database.DatabaseAdapter;
 import net.dv8tion.jda.bot.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.bot.sharding.ShardManager;
 import org.reflections.Reflections;
@@ -13,24 +10,29 @@ import org.yaml.snakeyaml.Yaml;
 import javax.security.auth.login.LoginException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Kayla {
     public static Logger log = Logger.getLogger("Kayla");
-    private static ShardManager shards;
-    public static CommandRegistry registry = new CommandRegistry();
+    private static ShardManager shardManager;
     public static Reflections refl = new Reflections();
     public static Map configuration;
-    public static HashMap<String, Adapter> modules;
     private static Yaml yaml = new Yaml();
+    public static MusicModule music = new MusicModule();
 
     @SuppressWarnings("unchecked")
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException, InterruptedException {
+        Kayla.log.log(Level.INFO,"Pulling changes from Git before doing the stuffs");
+        ProcessBuilder git = new ProcessBuilder("git","pull");
+        git.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+        git.redirectError(ProcessBuilder.Redirect.INHERIT);
+        git.start().waitFor();
         Kayla.log.log(Level.INFO,"Setting up config");
         try{
             Path curdir = Paths.get(System.getProperty("user.dir"));
@@ -43,41 +45,11 @@ public class Kayla {
         }
         log.log(Level.INFO,"Logging in");
         try {
-            shards = new DefaultShardManagerBuilder().setToken((String) configuration.get("token")).addEventListeners(new Events()).build();
-            registerModules();
+            shardManager = new DefaultShardManagerBuilder().setToken((String) configuration.get("token")).addEventListeners(new Events()).build();
         } catch (LoginException e){
             log.log(Level.SEVERE,"kayla is cool ™");
             e.printStackTrace();
             System.exit(1);
-        } catch (IllegalAccessException | InstantiationException e) {
-            log.log(Level.SEVERE,"touhou 9 is a not bad game");
-            e.printStackTrace();
-            System.exit(1);
         }
-    }
-
-    private static void registerModules() throws IllegalAccessException, InstantiationException {
-        //todo: reflect modules like how i practiced
-        registry.register();//the command system is a form of module
-        try {
-            modules.put("database", new DatabaseAdapter());
-            modules.put("music", new MusicAdapter());
-        }catch (NullPointerException ignored){}
-    }
-
-    public static String reloadModule(String name) {
-        try {
-            Adapter adapter = modules.get(name);
-            if (adapter==null)return "That's not a module";
-            adapter.reload();
-        }catch (Exception e){
-            //it catches general exceptions
-        }
-        return "not ready yet kiddo";
-    }
-
-    public static String unloadModule(String s) {
-        //registry.unload(s);
-        return "not ready yet kiddo";
     }
 }

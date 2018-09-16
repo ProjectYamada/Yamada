@@ -16,7 +16,11 @@ public class MuteCommand {
     Role role;
     List<Role> roles;
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
-        if (!event.getMember().hasPermission(Permission.KICK_MEMBERS)) GettingFiles.didYouJustTryThat(event.getChannel(),event.getAuthor().getIdLong());
+        if (!event.getMember().hasPermission(Permission.MANAGE_ROLES))
+        {
+            GettingFiles.didYouJustTryThat(event.getChannel(),event.getAuthor().getIdLong());
+            return;
+        }
         try {
             event.getGuild().getRoles().add(role.createCopy().setPermissions().setColor(0xff0000).complete());
             //event.getGuild().getController().addRolesToMember(event.getMessage().getMentionedMembers().get(0), event.getGuild().getRoles().get(event.getGuild().getRoles().size() - 1)).queue();

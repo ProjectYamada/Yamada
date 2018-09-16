@@ -1,27 +1,31 @@
 package com.yamada.notkayla.module;
 
-
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SanaeClassLoader extends ClassLoader {
+    private static Logger log = Logger.getLogger("SanaeLoader");
     @Override
     public Class<?> loadClass(String name) {
+        log.log(Level.INFO,name);
         return findClass(name);
     }
 
     @Override
     public Class<?> findClass(String s) {
         try {
+            if (s.contentEquals("com.yamada.notkayla.Kayla")) throw new IOException("this is bad practice but shut up lol");
             byte[] bytes = loadClassData(s);
             return defineClass(s, bytes, 0, bytes.length);
         } catch (IOException ioe) {
             try {
                 return super.loadClass(s);
             } catch (ClassNotFoundException ignore) { }
-            ioe.printStackTrace(System.out);
+            ioe.printStackTrace();
             return null;
         }
     }

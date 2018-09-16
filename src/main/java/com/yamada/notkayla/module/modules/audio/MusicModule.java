@@ -16,6 +16,7 @@ import net.dv8tion.jda.core.audio.AudioSendHandler;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
 
 import java.util.HashMap;
@@ -28,6 +29,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class MusicModule {
     private final AudioPlayerManager playerManager;
     private final Map<Long, GuildMusicManager> musicManagers;
+    private Map config; // saved from Kayla.configuration because of reflection issues
 
     public MusicModule() {
         playerManager = new DefaultAudioPlayerManager();
@@ -38,12 +40,12 @@ public class MusicModule {
     }
 
     // From the 1.3.0 demo of Lavaplayer.
-    private synchronized GuildMusicManager getGuildAudioPlayer(Guild guild) {
+    private synchronized GuildMusicManager getGuildAudioPlayer(Guild guild, TextChannel channel) {
         long guildId = Long.parseLong(guild.getId());
         GuildMusicManager musicManager = musicManagers.get(guildId);
 
         if (musicManager == null) {
-            musicManager = new GuildMusicManager(playerManager);
+            musicManager = new GuildMusicManager(playerManager,channel);
             musicManagers.put(guildId, musicManager);
         }
 
@@ -52,13 +54,16 @@ public class MusicModule {
         return musicManager;
     }
 
-    public void loadAndPlay(TextChannel channel, String trackURL) {
-        GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
+    public void loadAndPlay(GuildMessageReceivedEvent event, String trackURL) {
+        TextChannel textChannel = event.getChannel();
+        GuildMusicManager musicManager = getGuildAudioPlayer(event.getGuild(),event.getChannel());
 
         playerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
-                channel.sendMessage("Now playing: " + track.getInfo().title).queue();
+                textChannel.sendMessage("Now playing: " + track.getInfo().title).queue();
+
+                play(event, musicManager, track);
             }
 
             @Override
@@ -69,33 +74,43 @@ public class MusicModule {
                     firstTrack = playlist.getTracks().get(0);
                 }
 
-                channel.sendMessage("Adding to queue " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")").queue();
+                textChannel.sendMessage("Adding to queue " + firstTrack.getInfo().title + " (first track of playlist: " + playlist.getName() + ")").queue();
 
-                play(channel.getGuild(), musicManager, firstTrack);
+                play(event, musicManager, firstTrack);
             }
 
             @Override
             public void noMatches() {
-                channel.sendMessage("Can't find any matches. :(").queue();
+                textChannel.sendMessage("Can't find any matches. :(").queue();
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
-                channel.sendMessage("Not only did the loading fail, but what comes next will be a total disaster.").queue();
+                textChannel.sendMessage("Not only did the loading fail, but what comes next will be a total disaster.").queue();
             }
         });
     }
-    private void play(Guild guild, GuildMusicManager musicManager, AudioTrack track) {
-        connectToFirstVoiceChannel(guild.getAudioManager());
-
+    private void play(GuildMessageReceivedEvent event, GuildMusicManager musicManager, AudioTrack track) {
+        //connectToFirstVoiceChannel(guild.getAudioManager());
+        AudioManager audioManager = event.getGuild().getAudioManager();
+        if (!event.getMember().getVoiceState().inVoiceChannel()){
+            event.getChannel().sendMessage("You must be in "+(event.getGuild().getSelfMember().getVoiceState().inVoiceChannel()?"my":"a")+" voice chat to use my music commands.").queue();
+            return;
+        }
+        if (!event.getMember().getVoiceState().getChannel().getId().equals(audioManager.getConnectedChannel().getId())){
+            event.getChannel().sendMessage("You have to be in **my** voice chat to use my music commands.").queue();
+            return;
+        }
+        if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()){
+            audioManager.openAudioConnection(event.getMember().getVoiceState().getChannel());
+        }
         musicManager.scheduler.queue(track);
     }
 
     @SuppressWarnings("unused")
-    private void skipTrack(TextChannel channel) {
-        GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
+    public void skipTrack(TextChannel channel) {
+        GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild(),channel);
         musicManager.scheduler.nextTrack();
-
         channel.sendMessage("Skipped to next track.").queue();
     }
 
@@ -118,15 +133,20 @@ public class MusicModule {
          * Track scheduler for the player.
          */
         final TrackScheduler scheduler;
-
+        /**
+         * Text channel in which the bot was told to join
+         */
+        final TextChannel channel;
         /**
          * Creates a player and a track scheduler.
          * @param manager Audio player manager to use for creating the player.
+         * @param channel Text channel for sending messages informing the user of events.
          */
-        GuildMusicManager(AudioPlayerManager manager) {
+        GuildMusicManager(AudioPlayerManager manager, TextChannel channel) {
             player = manager.createPlayer();
-            scheduler = new TrackScheduler(player);
+            scheduler = new TrackScheduler(player,this);
             player.addListener(scheduler);
+            this.channel = channel;
         }
 
         /**
@@ -142,13 +162,15 @@ public class MusicModule {
     class TrackScheduler extends AudioEventAdapter {
         private final AudioPlayer player;
         private final BlockingQueue<AudioTrack> queue;
-
+        private final GuildMusicManager gm;
         /**
          * @param player The audio player this scheduler uses
+         * @param guildMusicManager does the thing
          */
-        TrackScheduler(AudioPlayer player) {
+        TrackScheduler(AudioPlayer player, GuildMusicManager guildMusicManager) {
             this.player = player;
             this.queue = new LinkedBlockingQueue<>();
+            gm = guildMusicManager;
         }
 
         /**
@@ -178,6 +200,10 @@ public class MusicModule {
         public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
             // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
             if (endReason.mayStartNext) {
+                if(queue.size() == 0){
+                    gm.channel.sendMessage("The queue is now empty. Add more songs!").queue();
+                    return;
+                }
                 nextTrack();
             }
         }

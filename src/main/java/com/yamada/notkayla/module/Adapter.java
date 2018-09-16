@@ -15,10 +15,10 @@ public abstract class Adapter {
     private static SanaeClassLoader cl = new SanaeClassLoader();
     private Object module;
 
-    protected Adapter(String classPath) throws IllegalAccessException, InstantiationException {
+    protected Adapter(String classPath,Map config) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         attachedClass = cl.loadClass(classPath);
         this.classPath = classPath;
-        module = attachedClass.newInstance();
+        module = attachedClass.getDeclaredConstructor(Map.class).newInstance(config);
         for(Method m : attachedClass.getMethods()) methods.put(m.getName(),m);
     }
 

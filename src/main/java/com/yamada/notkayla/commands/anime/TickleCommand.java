@@ -30,6 +30,7 @@ public class TickleCommand {
             JSONObject json = new JSONObject(responseBody);
             embed.setTitle("Tickle!", json.getString("url"));
             embed.setDescription(String.format("%s tickled %s. Awww...", event.getAuthor().getName(), member.getName()));
+            embed.setImage(json.getString("url"));
         } catch (Exception e) {
             // EMPTY WOO HOO
         }

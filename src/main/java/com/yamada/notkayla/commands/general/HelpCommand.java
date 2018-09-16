@@ -6,8 +6,11 @@ import com.yamada.notkayla.commands.CommandRegistry;
 import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import java.awt.Color;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Command(name = "help",group="general",description = "You're viewing it")
 public class HelpCommand {
@@ -18,20 +21,26 @@ public class HelpCommand {
         put("image",new Group("Image"));
         put("fun",new Group("Fun"));
     }};
-    public HelpCommand(){
+    public HelpCommand(Map<String,Object> commands) {
         embed.setColor(new Color(0xe91e63));
         embed.setTitle("Need some help?");//todo: set commands up :b:etter because i think it was my fault -Sanae
         embed.addField("Image", "`dog` - Fetches a random dog\n`cat` - Fetches a random cat\n`duck` - Fetches a random duck", false);
         embed.addField("Fun", "`meme` - Fetches a random meme\n`urban` - Look up Urban Dictionary definitions", false);
         embed.addField("Anime", "`danbooru` - Fetches an image from danbooru", false);
         embed.addField("Moderation", "`kick` - Kicks the specified user from your server\n`ban` - Bans the specified user from your server", false);
-        Kayla.registry.commands.forEach((cmdName,cmd)->{
-            Command command = cmd.cmd.getAnnotation(Command.class);
-            if (!command.hidden()) {
-                //add command to group
-                groupDefs.get(command.group()).commands.put(command.name(),command.description());
+        Logger logger = Logger.getLogger("Help");
+        /*commands.forEach((cmdName,cmd)->{
+            try {
+                Command command = cmd.getClass().getField("cmd").get(cmd.getClass().getField("instance")).getClass().getAnnotation(Command.class);
+                logger.log(Level.INFO,command.toString() );
+                if (!command.hidden()) {
+                    //add command to group
+                    groupDefs.get(command.group()).commands.put(command.name(),command.description());
+                }
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
             }
-        });
+        });*/
 
         /*
             then loop through the groups and add them field-group name newline-`command` - descr + usage
@@ -59,16 +68,10 @@ public class HelpCommand {
     }
     private class Group{
         String name;
+        @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
         Map<String, String> commands;
         Group(String name) {
             this.name = name;
         }
     }
 }
-/*
-@bot.event
-async def on_message(msg):
-    your code here
-#
-bot.run("token")
-*/
