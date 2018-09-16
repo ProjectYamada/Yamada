@@ -49,7 +49,8 @@ public class DatabaseModule {
         statements.put("guild",conn.prepareStatement("SELECT * from guilds WHERE gid = ?",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE));
         statements.put("user",conn.prepareStatement("select * from users where uid = ?",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE));
         statements.put("cUser",conn.prepareStatement("insert into users values (?,100)",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE));
-        statements.put("cGuild",conn.prepareStatement("insert into guilds values (?,"+(config.get("prefix") == null?"'!y'":config.get("prefix"))+",'FALSE')",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE));
+        String prefix = config.get("prefix") == null ? "'!y'" : (String) config.get("prefix");
+        statements.put("cGuild",conn.prepareStatement("insert into guilds values (?,"+prefix+",'FALSE')",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE));
     }
 
     //returns true if successful
