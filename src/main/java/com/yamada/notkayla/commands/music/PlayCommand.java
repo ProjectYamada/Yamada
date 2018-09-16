@@ -17,6 +17,10 @@ public class PlayCommand {
     private String display_track = "";
 
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
+        if (args.length == 1){
+            event.getChannel().sendMessage("Not enough arguments provided").queue();
+            return;
+        }
         AudioTrack[] track = new AudioTrack[5];
 
         // !yplay Gee Girls Generation
@@ -41,6 +45,6 @@ public class PlayCommand {
         display_track = "";
 
         // TODO: Add user input so we don't default to first thing on the search results.
-        Kayla.music.loadAndPlay(event.getChannel(), track[0].getInfo().uri);
+        Kayla.music.loadAndPlay(event, track[0].getInfo().uri);
     }
 }
