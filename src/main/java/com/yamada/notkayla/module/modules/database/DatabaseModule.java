@@ -16,17 +16,18 @@ import java.util.logging.Level;
 public class DatabaseModule {
     private static PGPooledConnection connection;
     private static Map<String, PreparedStatement> statements = new HashMap<>();
-    private static Map config;
+    private static Map<String,Object> config;
     public static void init(Map config) throws SQLException, ClassNotFoundException {
         try {
             Class.forName("org.postgresql.Driver");
             Map db = (Map) config.get("db");// we can manually set the host and database instead of making it
-            Kayla.log.log(Level.INFO,String.valueOf(db));
+            Kayla.log.log(Level.INFO,"username: "+db.get("user") +" password: "+ db.get("pass"));
             if (db.get("user") != null && db.get("pass") != null)connection = new PGPooledConnection(DriverManager.getConnection(
                     String.format("jdbc:postgresql://%s/%s?allowMultiQueries=true", db.get("host") == null ? "localhost:5433" : db.get("host"),
                             db.get("name") == null ? "yamada" : db.get("name")),(String) db.get("user"), (String) db.get("pass")),true );
             if (10 > connection.getConnection().getMetaData().getDatabaseMajorVersion()) throw new SQLException("Postgres major version must be 10 or newer. Current version: "+connection.getConnection().getMetaData().getDatabaseProductVersion());
             prepareStatements();
+            DatabaseModule.config = config;
         } catch (ClassNotFoundException e) {
             Kayla.log.log(Level.SEVERE,"Uh oh, looks like the driver wasn't found for the database ;P");
             e.printStackTrace();
