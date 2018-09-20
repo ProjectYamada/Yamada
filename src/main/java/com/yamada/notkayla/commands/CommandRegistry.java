@@ -48,28 +48,23 @@ public class CommandRegistry {
 
     public void run(String commandName, JDA bot, GuildMessageReceivedEvent event, String[] args) throws InvocationTargetException, IllegalAccessException {
         RegCommand regCommand = get(commandName);
-        if (regCommand.loaded)regCommand.run.invoke(regCommand.instance,bot,event,args);
+        regCommand.run.invoke(regCommand.instance,bot,event,args);
     }
-    public void reload(String commandName) throws InstantiationException, IllegalAccessException {
+    public void reload(String commandName) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         if (has(commandName)) {
             RegCommand reg = get(commandName);
-            reg.unload();
-            reg.load();
+            Kayla.log.log(Level.INFO,reg.cmd.getAnnotation(Command.class).name());
+            commands.remove(commandName);
+            commands.put(reg.cmd.getAnnotation(Command.class).name(),new RegCommand(reg.cmd.getPackage().getName()+"."+reg.cmd.getSimpleName()));
         }
     }
 
     public void load(String commandName) throws InstantiationException, IllegalAccessException {
-        if (!has(commandName)) {
-            RegCommand reg = get(commandName);
-            reg.load();
-        }
-
+        //to redo
     }
+
     public void unload(String commandName) {
-        if (has(commandName)) {
-            RegCommand reg = get(commandName);
-            reg.unload();
-        }
+        //to redo
     }
 
     @SuppressWarnings("unchecked")
@@ -78,28 +73,12 @@ public class CommandRegistry {
         public Class<?> cmd;
         public Object instance;
         public Method run;
-        boolean loaded;
         RegCommand(String aPackage) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
             packageName=aPackage;
             cmd = classLoader.loadClass(packageName);
             boolean i = aPackage.contains("HelpCommand");
             instance = i ? cmd.getConstructor(Map.class).newInstance(commands) : cmd.newInstance();
             run = new ArrayList<>(ReflectionUtils.getMethods(cmd, ReflectionUtils.withName("run"))).get(0);
-            loaded = true;
-        }
-        void unload() {
-            if (instance != null || cmd != null) {
-                instance = null;
-                cmd = null;
-            }
-            loaded = false;
-        }
-        void load() throws IllegalAccessException, InstantiationException {
-            if (instance == null) {
-                cmd = classLoader.loadClass(packageName);
-                instance = cmd.newInstance();
-            }
-            loaded = true;
         }
     }
 }
