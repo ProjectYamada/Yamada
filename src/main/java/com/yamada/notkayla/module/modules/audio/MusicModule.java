@@ -11,6 +11,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
+import com.yamada.notkayla.Kayla;
 import com.yamada.notkayla.module.Module;
 import net.dv8tion.jda.core.audio.AudioSendHandler;
 import net.dv8tion.jda.core.entities.Guild;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Level;
 
 @Module(name="audio",guarded = false)
 public class MusicModule {
@@ -104,6 +106,7 @@ public class MusicModule {
         if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()){
             audioManager.openAudioConnection(event.getMember().getVoiceState().getChannel());
         }
+        Kayla.log.log(Level.INFO,String.format("is connected %b, is trying to connect %b, user's vc id %s, yamada's vc id %s",audioManager.isConnected(), !audioManager.isAttemptingToConnect(),event.getMember().getVoiceState().getChannel().getId(),audioManager.getConnectedChannel().getId()));
         musicManager.scheduler.queue(track);
     }
 
