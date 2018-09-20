@@ -93,18 +93,22 @@ public class MusicModule {
         });
     }
     private void play(GuildMessageReceivedEvent event, GuildMusicManager musicManager, AudioTrack track) {
+        Kayla.log.log(Level.INFO,"-17");
         //connectToFirstVoiceChannel(guild.getAudioManager());
         AudioManager audioManager = event.getGuild().getAudioManager();
         if (!event.getMember().getVoiceState().inVoiceChannel()){
             event.getChannel().sendMessage("You must be in "+(event.getGuild().getSelfMember().getVoiceState().inVoiceChannel()?"my":"a")+" voice chat to use my music commands.").queue();
+            Kayla.log.log(Level.INFO,"1");
             return;
         }
         if (!event.getMember().getVoiceState().getChannel().getId().equals(audioManager.getConnectedChannel().getId())){
             event.getChannel().sendMessage("You have to be in **my** voice chat to use my music commands.").queue();
+            Kayla.log.log(Level.INFO,"2");
             return;
         }
         if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()){
             audioManager.openAudioConnection(event.getMember().getVoiceState().getChannel());
+            Kayla.log.log(Level.INFO,"3");
         }
         Kayla.log.log(Level.INFO,String.format("is connected %b, is trying to connect %b, user's vc id %s, yamada's vc id %s",audioManager.isConnected(), !audioManager.isAttemptingToConnect(),event.getMember().getVoiceState().getChannel().getId(),audioManager.getConnectedChannel().getId()));
         musicManager.scheduler.queue(track);
