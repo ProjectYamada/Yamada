@@ -126,7 +126,7 @@ public class MusicModule {
         channel.sendMessage("Skipped to next track.").queue();
     }
 
-    private static void connectToFirstVoiceChannel(AudioManager audioManager) {
+/*    private static void connectToFirstVoiceChannel(AudioManager audioManager) {
         if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
             List<VoiceChannel> voiceChannels = audioManager.getGuild().getVoiceChannels();
             VoiceChannel voiceChannel = null;
@@ -134,7 +134,7 @@ public class MusicModule {
             if (voiceChannel == null) return;
             audioManager.openAudioConnection(voiceChannel);
         }
-    }
+    }*/
 
     class GuildMusicManager {
         /**
