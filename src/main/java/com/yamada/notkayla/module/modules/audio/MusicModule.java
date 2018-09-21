@@ -101,15 +101,18 @@ public class MusicModule {
             Kayla.log.log(Level.INFO,"1");
             return;
         }
+        Kayla.log.log(Level.INFO,"-16");
         if (!event.getMember().getVoiceState().getChannel().getId().equals(audioManager.getConnectedChannel().getId())){
             event.getChannel().sendMessage("You have to be in **my** voice chat to use my music commands.").queue();
             Kayla.log.log(Level.INFO,"2");
             return;
         }
+        Kayla.log.log(Level.INFO,"-15");
         if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()){
             audioManager.openAudioConnection(event.getMember().getVoiceState().getChannel());
             Kayla.log.log(Level.INFO,"3");
         }
+        Kayla.log.log(Level.INFO,"-14");
         Kayla.log.log(Level.INFO,String.format("is connected %b, is trying to connect %b, user's vc id %s, yamada's vc id %s",audioManager.isConnected(), !audioManager.isAttemptingToConnect(),event.getMember().getVoiceState().getChannel().getId(),audioManager.getConnectedChannel().getId()));
         musicManager.scheduler.queue(track);
     }
