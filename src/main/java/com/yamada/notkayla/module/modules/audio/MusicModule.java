@@ -102,7 +102,7 @@ public class MusicModule {
             return;
         }
         Kayla.log.log(Level.INFO,"-16");
-        if (!event.getMember().getVoiceState().getChannel().getId().equals(audioManager.getConnectedChannel().getId())){
+        if (audioManager.isConnected() && audioManager.isAttemptingToConnect() && !event.getMember().getVoiceState().getChannel().getId().equals(audioManager.getConnectedChannel().getId())){
             event.getChannel().sendMessage("You have to be in **my** voice chat to use my music commands.").queue();
             Kayla.log.log(Level.INFO,"2");
             return;
