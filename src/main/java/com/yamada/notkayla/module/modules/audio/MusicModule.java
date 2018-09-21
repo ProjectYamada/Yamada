@@ -113,7 +113,9 @@ public class MusicModule {
             Kayla.log.log(Level.INFO,"3");
         }
         Kayla.log.log(Level.INFO,"-14");
-        Kayla.log.log(Level.INFO,String.format("is connected %b, is trying to connect %b, user's vc id %s, yamada's vc id %s",audioManager.isConnected(), !audioManager.isAttemptingToConnect(),event.getMember().getVoiceState().getChannel().getId(),audioManager.getConnectedChannel().getId()));
+        Kayla.log.log(Level.INFO,String.format("is connected %b, is trying to connect %b, user's vc id %s, yamada's vc id %s",audioManager.isConnected(), !audioManager.isAttemptingToConnect(),
+                event.getMember().getVoiceState().getChannel() == null ? "none":event.getMember().getVoiceState().getChannel().getId()
+                ,audioManager.getConnectedChannel()==null ? "none" : audioManager.getConnectedChannel().getId()));
         musicManager.scheduler.queue(track);
     }
 
