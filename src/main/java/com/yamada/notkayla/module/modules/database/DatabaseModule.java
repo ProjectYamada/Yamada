@@ -20,8 +20,7 @@ public class DatabaseModule {
     public static void init(Map config) throws SQLException, ClassNotFoundException {
         try {
             Class.forName("org.postgresql.Driver");
-            Map db = (Map) config.get("db");// we can manually set the host and database instead of making it
-            Kayla.log.log(Level.INFO, String.valueOf(config));
+            Map db = (Map) config.get("db");// we can manually set the host and database instead of making it required
             connection = new PGPooledConnection(DriverManager.getConnection(
                     String.format("jdbc:postgresql://%s/%s?allowMultiQueries=true", db.get("host") == null ? "localhost:5433" : db.get("host"),
                             db.get("name") == null ? "yamada" : db.get("name")),(String) db.get("user"), (String) db.get("pass")),true );

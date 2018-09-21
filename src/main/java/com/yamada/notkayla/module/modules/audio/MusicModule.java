@@ -93,9 +93,9 @@ public class MusicModule {
         });
     }
     private void play(GuildMessageReceivedEvent event, GuildMusicManager musicManager, AudioTrack track) {
-        Kayla.log.log(Level.INFO,"-17");
         //connectToFirstVoiceChannel(guild.getAudioManager());
         AudioManager audioManager = event.getGuild().getAudioManager();
+        Kayla.log.log(Level.INFO,"-17");
         if (!event.getMember().getVoiceState().inVoiceChannel()){
             event.getChannel().sendMessage("You must be in "+(event.getGuild().getSelfMember().getVoiceState().inVoiceChannel()?"my":"a")+" voice chat to use my music commands.").queue();
             Kayla.log.log(Level.INFO,"1");
