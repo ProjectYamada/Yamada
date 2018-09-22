@@ -223,8 +223,10 @@ public class MusicModule {
 
         @Override
         public void onTrackStart(AudioPlayer player, AudioTrack track) {
-            stopping.cancel();
-            stopping = null;
+            if (stopping != null) {
+                stopping.cancel();
+                stopping = null;
+            }
             Member m = (Member) track.getUserData();
             gm.channel.sendMessage(new EmbedBuilder().setTitle("Now playing")
                     .setDescription(track.getInfo().title)
