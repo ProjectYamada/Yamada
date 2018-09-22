@@ -233,7 +233,8 @@ public class MusicModule {
             gm.channel.sendMessage(new EmbedBuilder().setTitle("Now playing")
                     .setDescription(track.getInfo().title)
                     .setAuthor(m.getEffectiveName(),"",m.getUser().getEffectiveAvatarUrl())
-                    .build()).queue();
+                    .build()).complete();
+            Kayla.log.log(Level.INFO,"7");
         }
 
         @Override
