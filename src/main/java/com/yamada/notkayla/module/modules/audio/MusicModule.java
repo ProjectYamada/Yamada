@@ -223,11 +223,14 @@ public class MusicModule {
 
         @Override
         public void onTrackStart(AudioPlayer player, AudioTrack track) {
+            Kayla.log.log(Level.INFO,"4");
             if (stopping != null) {
                 stopping.cancel();
                 stopping = null;
             }
+            Kayla.log.log(Level.INFO,"5");
             Member m = (Member) track.getUserData();
+            Kayla.log.log(Level.INFO,"6");
             gm.channel.sendMessage(new EmbedBuilder().setTitle("Now playing")
                     .setDescription(track.getInfo().title)
                     .setAuthor(m.getEffectiveName(),"",m.getUser().getEffectiveAvatarUrl())
