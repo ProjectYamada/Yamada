@@ -32,7 +32,6 @@ import java.util.logging.Level;
 public class MusicModule {
     private final AudioPlayerManager playerManager;
     private final Map<Long, GuildMusicManager> musicManagers;
-    private Map config; // saved from Kayla.configuration because of reflection issues
 
     public MusicModule() {
         playerManager = new DefaultAudioPlayerManager();
@@ -44,7 +43,7 @@ public class MusicModule {
 
     // From the 1.3.0 demo of Lavaplayer.
     private synchronized GuildMusicManager getGuildAudioPlayer(Guild guild, TextChannel channel) {
-        long guildId = Long.parseLong(guild.getId());
+        long guildId = guild.getIdLong();
         GuildMusicManager musicManager = musicManagers.get(guildId);
 
         if (musicManager == null) {
@@ -250,7 +249,7 @@ public class MusicModule {
                             .setDescription("Add more songs!")
                             .setFooter("I'll disconnect in 10 minutes if you don't add any more.",
                                     gm.channel.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                            .build()).queue();
+                            .build()).complete();
                     stopping = new Timeout(600000, this::stop);
                     return;
                 }
