@@ -93,27 +93,20 @@ public class MusicModule {
     private void play(GuildMessageReceivedEvent event, GuildMusicManager musicManager, AudioTrack track) {
         //connectToFirstVoiceChannel(guild.getAudioManager());
         AudioManager audioManager = event.getGuild().getAudioManager();
-        Kayla.log.log(Level.INFO,"-17");
         if (!event.getMember().getVoiceState().inVoiceChannel()){
             event.getChannel().sendMessage("You must be in "+(event.getGuild().getSelfMember().getVoiceState().inVoiceChannel()?"my":"a")+" voice chat to use my music commands.").queue();
-            Kayla.log.log(Level.INFO,"1");
             return;
         }
-        Kayla.log.log(Level.INFO,"-16");
         if (audioManager.isConnected() && audioManager.isAttemptingToConnect() && !event.getMember().getVoiceState().getChannel().getId().equals(audioManager.getConnectedChannel().getId())){
             event.getChannel().sendMessage("You have to be in **my** voice chat to use my music commands.").queue();
-            Kayla.log.log(Level.INFO,"2");
             return;
         }
-        Kayla.log.log(Level.INFO,"-15");
         if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()){
             audioManager.openAudioConnection(event.getMember().getVoiceState().getChannel());
-            Kayla.log.log(Level.INFO,"3");
         }
-        Kayla.log.log(Level.INFO,"-14");
-        Kayla.log.log(Level.INFO,String.format("is connected %b, is trying to connect %b, user's vc id %s, yamada's vc id %s",audioManager.isConnected(), !audioManager.isAttemptingToConnect(),
-                event.getMember().getVoiceState().getChannel() == null ? "none":event.getMember().getVoiceState().getChannel().getId()
-                ,audioManager.getConnectedChannel()==null ? "none" : audioManager.getConnectedChannel().getId()));
+//        Kayla.log.log(Level.INFO,String.format("is connected %b, is trying to connect %b, user's vc id %s, yamada's vc id %s",audioManager.isConnected(), !audioManager.isAttemptingToConnect(),
+//                event.getMember().getVoiceState().getChannel() == null ? "none":event.getMember().getVoiceState().getChannel().getId()
+//                ,audioManager.getConnectedChannel()==null ? "none" : audioManager.getConnectedChannel().getId()));
         track.setUserData(event.getMember());
         musicManager.scheduler.queue(track);
     }
@@ -222,19 +215,15 @@ public class MusicModule {
 
         @Override
         public void onTrackStart(AudioPlayer player, AudioTrack track) {
-            Kayla.log.log(Level.INFO,"4");
             if (stopping != null) {
                 stopping.cancel();
                 stopping = null;
             }
-            Kayla.log.log(Level.INFO,"5");
             Member m = (Member) track.getUserData();
-            Kayla.log.log(Level.INFO,"6");
             gm.channel.sendMessage(new EmbedBuilder().setTitle("Now playing")
                     .setDescription(track.getInfo().title)
-                    .setAuthor(m.getEffectiveName(),"",m.getUser().getEffectiveAvatarUrl())
-                    .build()).complete();
-            Kayla.log.log(Level.INFO,"7");
+                    .setAuthor(m.getEffectiveName(),null,m.getUser().getEffectiveAvatarUrl())
+                    .build()).queue();
         }
 
         @Override
