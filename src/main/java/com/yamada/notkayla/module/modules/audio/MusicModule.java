@@ -121,7 +121,6 @@ public class MusicModule {
     public void stop(GuildMessageReceivedEvent event) {
         GuildMusicManager musicManager = getGuildAudioPlayer(event.getGuild(),event.getChannel());
         musicManager.scheduler.stop();
-        event.getGuild().getAudioManager().closeAudioConnection();
         event.getChannel().sendMessage("Cleared the queue and left the channel.").queue();
     }
 
@@ -200,6 +199,7 @@ public class MusicModule {
         }
 
         void stop(){
+            gm.channel.getGuild().getAudioManager().closeAudioConnection();
             player.destroy();
             queue.clear();
         }
@@ -240,7 +240,7 @@ public class MusicModule {
                             .setFooter("I'll disconnect in 10 minutes if you don't add any more.",
                                     gm.channel.getJDA().getSelfUser().getEffectiveAvatarUrl())
                             .build()).complete();
-                    stopping = new Timeout(600000, this::stop);
+                    stopping = new Timeout(60000, this::stop);
                     return;
                 }
                 nextTrack();
