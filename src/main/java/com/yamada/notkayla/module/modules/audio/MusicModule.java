@@ -63,6 +63,7 @@ public class MusicModule {
         playerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
+                musicManager.channel.sendMessage("Added first track to queue (because we don't have custom selection)").queue();
                 play(event, musicManager, track);
             }
 
