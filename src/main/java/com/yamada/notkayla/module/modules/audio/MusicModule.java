@@ -116,7 +116,7 @@ public class MusicModule {
     public void skipTrack(GuildMessageReceivedEvent event) {
         GuildMusicManager musicManager = getGuildAudioPlayer(event.getGuild(),event.getChannel());
         musicManager.scheduler.nextTrack();
-        if (musicManager.scheduler.queue.isEmpty())event.getChannel().sendMessage("Skipped to next track.").queue();
+        if (!musicManager.scheduler.queue.isEmpty())event.getChannel().sendMessage("Skipped to next track.").queue();
     }
 
     public void stop(GuildMessageReceivedEvent event) {
