@@ -115,7 +115,7 @@ public class MusicModule {
     public void skipTrack(GuildMessageReceivedEvent event) {
         GuildMusicManager musicManager = getGuildAudioPlayer(event.getGuild(),event.getChannel());
         musicManager.scheduler.nextTrack();
-        event.getChannel().sendMessage("Skipped to next track.").queue();
+        if (musicManager.scheduler.queue.isEmpty())event.getChannel().sendMessage("Skipped to next track.").queue();
     }
 
     public void stop(GuildMessageReceivedEvent event) {
@@ -229,7 +229,7 @@ public class MusicModule {
         @Override
         public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
             // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
-            if (endReason.mayStartNext) {
+            if (endReason.mayStartNext || endReason == AudioTrackEndReason.REPLACED) {
                 if (endReason == AudioTrackEndReason.LOAD_FAILED){
                     gm.channel.sendMessage("Could not load " + track.getInfo().title + (queue.size() ==0? ". ":", skipping to next song in queue.")).queue();
                 }
