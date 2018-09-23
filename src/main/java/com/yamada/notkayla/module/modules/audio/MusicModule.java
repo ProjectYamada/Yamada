@@ -241,7 +241,12 @@ public class MusicModule {
                             .setFooter("I'll disconnect in 10 minutes if you don't add any more.",
                                     gm.channel.getJDA().getSelfUser().getEffectiveAvatarUrl())
                             .build()).complete();
-                    stopping = new Timeout(60000, this::stop);
+                    stopping = new Timeout(6000, this::stop);
+                    try {
+                        stopping.start();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     return;
                 }
                 nextTrack();
