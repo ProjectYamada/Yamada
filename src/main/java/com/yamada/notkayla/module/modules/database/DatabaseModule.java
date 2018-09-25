@@ -20,15 +20,14 @@ public class DatabaseModule {
     public static void init(Map config) throws SQLException, ClassNotFoundException {
         try {
             Class.forName("org.postgresql.Driver");
-            Map db = (Map) config.get("db");// we can manually set the host and database instead of making it
-            Kayla.log.log(Level.INFO, String.valueOf(config));
+            Map db = (Map) config.get("db");// we can manually set the host and database instead of making it required
             connection = new PGPooledConnection(DriverManager.getConnection(
                     String.format("jdbc:postgresql://%s/%s?allowMultiQueries=true", db.get("host") == null ? "localhost:5433" : db.get("host"),
                             db.get("name") == null ? "yamada" : db.get("name")),(String) db.get("user"), (String) db.get("pass")),true );
 
             if (10 > connection.getConnection().getMetaData().getDatabaseMajorVersion()) throw new SQLException("Postgres major version must be 10 or newer. Current version: "+connection.getConnection().getMetaData().getDatabaseProductVersion());
-            prepareStatements();
             DatabaseModule.config = config;
+            prepareStatements();
         } catch (ClassNotFoundException e) {
             Kayla.log.log(Level.SEVERE,"Uh oh, looks like the driver wasn't found for the database ;P");
             e.printStackTrace();
@@ -49,7 +48,7 @@ public class DatabaseModule {
         statements.put("guild",conn.prepareStatement("SELECT * from guilds WHERE gid = ?",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE));
         statements.put("user",conn.prepareStatement("select * from users where uid = ?",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE));
         statements.put("cUser",conn.prepareStatement("insert into users values (?,100)",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE));
-        String prefix = config.get("prefix") == null ? "'!y'" : (String) config.get("prefix");
+        String prefix = config.get("prefix") == null ? "'!y'" : "'"+(String) config.get("prefix")+"'";
         statements.put("cGuild",conn.prepareStatement("insert into guilds values (?,"+prefix+",'FALSE')",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE));
     }
 

@@ -13,10 +13,10 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 @Command(name="play", description = "Play something.", group = "music")
 public class PlayCommand {
     private YoutubeSearchProvider searchProvider = new YoutubeSearchProvider(new YoutubeAudioSourceManager());
-    private EmbedBuilder embed = new EmbedBuilder();
-    private String display_track = "";
+//    private String display_track = "";
 
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
+        EmbedBuilder embed = new EmbedBuilder();
         if (args.length == 1){
             event.getChannel().sendMessage("Not enough arguments provided").queue();
             return;
@@ -33,16 +33,16 @@ public class PlayCommand {
         BasicAudioPlaylist playlist = (BasicAudioPlaylist) searchProvider.loadSearchResult(term.toString().substring(0, term.length() - 1));
         for (int i = 0; i < 5; i++) {
             track[i] = playlist.getTracks().get(i);
-            display_track += "**[" + (i+1) + ". " + track[i].getInfo().title + "](" + track[i].getInfo().uri + ")**\n";
+            embed.addField("\\u200","**[" + (i+1) + ". " + track[i].getInfo().title + "](" + track[i].getInfo().uri + ")**",false);
         }
         embed.setTitle(playlist.getName().replace("+", " "));
-        embed.addField("Results: \n", display_track, false);
+//        embed.addField("Results: \n", display_track, false);
         embed.setFooter(String.format("Requested by %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
         event.getChannel().sendMessage(embed.build()).queue();
 
-        // Clear the used variables.
-        embed.clear();
-        display_track = "";
+//        Clear the used variables.
+//        embed.clear();
+//        display_track = "";
 
         // TODO: Add user input so we don't default to first thing on the search results.
         Kayla.music.loadAndPlay(event, track[0].getInfo().uri);

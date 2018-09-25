@@ -28,6 +28,7 @@ public class HelpCommand {
         embed.addField("Fun", "`meme` - Fetches a random meme\n`urban` - Look up Urban Dictionary definitions", false);
         embed.addField("Anime", "`danbooru` - Fetches an image from danbooru", false);
         embed.addField("Moderation", "`kick` - Kicks the specified user from your server\n`ban` - Bans the specified user from your server", false);
+        embed.addField("Music","`play` - Plays music using the specified search text\n`skip` - Skips a song in the queue\n`stop` - Stops the queue if not empty and disconnects from the voice chat",false);
         Logger logger = Logger.getLogger("Help");
         /*commands.forEach((cmdName,cmd)->{
             try {

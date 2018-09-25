@@ -26,7 +26,7 @@ public class EuthanizeCommand {
                 event.getGuild().getController().ban(event.getGuild().getMember(event.getMessage().getMentionedUsers().get(0)), 0, String.valueOf(reason)).queue();
             }
         } catch (Exception e) {
-            event.getChannel().sendMessage("I couldn't euthanized the specified user.").queue();
+            event.getChannel().sendMessage("I couldn't euthanize the specified user.").queue();
             return;
         }
         event.getChannel().sendMessage("I successfully euthanized " + event.getMessage().getMentionedUsers().get(0).getName() + ".").queue();

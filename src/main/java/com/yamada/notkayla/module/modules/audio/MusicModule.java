@@ -11,25 +11,27 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
+import com.yamada.notkayla.Kayla;
 import com.yamada.notkayla.module.Module;
+import com.yamada.notkayla.utils.Timeout;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.audio.AudioSendHandler;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Level;
 
 @Module(name="audio",guarded = false)
 public class MusicModule {
     private final AudioPlayerManager playerManager;
     private final Map<Long, GuildMusicManager> musicManagers;
-    private Map config; // saved from Kayla.configuration because of reflection issues
 
     public MusicModule() {
         playerManager = new DefaultAudioPlayerManager();
@@ -41,7 +43,7 @@ public class MusicModule {
 
     // From the 1.3.0 demo of Lavaplayer.
     private synchronized GuildMusicManager getGuildAudioPlayer(Guild guild, TextChannel channel) {
-        long guildId = Long.parseLong(guild.getId());
+        long guildId = guild.getIdLong();
         GuildMusicManager musicManager = musicManagers.get(guildId);
 
         if (musicManager == null) {
@@ -61,8 +63,7 @@ public class MusicModule {
         playerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
-                textChannel.sendMessage("Now playing: " + track.getInfo().title).queue();
-
+                musicManager.channel.sendMessage("Added first track to queue (because we don't have custom selection)").queue();
                 play(event, musicManager, track);
             }
 
@@ -91,37 +92,33 @@ public class MusicModule {
         });
     }
     private void play(GuildMessageReceivedEvent event, GuildMusicManager musicManager, AudioTrack track) {
-        //connectToFirstVoiceChannel(guild.getAudioManager());
         AudioManager audioManager = event.getGuild().getAudioManager();
         if (!event.getMember().getVoiceState().inVoiceChannel()){
             event.getChannel().sendMessage("You must be in "+(event.getGuild().getSelfMember().getVoiceState().inVoiceChannel()?"my":"a")+" voice chat to use my music commands.").queue();
             return;
         }
-        if (!event.getMember().getVoiceState().getChannel().getId().equals(audioManager.getConnectedChannel().getId())){
+        if (audioManager.isConnected() && audioManager.isAttemptingToConnect() && !event.getMember().getVoiceState().getChannel().getId().equals(audioManager.getConnectedChannel().getId())){
             event.getChannel().sendMessage("You have to be in **my** voice chat to use my music commands.").queue();
             return;
         }
         if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()){
             audioManager.openAudioConnection(event.getMember().getVoiceState().getChannel());
         }
+        track.setUserData(event.getMember());
         musicManager.scheduler.queue(track);
     }
 
     @SuppressWarnings("unused")
-    public void skipTrack(TextChannel channel) {
-        GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild(),channel);
+    public void skipTrack(GuildMessageReceivedEvent event) {
+        GuildMusicManager musicManager = getGuildAudioPlayer(event.getGuild(),event.getChannel());
         musicManager.scheduler.nextTrack();
-        channel.sendMessage("Skipped to next track.").queue();
+        if (!musicManager.scheduler.queue.isEmpty())event.getChannel().sendMessage("Skipped to next track.").queue();
     }
 
-    private static void connectToFirstVoiceChannel(AudioManager audioManager) {
-        if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
-            List<VoiceChannel> voiceChannels = audioManager.getGuild().getVoiceChannels();
-            VoiceChannel voiceChannel = null;
-            if(voiceChannels.size() != 0) voiceChannel = voiceChannels.get(0);
-            if (voiceChannel == null) return;
-            audioManager.openAudioConnection(voiceChannel);
-        }
+    public void stop(GuildMessageReceivedEvent event) {
+        GuildMusicManager musicManager = getGuildAudioPlayer(event.getGuild(),event.getChannel());
+        musicManager.scheduler.stop();
+        event.getChannel().sendMessage("Cleared the queue and left the channel.").queue();
     }
 
     class GuildMusicManager {
@@ -163,6 +160,7 @@ public class MusicModule {
         private final AudioPlayer player;
         private final BlockingQueue<AudioTrack> queue;
         private final GuildMusicManager gm;
+        private Timeout stopping;
         /**
          * @param player The audio player this scheduler uses
          * @param guildMusicManager does the thing
@@ -187,6 +185,12 @@ public class MusicModule {
             }
         }
 
+        void stop(){
+            gm.channel.getGuild().getAudioManager().closeAudioConnection();
+            player.destroy();
+            queue.clear();
+        }
+
         /**
          * Start the next track, stopping the current one if it is playing.
          */
@@ -197,11 +201,38 @@ public class MusicModule {
         }
 
         @Override
+        public void onTrackStart(AudioPlayer player, AudioTrack track) {
+            if (stopping != null) {
+                stopping.cancel();
+                stopping = null;
+            }
+            Member m = (Member) track.getUserData();
+            gm.channel.sendMessage(new EmbedBuilder().setTitle("Now playing")
+                    .setDescription(track.getInfo().title)
+                    .setAuthor(m.getEffectiveName(),null,m.getUser().getEffectiveAvatarUrl())
+                    .build()).queue();
+        }
+
+        @Override
         public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
             // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
-            if (endReason.mayStartNext) {
+            if (endReason.mayStartNext || endReason == AudioTrackEndReason.REPLACED) {
+                if (endReason == AudioTrackEndReason.LOAD_FAILED){
+                    gm.channel.sendMessage("Could not load " + track.getInfo().title + (queue.size() ==0? ". ":", skipping to next song in queue.")).queue();
+                }
                 if(queue.size() == 0){
-                    gm.channel.sendMessage("The queue is now empty. Add more songs!").queue();
+                    gm.channel.sendMessage(new EmbedBuilder()
+                            .setTitle("The queue is now empty.")
+                            .setDescription("Add more songs!")
+                            .setFooter("I'll disconnect in 10 minutes if you don't add any more.",
+                                    gm.channel.getJDA().getSelfUser().getEffectiveAvatarUrl())
+                            .build()).complete();
+                    stopping = new Timeout(600000, this::stop);
+                    try {
+                        stopping.start();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     return;
                 }
                 nextTrack();
