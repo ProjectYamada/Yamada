@@ -31,7 +31,8 @@ public class PlayCommand {
 
         // Our search results return as a playlist. We will only get the first 5 in that list.
         BasicAudioPlaylist playlist = (BasicAudioPlaylist) searchProvider.loadSearchResult(term.toString().substring(0, term.length() - 1));
-        for (int i = 0; i < 5; i++) {
+        int size = playlist.getTracks().size() > 5 ? 5 : playlist.getTracks().size();
+        for (int i = 0; i < size; i++) {
             track[i] = playlist.getTracks().get(i);
             embed.addField("\\u200","**[" + (i+1) + ". " + track[i].getInfo().title + "](" + track[i].getInfo().uri + ")**",false);
         }
