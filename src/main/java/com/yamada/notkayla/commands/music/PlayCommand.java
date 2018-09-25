@@ -33,7 +33,7 @@ public class PlayCommand {
         BasicAudioPlaylist playlist = (BasicAudioPlaylist) searchProvider.loadSearchResult(term.toString().substring(0, term.length() - 1));
         for (int i = 0; i < 5; i++) {
             track[i] = playlist.getTracks().get(i);
-            embed.addField("**[" + (i+1) + ". " + track[i].getInfo().title + "]","(" + track[i].getInfo().uri + ")**",false);
+            embed.addField("**[" + (i+1) + ". " + track[i].getInfo().title + "]**","**(" + track[i].getInfo().uri + ")**",false);
         }
         embed.setTitle(playlist.getName().replace("+", " "));
 //        embed.addField("Results: \n", display_track, false);
