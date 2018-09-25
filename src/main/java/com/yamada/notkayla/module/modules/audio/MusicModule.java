@@ -92,7 +92,6 @@ public class MusicModule {
         });
     }
     private void play(GuildMessageReceivedEvent event, GuildMusicManager musicManager, AudioTrack track) {
-        //connectToFirstVoiceChannel(guild.getAudioManager());
         AudioManager audioManager = event.getGuild().getAudioManager();
         if (!event.getMember().getVoiceState().inVoiceChannel()){
             event.getChannel().sendMessage("You must be in "+(event.getGuild().getSelfMember().getVoiceState().inVoiceChannel()?"my":"a")+" voice chat to use my music commands.").queue();
@@ -105,9 +104,6 @@ public class MusicModule {
         if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()){
             audioManager.openAudioConnection(event.getMember().getVoiceState().getChannel());
         }
-//        Kayla.log.log(Level.INFO,String.format("is connected %b, is trying to connect %b, user's vc id %s, yamada's vc id %s",audioManager.isConnected(), !audioManager.isAttemptingToConnect(),
-//                event.getMember().getVoiceState().getChannel() == null ? "none":event.getMember().getVoiceState().getChannel().getId()
-//                ,audioManager.getConnectedChannel()==null ? "none" : audioManager.getConnectedChannel().getId()));
         track.setUserData(event.getMember());
         musicManager.scheduler.queue(track);
     }
@@ -124,16 +120,6 @@ public class MusicModule {
         musicManager.scheduler.stop();
         event.getChannel().sendMessage("Cleared the queue and left the channel.").queue();
     }
-
-/*    private static void connectToFirstVoiceChannel(AudioManager audioManager) {
-        if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
-            List<VoiceChannel> voiceChannels = audioManager.getGuild().getVoiceChannels();
-            VoiceChannel voiceChannel = null;
-            if(voiceChannels.size() != 0) voiceChannel = voiceChannels.get(0);
-            if (voiceChannel == null) return;
-            audioManager.openAudioConnection(voiceChannel);
-        }
-    }*/
 
     class GuildMusicManager {
         /**
