@@ -6,5 +6,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 @Command(name="sel",group = "general")
 public class SelectCommand {
-    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args){}
+    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args){
+        //TODO: Handle selection from SelectionManager
+    }
 }

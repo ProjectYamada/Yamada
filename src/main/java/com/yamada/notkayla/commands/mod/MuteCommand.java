@@ -22,8 +22,7 @@ public class MuteCommand {
             return;
         }
         try {
-            event.getGuild().getRoles().add(role.createCopy().setPermissions().setColor(0xff0000).complete());
-            //event.getGuild().getController().addRolesToMember(event.getMessage().getMentionedMembers().get(0), event.getGuild().getRoles().get(event.getGuild().getRoles().size() - 1)).queue();
+
         } catch (Exception e) {
             event.getChannel().sendMessage("I couldn't mute the specified user.").queue();
             return;
