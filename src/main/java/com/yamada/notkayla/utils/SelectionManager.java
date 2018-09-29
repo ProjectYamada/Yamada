@@ -11,7 +11,7 @@ public class SelectionManager {
     private static Map<Long,Selection> selectionMap = new HashMap<>();
 
     public static Selection requestSelection(Long uid,int lowest,int highest){
-        Selection selection = new Selection();
+        Selection selection = new Selection(lowest, highest);
         selectionMap.put(uid,selection);
         return selection;
     }
