@@ -1,20 +1,14 @@
 package com.yamada.notkayla.utils;
 
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
-import java.util.function.Supplier;
 
 public class SelectionManager {
     //direct access is not ok for these two maps hence the privacy
     private static Map<Long,Selection> selectionMap = new HashMap<>();
-    private static Map<Long,Integer> selected;
 
     public static Selection requestSelection(Long uid,int lowest,int highest){
         Selection selection = new Selection();
@@ -24,18 +18,24 @@ public class SelectionManager {
     public static boolean select(User user, int userSelection){
         if (selectionMap.containsKey(user.getIdLong())) {
             Selection selection = selectionMap.get(user.getIdLong());
+            selection.selected = userSelection;
             selection.hasSelected.countDown();
         }
         return false;
     }
 
     private static class Selection{
-        public CountDownLatch hasSelected = new CountDownLatch(1);
-        public void start(){
-
+        int selected = 0;  /// zero is null equivalent | 0 == not a number or not between the scale provided in request
+        final int lowest; //must not be zero
+        final int highest; // must not be lower than lowest
+        Selection(int lowest, int highest){
+            this.lowest = lowest;
+            this.highest = highest;
         }
-        public void get(){
-
+        CountDownLatch hasSelected = new CountDownLatch(1);
+        public int get() throws InterruptedException {
+            hasSelected.await();
+            return selected;
         }
     }
 }
