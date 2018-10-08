@@ -40,11 +40,11 @@ public class PlayCommand {
             embed.addField("\\u200b","**[" + (i+1) + ". " + track[i].getInfo().title + "](" + track[i].getInfo().uri + ")**",false);
         }
         embed.setTitle(playlist.getName().replace("+", " "));
+        embed.setDescription("Use !ysel <number> to select a song.");
         embed.setFooter(String.format("Requested by %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
         event.getChannel().sendMessage(embed.build()).submit();
         SelectionManager.Selection selection = SelectionManager.requestSelection(event.getAuthor().getIdLong(), 1, 5,1);
         selection.get().whenComplete((integer, throwable) -> {
-            // TODO: Add user input so we don't default to first thing on the search results.
             Kayla.music.loadAndPlay(event, track[integer -1].getInfo().uri);
         });
     }

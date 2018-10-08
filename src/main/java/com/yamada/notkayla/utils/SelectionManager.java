@@ -50,17 +50,14 @@ public class SelectionManager {
         }
         CountDownLatch hasSelected = new CountDownLatch(1);
         public CompletableFuture<Integer> get() {
-            return CompletableFuture.supplyAsync(new Supplier<Integer>() {
-                @Override
-                public Integer get() {
-                    try {
-                        hasSelected.await();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    if (selected > lowest && selected < highest) selected = def;
-                    return selected;
+            return CompletableFuture.supplyAsync(() -> {
+                try {
+                    hasSelected.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+                if (selected > lowest && selected < highest) selected = def;
+                return selected;
             });
         }
     }
