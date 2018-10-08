@@ -4,7 +4,9 @@ import net.dv8tion.jda.core.entities.User;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
+import java.util.function.Supplier;
 
 public class SelectionManager {
     //direct access is not ok for these two maps hence the privacy
@@ -47,10 +49,19 @@ public class SelectionManager {
             this.def = def;
         }
         CountDownLatch hasSelected = new CountDownLatch(1);
-        public int get() throws InterruptedException {
-            hasSelected.await();
-            if (selected > lowest && selected < highest) selected = def;
-            return selected;
+        public CompletableFuture<Integer> get() {
+            return CompletableFuture.supplyAsync(new Supplier<Integer>() {
+                @Override
+                public Integer get() {
+                    try {
+                        hasSelected.await();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (selected > lowest && selected < highest) selected = def;
+                    return selected;
+                }
+            });
         }
     }
 }

@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 public class PlayCommand {
     private YoutubeSearchProvider searchProvider = new YoutubeSearchProvider(new YoutubeAudioSourceManager());
 
-    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) throws InterruptedException {
+    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) throws InterruptedException, ExecutionException {
         EmbedBuilder embed = new EmbedBuilder();
         if (args.length == 1){
             event.getChannel().sendMessage("Not enough arguments provided").queue();
@@ -42,7 +42,7 @@ public class PlayCommand {
         embed.setFooter(String.format("Requested by %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
         event.getChannel().sendMessage(embed.build()).submit();
         SelectionManager.Selection selection = SelectionManager.requestSelection(event.getAuthor().getIdLong(), 1, 5,1);
-        int selected = selection.get();
+        int selected = selection.get().get();
         // TODO: Add user input so we don't default to first thing on the search results.
         Kayla.music.loadAndPlay(event, track[selected].getInfo().uri);
     }
