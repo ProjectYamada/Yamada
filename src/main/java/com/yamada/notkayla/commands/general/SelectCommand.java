@@ -1,9 +1,12 @@
 package com.yamada.notkayla.commands.general;
 
+import com.yamada.notkayla.Kayla;
 import com.yamada.notkayla.commands.Command;
 import com.yamada.notkayla.utils.SelectionManager;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+
+import java.util.logging.Level;
 
 @Command(name="sel",group = "general")
 public class SelectCommand {
@@ -24,6 +27,7 @@ public class SelectCommand {
             event.getChannel().sendMessage("Selection is not a proper number, choosing default selection.").queue();
             sel = 0;
         }
+        Kayla.log.log(Level.INFO,event.getAuthor().getName() + " chose " + sel);
         SelectionManager.select(event.getAuthor().getIdLong(), sel);
     }
 }
