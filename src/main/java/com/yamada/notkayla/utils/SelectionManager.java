@@ -56,6 +56,7 @@ public class SelectionManager {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                if (selected == 0) selected = def;
                 if (selected < lowest && selected > highest) selected = def;
                 return selected;
             });
