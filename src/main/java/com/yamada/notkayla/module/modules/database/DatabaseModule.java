@@ -42,7 +42,7 @@ public class DatabaseModule {
             throw e;
         }
     }
-
+    //TODO: update statements
     private static void prepareStatements() throws SQLException {
         Connection conn = connection.getConnection();
         statements.put("guild",conn.prepareStatement("SELECT * from guilds WHERE gid = ?",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE));

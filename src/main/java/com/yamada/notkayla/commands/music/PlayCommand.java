@@ -16,9 +16,8 @@ import java.util.concurrent.ExecutionException;
 @Command(name="play", description = "Play something.", group = "music")
 public class PlayCommand {
     private YoutubeSearchProvider searchProvider = new YoutubeSearchProvider(new YoutubeAudioSourceManager());
-//    private String display_track = "";
 
-    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) throws ExecutionException, InterruptedException {
+    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) throws InterruptedException {
         EmbedBuilder embed = new EmbedBuilder();
         if (args.length == 1){
             event.getChannel().sendMessage("Not enough arguments provided").queue();
@@ -40,16 +39,11 @@ public class PlayCommand {
             embed.addField("\\u200b","**[" + (i+1) + ". " + track[i].getInfo().title + "](" + track[i].getInfo().uri + ")**",false);
         }
         embed.setTitle(playlist.getName().replace("+", " "));
-//        embed.addField("Results: \n", display_track, false);
         embed.setFooter(String.format("Requested by %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
         event.getChannel().sendMessage(embed.build()).submit();
-
-//        Clear the used variables.
-//        embed.clear();
-//        display_track = "";
-        //SelectionManager.requestSelection(1,size).get(); selections currently incomplete
-        //will work on soon
+        SelectionManager.Selection selection = SelectionManager.requestSelection(event.getAuthor().getIdLong(), 1, 5,1);
+        int selected = selection.get();
         // TODO: Add user input so we don't default to first thing on the search results.
-        Kayla.music.loadAndPlay(event, track[0].getInfo().uri);
+        Kayla.music.loadAndPlay(event, track[selected].getInfo().uri);
     }
 }
