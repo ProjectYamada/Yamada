@@ -6,14 +6,17 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.BasicAudioPlaylist;
 import com.yamada.notkayla.Kayla;
 import com.yamada.notkayla.commands.Command;
+import com.yamada.notkayla.utils.SelectionManager;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
+import java.util.concurrent.ExecutionException;
+import java.util.function.BiConsumer;
+
 @Command(name="play", description = "Play something.", group = "music")
 public class PlayCommand {
     private YoutubeSearchProvider searchProvider = new YoutubeSearchProvider(new YoutubeAudioSourceManager());
-//    private String display_track = "";
 
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         EmbedBuilder embed = new EmbedBuilder();
@@ -31,20 +34,18 @@ public class PlayCommand {
 
         // Our search results return as a playlist. We will only get the first 5 in that list.
         BasicAudioPlaylist playlist = (BasicAudioPlaylist) searchProvider.loadSearchResult(term.toString().substring(0, term.length() - 1));
-        for (int i = 0; i < 5; i++) {
+        int size = playlist.getTracks().size() > 5 ? 5 : playlist.getTracks().size();
+        for (int i = 0; i < size; i++) {
             track[i] = playlist.getTracks().get(i);
-            embed.addField("\\u200","**[" + (i+1) + ". " + track[i].getInfo().title + "](" + track[i].getInfo().uri + ")**",false);
+            embed.addField("\\u200b","**[" + (i+1) + ". " + track[i].getInfo().title + "](" + track[i].getInfo().uri + ")**",false);
         }
         embed.setTitle(playlist.getName().replace("+", " "));
-//        embed.addField("Results: \n", display_track, false);
+        embed.setDescription("Use !ysel <number> to select a song.");
         embed.setFooter(String.format("Requested by %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
-        event.getChannel().sendMessage(embed.build()).queue();
-
-//        Clear the used variables.
-//        embed.clear();
-//        display_track = "";
-
-        // TODO: Add user input so we don't default to first thing on the search results.
-        Kayla.music.loadAndPlay(event, track[0].getInfo().uri);
+        event.getChannel().sendMessage(embed.build()).submit();
+        SelectionManager.Selection selection = SelectionManager.requestSelection(event.getAuthor().getIdLong(), 1, 5,1);
+        selection.get().whenComplete((integer, throwable) -> {
+            Kayla.music.loadAndPlay(event, track[integer -1].getInfo().uri);
+        });
     }
 }

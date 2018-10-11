@@ -12,8 +12,13 @@ public class Timeout{
     public void cancel(){
         canceled = true;
     }
-    public void start() throws InterruptedException {
-        Thread.sleep(delay);
-        if (!canceled) runnable.start();
+    public void start() {
+        new Thread(() -> {
+            try {
+                Thread.sleep(delay);
+            } catch (InterruptedException ignored) {
+            }
+            if (!canceled) runnable.start();
+        }).start();
     }
 }

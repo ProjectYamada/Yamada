@@ -63,7 +63,7 @@ public class MusicModule {
         playerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
-                musicManager.channel.sendMessage("Added first track to queue (because we don't have custom selection)").queue();
+                musicManager.channel.sendMessage("Added first track to queue").queue();
                 play(event, musicManager, track);
             }
 
@@ -186,6 +186,7 @@ public class MusicModule {
         }
 
         void stop(){
+
             gm.channel.getGuild().getAudioManager().closeAudioConnection();
             player.destroy();
             queue.clear();
@@ -228,11 +229,7 @@ public class MusicModule {
                                     gm.channel.getJDA().getSelfUser().getEffectiveAvatarUrl())
                             .build()).complete();
                     stopping = new Timeout(600000, this::stop);
-                    try {
-                        stopping.start();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    stopping.start();
                     return;
                 }
                 nextTrack();
