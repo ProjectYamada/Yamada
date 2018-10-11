@@ -9,7 +9,10 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.Random;
 
 @Command(name="konachan",description = "Gets an image from Konachan", group = "anime")
 public class KonachanCommand {
@@ -47,10 +50,11 @@ public class KonachanCommand {
             CloseableHttpResponse response = httpClient.execute(
                     new HttpGet(String.format("https://konachan.com/post/index.json%s", params)));
             String responseBody = EntityUtils.toString(response.getEntity()).replace("\n", "");
-            JSONObject json = new JSONObject(responseBody);
+            JSONArray jsonArray = new JSONArray(responseBody);
+            JSONObject json = jsonArray.getJSONObject(new Random().nextInt(100));
             embed.setTitle("Successfully got an image.", json.getString("file_url"));
             embed.setDescription("If you can't see this image, click the title.");
-            embed.setImage(json.getString("large_file_url"));
+            embed.setImage(json.getString("sample_url"));
         } catch (Exception e) {
             /*e.printStackTrace();
             embed.setColor(new Color(0xff0000));
