@@ -37,15 +37,13 @@ public class PlayCommand {
         int size = playlist.getTracks().size() > 5 ? 5 : playlist.getTracks().size();
         for (int i = 0; i < size; i++) {
             track[i] = playlist.getTracks().get(i);
-            embed.addField("\\u200b","**[" + (i+1) + ". " + track[i].getInfo().title + "](" + track[i].getInfo().uri + ")**",false);
+            embed.addField((i+1)+". **"+track[i].getInfo().title +" by "+ track[0].getInfo().author + "**","**["+track[i].getInfo().uri+"](" + track[i].getInfo().uri + ")**",false);
         }
         embed.setTitle(playlist.getName().replace("+", " "));
         embed.setDescription("Use !ysel <number> to select a song.");
         embed.setFooter(String.format("Requested by %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
         event.getChannel().sendMessage(embed.build()).submit();
         SelectionManager.Selection selection = SelectionManager.requestSelection(event.getAuthor().getIdLong(), 1, 5,1);
-        selection.get().whenComplete((integer, throwable) -> {
-            Kayla.music.loadAndPlay(event, track[integer -1].getInfo().uri);
-        });
+        selection.get().whenComplete((integer, throwable) -> Kayla.music.loadAndPlay(event, track[integer -1].getInfo().uri));
     }
 }

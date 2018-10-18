@@ -42,7 +42,7 @@ public class MusicModule {
     }
 
     // From the 1.3.0 demo of Lavaplayer.
-    private synchronized GuildMusicManager getGuildAudioPlayer(Guild guild, TextChannel channel) {
+    public synchronized GuildMusicManager getGuildAudioPlayer(Guild guild, TextChannel channel) {
         long guildId = guild.getIdLong();
         GuildMusicManager musicManager = musicManagers.get(guildId);
 
@@ -121,15 +121,15 @@ public class MusicModule {
         event.getChannel().sendMessage("Cleared the queue and left the channel.").queue();
     }
 
-    class GuildMusicManager {
+    public class GuildMusicManager {
         /**
          * Audio player for the guild.
          */
-        final AudioPlayer player;
+        public final AudioPlayer player;
         /**
          * Track scheduler for the player.
          */
-        final TrackScheduler scheduler;
+        public final TrackScheduler scheduler;
         /**
          * Text channel in which the bot was told to join
          */
@@ -156,9 +156,9 @@ public class MusicModule {
 
     // The following classes are pulled directly from the lavaplayer JDA demo, and possibly violate Sanae's module model. no longer violates my model :)
 // TODO: Find a way to simplify this.
-    class TrackScheduler extends AudioEventAdapter {
+    public class TrackScheduler extends AudioEventAdapter {
         private final AudioPlayer player;
-        private final BlockingQueue<AudioTrack> queue;
+        public final BlockingQueue<AudioTrack> queue;
         private final GuildMusicManager gm;
         private Timeout stopping;
         /**
