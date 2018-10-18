@@ -68,7 +68,7 @@ public class UrbanCommand {
             embed.addField(":thumbsdown: ", String.valueOf(arr.getJSONObject(index).getInt("thumbs_down")), true);
             embed.setFooter(String.format("Requested by %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
             event.getChannel().sendMessage(embed.build()).queue();
-        } catch (IOException e) {
+        } catch (Exception e) {
             event.getChannel().sendMessage("That term could not be found on Urban Dictionary...").queue();
         }
     }
