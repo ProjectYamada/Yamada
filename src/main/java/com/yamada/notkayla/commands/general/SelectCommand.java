@@ -16,8 +16,8 @@ public class SelectCommand {
             event.getChannel().sendMessage("You don't have anything to select!").queue();
             return;
         }
-        if (args[1] == null) {
-            event.getChannel().sendMessage("Select").queue();
+        if (args.length == 1) {
+            event.getChannel().sendMessage("Select a number").queue();
             return;
         }
         int sel;

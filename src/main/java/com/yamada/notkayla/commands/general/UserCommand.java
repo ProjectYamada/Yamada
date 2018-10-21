@@ -16,22 +16,24 @@ public class UserCommand {
         //TODO: Test this code
         User user;
         Member member;
-        try {
-            List<User> mentionedUsers = event.getMessage().getMentionedUsers();
-            List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
-            if (mentionedUsers.size() > 1) event.getChannel().sendMessage("You specified more than one user. We will only get information about the first mentioned user.").queue();
-            user = mentionedUsers.get(0);
-            member = mentionedMembers.get(0);
-        } catch (Exception e) {
+        List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
+        if (mentionedMembers.size() > 1) {
+            event.getChannel().sendMessage("You specified more than one user. We will only get information about the first mentioned user.").queue();
             user = event.getAuthor();
             member = event.getMember();
+        } else if (mentionedMembers.size() == 0){
+            user = event.getAuthor();
+            member = event.getMember();
+        } else {
+            user = mentionedMembers.get(0).getUser();
+            member = mentionedMembers.get(0);
         }
         EmbedBuilder embed = new EmbedBuilder();
         embed.setTitle("Information collected!");
         embed.setDescription("Here's what we know about this user!");
         embed.setColor(new Color(0xe91e63));
         embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
-        embed.setThumbnail(event.getAuthor().getAvatarUrl());
+        embed.setThumbnail(user.getAvatarUrl());
         embed.addField("User ID: ", user.getAvatarId(), false);
         embed.addField("Roles", String.valueOf(member.getRoles()), false);
         embed.addField("Joined on: ", String.valueOf(user.getCreationTime()), false);

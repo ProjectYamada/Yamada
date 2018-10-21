@@ -22,7 +22,9 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -54,6 +56,12 @@ public class MusicModule {
         guild.getAudioManager().setSendingHandler(musicManager.getSendHandler());
 
         return musicManager;
+    }
+
+    private boolean hasGuildAudioPlayerFor(Long id){
+        if (musicManagers.containsKey(id)){
+            return musicManagers.get(id).player.getPlayingTrack() != null;
+        } else return false;
     }
 
     public void loadAndPlay(GuildMessageReceivedEvent event, String trackURL) {
@@ -114,6 +122,19 @@ public class MusicModule {
         musicManager.scheduler.nextTrack();
         if (!musicManager.scheduler.queue.isEmpty())event.getChannel().sendMessage("Skipped to next track.").queue();
     }
+    //used for QueueCommand
+    public void getQueue(GuildMessageReceivedEvent event, String[] args){
+        if (!hasGuildAudioPlayerFor(event.getGuild().getIdLong())){
+            event.getChannel().sendMessage("Bot is not connected to a voice chat.").queue();
+        }
+        GuildMusicManager guildAudioPlayer = Kayla.music.getGuildAudioPlayer(event.getGuild(), event.getChannel());
+        List<AudioTrack> queue = new ArrayList<>(guildAudioPlayer.scheduler.queue);
+        EmbedBuilder eb = new EmbedBuilder();
+        for (int i=0;i<=9;i++) {
+            AudioTrack audioTrack = queue.get(i);
+            eb.addField("","",false);
+        }
+    }
 
     public void stop(GuildMessageReceivedEvent event) {
         GuildMusicManager musicManager = getGuildAudioPlayer(event.getGuild(),event.getChannel());
@@ -129,7 +150,7 @@ public class MusicModule {
         /**
          * Track scheduler for the player.
          */
-        public final TrackScheduler scheduler;
+        final TrackScheduler scheduler;
         /**
          * Text channel in which the bot was told to join
          */
@@ -221,7 +242,7 @@ public class MusicModule {
                 if (endReason == AudioTrackEndReason.LOAD_FAILED){
                     gm.channel.sendMessage("Could not load " + track.getInfo().title + (queue.size() ==0? ". ":", skipping to next song in queue.")).queue();
                 }
-                if(queue.size() == 0){
+                if(queue.size() == 0 && endReason != AudioTrackEndReason.REPLACED){
                     gm.channel.sendMessage(new EmbedBuilder()
                             .setTitle("The queue is now empty.")
                             .setDescription("Add more songs!")
