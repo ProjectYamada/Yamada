@@ -38,7 +38,8 @@ public class PlayCommand {
         int size = playlist.getTracks().size() > 5 ? 5 : playlist.getTracks().size();
         for (int i = 0; i < size; i++) {
             track[i] = playlist.getTracks().get(i);
-            embed.addField((i+1)+". **"+track[i].getInfo().title + "** (" + track[i].getInfo().length + ")",
+
+            embed.addField((i+1)+". **"+track[i].getInfo().title + "** (" + time(track[i].getInfo().length) + ")",
                     "Uploaded by " + track[i].getInfo().author,false);
         }
         embed.setTitle(playlist.getName().replace("+", " "));
@@ -50,5 +51,16 @@ public class PlayCommand {
         selection.get().whenComplete((integer, throwable) -> {
             if (throwable == null) Yamada.music.loadAndPlay(event, track[integer -1].getInfo().uri);
         });
+    }
+
+    // Convert long ms to minutes and seconds.
+    private String time(long length) {
+        int realTime = (int) (length / 1000);
+        int hours = realTime / 3600;
+        int minutes = realTime / 60;
+        int seconds = realTime % 60;
+        if (seconds < 10) return String.format(("%s:0%s"), minutes, seconds);
+        if (hours == 0) return String.format(("%s:%s"), minutes, seconds);
+        return String.format("(%s:%s:%s", hours, minutes, seconds);
     }
 }
