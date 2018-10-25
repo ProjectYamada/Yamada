@@ -1,5 +1,5 @@
 # Yamada
-It's not about Kayla™
+It's all about Yamada™
 
 ### Dependencies
 - A PostgreSQL database with the tables from src/main/resources/createTables.sql

@@ -29,7 +29,7 @@ public class Events extends ListenerAdapter {
         if(event.getAuthor().isBot())return;
         //TODO  : change prefix handler to something else and instead set it to a database prefix
         String content = event.getMessage().getContentRaw();
-        String prefix = String.valueOf(Kayla.configuration.get("prefix"));
+        String prefix = String.valueOf(Yamada.configuration.get("prefix"));
         // elf sagiri megumin threesome when
         if (content.startsWith(prefix)){
             String command = content.split(" ")[0].substring(prefix.length());
@@ -86,10 +86,10 @@ public class Events extends ListenerAdapter {
         event.getJDA().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+event.getJDA().getGuilds().size() + " guilds - !yhelp"));
         try {
             registry.register();
-            DatabaseModule.init(Kayla.configuration);
+            DatabaseModule.init(Yamada.configuration);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            Kayla.log.log(Level.INFO,"I GUESS SOME REGISTERING COMMANDS DID AND OOPSIE WHOOPSIE");
+            Yamada.log.log(Level.INFO,"I GUESS SOME REGISTERING COMMANDS DID AND OOPSIE WHOOPSIE");
         }
     }
 }

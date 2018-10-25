@@ -1,6 +1,6 @@
 package com.yamada.notkayla.commands.fun;
 
-import com.yamada.notkayla.Kayla;
+import com.yamada.notkayla.Yamada;
 import com.yamada.notkayla.commands.Command;
 import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -26,12 +26,12 @@ public class YoutubeCommand{
         embed.setTitle("YouTube Search Result - " + query);
         CloseableHttpClient client = HttpClientBuilder.create().build();
         try {
-            response = client.execute(new HttpGet("https://www.googleapis.com/youtube/v3/search?maxResults=1&part=snippet&type=video&key=" + Kayla.configuration.get("youtube-api") + "&q=" + query.replace(" ", "%20")));
+            response = client.execute(new HttpGet("https://www.googleapis.com/youtube/v3/search?maxResults=1&part=snippet&type=video&key=" + Yamada.configuration.get("youtube-api") + "&q=" + query.replace(" ", "%20")));
             responseBody = EntityUtils.toString(response.getEntity()).replace("\n", "");
             //event.getChannel().sendMessage(String.format("```\n%s\n```", responseBody)).queue();
             jsonResponse = new JSONObject(responseBody);
             if (response.getStatusLine().getStatusCode() != 200) {
-                Kayla.log.log(Level.SEVERE, responseBody);
+                Yamada.log.log(Level.SEVERE, responseBody);
                 throw new IOException("Request to Youtube was unsuccessful: " + response.getStatusLine().getStatusCode());
             }
         } catch (IOException e) {

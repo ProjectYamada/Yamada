@@ -11,7 +11,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
-import com.yamada.notkayla.Kayla;
+import com.yamada.notkayla.Yamada;
 import com.yamada.notkayla.module.Module;
 import com.yamada.notkayla.utils.Timeout;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.logging.Level;
 
 @Module(name="audio",guarded = false)
 public class MusicModule {
@@ -129,7 +128,7 @@ public class MusicModule {
             event.getChannel().sendMessage("Bot is not connected to a voice chat.").queue();
             return;
         }
-        GuildMusicManager guildAudioPlayer = Kayla.music.getGuildAudioPlayer(event.getGuild(), event.getChannel());
+        GuildMusicManager guildAudioPlayer = Yamada.music.getGuildAudioPlayer(event.getGuild(), event.getChannel());
         List<AudioTrack> queue = new ArrayList<>(guildAudioPlayer.scheduler.queue);
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("Current queue: ");

@@ -1,15 +1,11 @@
 package com.yamada.notkayla.commands.general;
 
-import com.yamada.notkayla.Kayla;
 import com.yamada.notkayla.commands.Command;
-import com.yamada.notkayla.commands.CommandRegistry;
 import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import java.awt.Color;
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Command(name = "help",group="general",description = "You're viewing it")

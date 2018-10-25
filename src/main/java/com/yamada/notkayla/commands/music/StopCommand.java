@@ -1,6 +1,6 @@
 package com.yamada.notkayla.commands.music;
 
-import com.yamada.notkayla.Kayla;
+import com.yamada.notkayla.Yamada;
 import com.yamada.notkayla.commands.Command;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -9,6 +9,6 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 public class StopCommand {
 
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args){
-        Kayla.music.stop(event);
+        Yamada.music.stop(event);
     }
 }

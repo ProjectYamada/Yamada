@@ -18,7 +18,7 @@ public class SanaeClassLoader extends ClassLoader {
     @Override
     public Class<?> findClass(String s) {
         try {
-            if (s.contentEquals("com.yamada.notkayla.Kayla")) throw new IOException("this is bad practice but shut up lol");
+            if (s.contentEquals("com.yamada.notkayla.Yamada")) throw new IOException("this is bad practice but shut up lol");
             byte[] bytes = loadClassData(s);
             return defineClass(s, bytes, 0, bytes.length);
         } catch (IOException ioe) {

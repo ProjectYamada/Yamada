@@ -1,6 +1,6 @@
 package com.yamada.notkayla.commands;
 
-import com.yamada.notkayla.Kayla;
+import com.yamada.notkayla.Yamada;
 import com.yamada.notkayla.module.SanaeClassLoader;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -30,11 +30,11 @@ public class CommandRegistry {
                 help = cmd;
                 continue;
             }
-            Kayla.log.log(Level.INFO,cmd.getAnnotation(Command.class).name());
+            Yamada.log.log(Level.INFO,cmd.getAnnotation(Command.class).name());
             commands.put(cmd.getAnnotation(Command.class).name(),new RegCommand(cmd.getPackage().getName()+"."+cmd.getSimpleName()));
         }
         if (help != null) {
-            Kayla.log.log(Level.INFO, help.getAnnotation(Command.class).name());
+            Yamada.log.log(Level.INFO, help.getAnnotation(Command.class).name());
             commands.put(help.getAnnotation(Command.class).name(),new RegCommand(help.getPackage().getName()+"."+help.getSimpleName()));
         }
     }
@@ -53,7 +53,7 @@ public class CommandRegistry {
     public void reload(String commandName) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         if (has(commandName)) {
             RegCommand reg = get(commandName);
-            Kayla.log.log(Level.INFO,reg.cmd.getAnnotation(Command.class).name());
+            Yamada.log.log(Level.INFO,reg.cmd.getAnnotation(Command.class).name());
             commands.remove(commandName);
             commands.put(reg.cmd.getAnnotation(Command.class).name(),new RegCommand(reg.cmd.getPackage().getName()+"."+reg.cmd.getSimpleName()));
         }

@@ -1,10 +1,8 @@
 package com.yamada.notkayla.commands.owner;
 
-import com.yamada.notkayla.Kayla;
 import com.yamada.notkayla.commands.Command;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import org.apache.http.client.RedirectHandler;
 
 import java.io.IOException;
 

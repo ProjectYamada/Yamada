@@ -1,6 +1,6 @@
 package com.yamada.notkayla.commands.general;
 
-import com.yamada.notkayla.Kayla;
+import com.yamada.notkayla.Yamada;
 import com.yamada.notkayla.commands.Command;
 import com.yamada.notkayla.utils.SelectionManager;
 import net.dv8tion.jda.core.JDA;
@@ -27,7 +27,7 @@ public class SelectCommand {
             event.getChannel().sendMessage("Selection is not a proper number, choosing default selection.").queue();
             sel = 0;
         }
-        Kayla.log.log(Level.INFO,event.getAuthor().getName() + " chose " + sel);
+        Yamada.log.log(Level.INFO,event.getAuthor().getName() + " chose " + sel);
         SelectionManager.select(event.getAuthor().getIdLong(), sel);
     }
 }

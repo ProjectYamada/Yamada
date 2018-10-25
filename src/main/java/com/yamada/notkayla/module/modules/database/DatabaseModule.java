@@ -1,6 +1,6 @@
 package com.yamada.notkayla.module.modules.database;
 
-import com.yamada.notkayla.Kayla;
+import com.yamada.notkayla.Yamada;
 import com.yamada.notkayla.module.Module;
 import com.yamada.notkayla.module.entities.GuildData;
 import com.yamada.notkayla.module.entities.UserData;
@@ -29,15 +29,15 @@ public class DatabaseModule {
             DatabaseModule.config = config;
             prepareStatements();
         } catch (ClassNotFoundException e) {
-            Kayla.log.log(Level.SEVERE,"Uh oh, looks like the driver wasn't found for the database ;P");
+            Yamada.log.log(Level.SEVERE,"Uh oh, looks like the driver wasn't found for the database ;P");
             e.printStackTrace();
             throw e;
         } catch (SQLException e) {
-            Kayla.log.log(Level.SEVERE,"oof the bad thing happened and there was an error from getConnection");
+            Yamada.log.log(Level.SEVERE,"oof the bad thing happened and there was an error from getConnection");
             e.printStackTrace();
             throw e;
         }catch (NullPointerException e){
-            Kayla.log.log(Level.SEVERE,"Whoops! You forgot a database key, you gotta have db.user and db.pass at least.");
+            Yamada.log.log(Level.SEVERE,"Whoops! You forgot a database key, you gotta have db.user and db.pass at least.");
             e.printStackTrace();
             throw e;
         }

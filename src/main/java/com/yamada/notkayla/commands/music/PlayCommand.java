@@ -4,7 +4,7 @@ import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager
 import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeSearchProvider;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.BasicAudioPlaylist;
-import com.yamada.notkayla.Kayla;
+import com.yamada.notkayla.Yamada;
 import com.yamada.notkayla.commands.Command;
 import com.yamada.notkayla.utils.SelectionManager;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -48,7 +48,7 @@ public class PlayCommand {
         SelectionManager.Selection selection = SelectionManager.requestSelection(event.getAuthor().getIdLong(),
                 1, 5,1);
         selection.get().whenComplete((integer, throwable) -> {
-            if (throwable == null) Kayla.music.loadAndPlay(event, track[integer -1].getInfo().uri);
+            if (throwable == null) Yamada.music.loadAndPlay(event, track[integer -1].getInfo().uri);
         });
     }
 }
