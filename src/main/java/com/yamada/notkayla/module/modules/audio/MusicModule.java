@@ -122,18 +122,24 @@ public class MusicModule {
         musicManager.scheduler.nextTrack();
         if (!musicManager.scheduler.queue.isEmpty())event.getChannel().sendMessage("Skipped to next track.").queue();
     }
+
     //used for QueueCommand
     public void getQueue(GuildMessageReceivedEvent event, String[] args){
         if (!hasGuildAudioPlayerFor(event.getGuild().getIdLong())){
             event.getChannel().sendMessage("Bot is not connected to a voice chat.").queue();
+            return;
         }
         GuildMusicManager guildAudioPlayer = Kayla.music.getGuildAudioPlayer(event.getGuild(), event.getChannel());
         List<AudioTrack> queue = new ArrayList<>(guildAudioPlayer.scheduler.queue);
         EmbedBuilder eb = new EmbedBuilder();
-        for (int i=0;i<=9;i++) {
+        eb.setTitle("Current queue: ");
+        AudioTrack now = guildAudioPlayer.scheduler.player.getPlayingTrack();
+        eb.addField("Now: " + now.getInfo().title, "Uploaded by: " + now.getInfo().author, false);
+        for (int i=0;i<queue.size();i++) {
             AudioTrack audioTrack = queue.get(i);
-            eb.addField("","",false);
+            eb.addField((i+1) + ". " + audioTrack.getInfo().title,"Uploaded by: " + audioTrack.getInfo().author,false);
         }
+        event.getChannel().sendMessage(eb.build()).queue();
     }
 
     public void stop(GuildMessageReceivedEvent event) {

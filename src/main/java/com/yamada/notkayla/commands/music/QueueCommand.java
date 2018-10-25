@@ -15,6 +15,6 @@ import java.util.concurrent.BlockingQueue;
 @Command(name="queue",group="music")
 public class QueueCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args){
-
+        Kayla.music.getQueue(event, args);
     }
 }
