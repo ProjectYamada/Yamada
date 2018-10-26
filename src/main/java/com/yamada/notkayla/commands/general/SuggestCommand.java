@@ -24,7 +24,7 @@ public class SuggestCommand {
         embed.setColor(0xff0000);
         embed.addField("Report: ", String.valueOf(reported), false);
         embed.addField("Sender: ", event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator(), false);
-        bot.getTextChannelById(String.valueOf(Yamada.configuration.get("suggest"))).sendMessage(embed.build()).queue();
+        bot.getTextChannelById(String.valueOf(Yamada.configuration.get("suggest-id"))).sendMessage(embed.build()).queue();
         event.getChannel().sendMessage("Your suggestion has been sent.").queue();
     }
 }
