@@ -11,6 +11,8 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
+import java.text.DecimalFormat;
+
 @Command(name="play", description = "Play something.", group = "music")
 public class PlayCommand {
     private YoutubeSearchProvider searchProvider = new YoutubeSearchProvider(new YoutubeAudioSourceManager());
@@ -55,12 +57,16 @@ public class PlayCommand {
 
     // Convert long ms to minutes and seconds.
     private String time(long length) {
+        DecimalFormat format = new DecimalFormat("00");
         int realTime = (int) (length / 1000);
-        int hours = realTime / 3600;
         int minutes = realTime / 60;
+        int hours = minutes / 60;
         int seconds = realTime % 60;
-        if (seconds < 10) return String.format(("%s:0%s"), minutes, seconds);
-        if (hours == 0) return String.format(("%s:%s"), minutes, seconds);
-        return String.format("(%s:%s:%s", hours, minutes, seconds);
+        if (hours > 0) {
+            minutes = minutes - (60 * hours);
+            return String.format("%s:%s:%s", hours, format.format(minutes), format.format(seconds));
+        }
+        return String.format(("%s:%s"), minutes, format.format(seconds));
     }
+
 }
