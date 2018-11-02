@@ -56,11 +56,11 @@ public class Events extends ListenerAdapter {
     }
     @Override
     public void onGuildJoin(GuildJoinEvent event) {
-        event.getJDA().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+event.getJDA().getGuilds().size() + " guilds - !yhelp"));
+        event.getJDA().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+event.getJDA().getGuilds().size() + " guilds - "+Yamada.configuration.get("prefix")+"help"));
     }
     @Override
     public void onGuildLeave(GuildLeaveEvent event) {
-        event.getJDA().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+event.getJDA().getGuilds().size() + " guilds - !yhelp"));
+        event.getJDA().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+event.getJDA().getGuilds().size() + " guilds - "+Yamada.configuration.get("prefix")+"help"));
     }
     @Override
     public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
