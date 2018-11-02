@@ -83,7 +83,7 @@ public class Events extends ListenerAdapter {
     @Override
     public void onReady(ReadyEvent event) {
         System.out.println("Yamada has connected to Discord.");
-        event.getJDA().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+event.getJDA().getGuilds().size() + " guilds - !yhelp"));
+        event.getJDA().getPresence().setPresence(OnlineStatus.DO_NOT_DISTURB,Game.playing("with "+event.getJDA().getGuilds().size() + " guilds - "+Yamada.configuration.get("prefix")+"help"));
         try {
             registry.register();
             DatabaseModule.init(Yamada.configuration);
