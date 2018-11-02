@@ -13,7 +13,7 @@ dependencies {
     compile 'org.yaml:snakeyaml:1.8'
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5'
     compile 'org.postgresql:postgresql:42.2.4.jre7'
-    compile group: 'org.json', name: 'JSON', version: '20180813'
+    compile group: 'org.json', name: 'json', version: '20180813'
     compile 'org.reflections:reflections:0.9.11'
     compile 'com.sedmelluq:lavaplayer:1.3.10'
     compile 'com.jagrosh:jda-utilities-command:2.1.4'
