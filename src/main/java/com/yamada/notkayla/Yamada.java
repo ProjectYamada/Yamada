@@ -31,7 +31,7 @@ public class Yamada {
         git.redirectError(ProcessBuilder.Redirect.INHERIT);
         git.start().waitFor();
         Yamada.log.log(Level.INFO,"Setting version to latest Git commit id ");
-        Process verCheck = new ProcessBuilder("git rev-parse --short HEAD").start();
+        Process verCheck = new ProcessBuilder("git", "rev-parse", "--short", "HEAD").start();
         BufferedReader br = new BufferedReader(new InputStreamReader(verCheck.getInputStream()));
         String line;
         StringBuilder b = new StringBuilder();
