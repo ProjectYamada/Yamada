@@ -45,7 +45,7 @@ public class PlayCommand {
                     "Uploaded by " + track[i].getInfo().author,false);
         }
         embed.setTitle(playlist.getName().replace("+", " "));
-        embed.setDescription("Use !ysel <number> to select a song.");
+        embed.setDescription("Use "+Yamada.configuration.get("prefix")+"sel <number> to select a song.");
         embed.setFooter(String.format("Requested by %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
         event.getChannel().sendMessage(embed.build()).submit();
         SelectionManager.Selection selection = SelectionManager.requestSelection(event.getAuthor().getIdLong(),
