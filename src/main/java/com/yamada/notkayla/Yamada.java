@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 public class Yamada {
     public static Logger log = Logger.getLogger("Yamada");
     private static ShardManager shardManager;
-    public static Reflections refl = new Reflections();
     public static Map configuration;
     private static Yaml yaml = new Yaml();
     public static MusicModule music = new MusicModule();
@@ -32,6 +31,7 @@ public class Yamada {
         git.start().waitFor();
         Yamada.log.log(Level.INFO,"Setting version to latest Git commit id ");
         Process verCheck = new ProcessBuilder("git", "rev-parse", "--short", "HEAD").start();
+        git.redirectOutput(ProcessBuilder.Redirect.INHERIT);
         BufferedReader br = new BufferedReader(new InputStreamReader(verCheck.getInputStream()));
         String line;
         StringBuilder b = new StringBuilder();
@@ -43,7 +43,7 @@ public class Yamada {
             Path config = Paths.get(curdir.toString(),"config.yml");
             configuration = (Map) yaml.load(new FileInputStream(config.toFile()));
         } catch (FileNotFoundException e) {
-            Yamada.log.log(Level.SEVERE, "FileNotFoundError: file 'config.yml' does not exist");
+            Yamada.log.log(Level.SEVERE, "FileNotFoundException: file 'config.yml' does not exist");
             e.printStackTrace();
             System.exit(1);
         }

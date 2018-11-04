@@ -50,9 +50,7 @@ public class PlayCommand {
         event.getChannel().sendMessage(embed.build()).submit();
         SelectionManager.Selection selection = SelectionManager.requestSelection(event.getAuthor().getIdLong(),
                 1, 5,1);
-        selection.get().whenComplete((integer, throwable) -> {
-            if (throwable == null) Yamada.music.loadAndPlay(event, track[integer -1].getInfo().uri);
-        });
+        selection.get().whenComplete((integer, throwable) -> Yamada.music.loadAndPlay(event, track[integer -1].getInfo().uri));
     }
 
     // Convert long ms to minutes and seconds.
