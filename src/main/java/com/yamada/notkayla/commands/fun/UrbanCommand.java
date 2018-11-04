@@ -16,6 +16,10 @@ import java.io.IOException;
 @Command(name = "urban", group = "fun")
 public class UrbanCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
+        if (!event.getChannel().isNSFW()) {
+            event.getChannel().sendMessage("You need to be in a NSFW channel for this.").queue();
+            return;
+        }
         EmbedBuilder embed = new EmbedBuilder();
         StringBuilder term = new StringBuilder();
         int index = 0;

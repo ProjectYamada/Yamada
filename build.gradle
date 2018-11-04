@@ -6,7 +6,7 @@ plugins {
 
 group 'com.yamada'
 version '0.0.1'
-mainClassName = 'com.yamada.notkayla.Kayla'
+mainClassName = 'com.yamada.notkayla.Yamada'
 
 dependencies {
     compile 'net.dv8tion:JDA:3.8.1_439'

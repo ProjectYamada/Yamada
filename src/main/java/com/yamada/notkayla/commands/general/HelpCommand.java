@@ -11,20 +11,22 @@ import java.util.logging.Logger;
 @Command(name = "help",group="general",description = "You're viewing it")
 public class HelpCommand {
     private EmbedBuilder embed = new EmbedBuilder();
-    private Map<String,Group> groupDefs = new HashMap<String, Group>(){{
-        put("mod",new Group("Moderation"));
-        put("general",new Group("General"));
-        put("image",new Group("Image"));
-        put("fun",new Group("Fun"));
+    private Map<String,Group> groupDefs = new HashMap<>() {{
+        put("mod", new Group("Moderation"));
+        put("general", new Group("General"));
+        put("image", new Group("Image"));
+        put("fun", new Group("Fun"));
     }};
     public HelpCommand(Map<String,Object> commands) {
         embed.setColor(new Color(0xe91e63));
+        embed.setDescription("I'm Yamada, and my prefix is `!y`. I hope to make your server a better place!");
         embed.setTitle("Need some help?");//todo: set commands up :b:etter because i think it was my fault -Sanae
         embed.addField("Image", "`dog` - Fetches a random dog\n`cat` - Fetches a random cat\n`duck` - Fetches a random duck", false);
         embed.addField("Fun", "`meme` - Fetches a random meme\n`urban` - Look up Urban Dictionary definitions", false);
         embed.addField("Anime", "`danbooru` - Fetches an image from danbooru", false);
         embed.addField("Moderation", "`kick` - Kicks the specified user from your server\n`ban` - Bans the specified user from your server", false);
         embed.addField("Music","`play` - Plays music using the specified search text\n`skip` - Skips a song in the queue\n`stop` - Stops the queue if not empty and disconnects from the voice chat",false);
+        embed.addField("Miscellaneous","`info` -",false);
         Logger logger = Logger.getLogger("Help");
         /*commands.forEach((cmdName,cmd)->{
             try {
@@ -57,10 +59,8 @@ public class HelpCommand {
      */
 
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
-        embed.setDescription("I'm Yamada, and my prefix is `!y`. I hope to make your server a better place!");
         embed.setThumbnail(bot.getSelfUser().getAvatarUrl());
         embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
-
         event.getChannel().sendMessage(embed.build()).queue();
     }
     private class Group{
