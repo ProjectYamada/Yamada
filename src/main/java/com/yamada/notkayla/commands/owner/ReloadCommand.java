@@ -12,7 +12,7 @@ import java.util.logging.Level;
 
 @Command(name="reload",group = "owner",hidden = true)
 public class ReloadCommand {
-    public void run (JDA bot, GuildMessageReceivedEvent event,String[] args) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+    public void run (JDA bot, GuildMessageReceivedEvent event,String[] args) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
         if(bot.getGuildById("481210197453438996").getMemberById(event.getAuthor().getId()) == null) return;
         Yamada.log.log(Level.INFO, Arrays.toString(args));
         Events.registry.reload(args[1]);
