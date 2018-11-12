@@ -15,7 +15,7 @@ public abstract class Adapter {
     private static SanaeClassLoader cl = new SanaeClassLoader();
     private Object module;
 
-    protected Adapter(String classPath,Map config) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+    protected Adapter(String classPath,Map config) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
         attachedClass = cl.loadClass(classPath);
         this.classPath = classPath;
         module = attachedClass.getDeclaredConstructor(Map.class).newInstance(config);
@@ -26,10 +26,10 @@ public abstract class Adapter {
         return methods.get(name).invoke(module,args);
     }
 
-    public void reload() throws IllegalAccessException, InstantiationException {
+    public void reload() throws IllegalAccessException, InstantiationException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
         attachedClass = null;
         module = null;
         attachedClass = cl.loadClass(classPath);
-        module = attachedClass.newInstance();
+        module = attachedClass.getConstructor().newInstance();
     }
 }

@@ -87,7 +87,7 @@ public class Events extends ListenerAdapter {
         try {
             registry.register();
             DatabaseModule.init(Yamada.configuration);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Yamada.log.log(Level.INFO,"I GUESS SOME REGISTERING COMMANDS DID AND OOPSIE WHOOPSIE");
         }

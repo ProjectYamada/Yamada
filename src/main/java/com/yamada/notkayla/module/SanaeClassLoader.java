@@ -10,9 +10,10 @@ import java.util.logging.Logger;
 public class SanaeClassLoader extends ClassLoader {
     private static Logger log = Logger.getLogger("SanaeLoader");
     @Override
-    public Class<?> loadClass(String name) {
+    public Class<?> loadClass(String name) throws ClassNotFoundException {
         log.log(Level.INFO,name);
-        return findClass(name);
+        Class<?> ie;
+        return (ie = super.loadClass(name)) == null ? findClass(name) : ie;
     }
 
     @Override

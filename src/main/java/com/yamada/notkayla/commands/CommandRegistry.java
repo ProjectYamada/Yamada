@@ -21,7 +21,7 @@ public class CommandRegistry {
     public HashMap<String,RegCommand> commands = new HashMap<>();
     private SanaeClassLoader classLoader = new SanaeClassLoader();
 
-    public void register() throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void register() throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
         Reflections r = new Reflections("com.yamada.notkayla.commands");
         Set<Class<?>> annotCommands = r.getTypesAnnotatedWith(com.yamada.notkayla.commands.Command.class);
         Class<?> help = null;
@@ -50,7 +50,7 @@ public class CommandRegistry {
         RegCommand regCommand = get(commandName);
         regCommand.run.invoke(regCommand.instance,bot,event,args);
     }
-    public void reload(String commandName) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void reload(String commandName) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
         if (has(commandName)) {
             RegCommand reg = get(commandName);
             Yamada.log.log(Level.INFO,reg.cmd.getAnnotation(Command.class).name());
@@ -59,7 +59,7 @@ public class CommandRegistry {
         }
     }
 
-    public void load(String commandName) throws InstantiationException, IllegalAccessException {
+    public void load(String commandName) {
         //to redo
     }
 
@@ -70,14 +70,14 @@ public class CommandRegistry {
     @SuppressWarnings("unchecked")
     public class RegCommand{
         String packageName;
-        public Class<?> cmd;
-        public Object instance;
+        Class<?> cmd;
+        Object instance;
         public Method run;
-        RegCommand(String aPackage) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+        RegCommand(String aPackage) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
             packageName=aPackage;
             cmd = classLoader.loadClass(packageName);
             boolean i = aPackage.contains("HelpCommand");
-            instance = i ? cmd.getConstructor(Map.class).newInstance(commands) : cmd.newInstance();
+            instance = i ? cmd.getConstructor(Map.class).newInstance(commands) : cmd.getConstructor().newInstance();
             run = new ArrayList<>(ReflectionUtils.getMethods(cmd, ReflectionUtils.withName("run"))).get(0);
         }
     }
