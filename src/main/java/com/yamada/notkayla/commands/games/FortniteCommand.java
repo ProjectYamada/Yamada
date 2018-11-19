@@ -50,7 +50,7 @@ public class FortniteCommand {
         try {
 
             HttpGet http = new HttpGet(String.format("https://api.fortnitetracker.com/v1/profile/%s/%s", platform, user));
-            http.setHeader("TRN-Api-Key","7889c63e-60bb-4a3e-a189-ef59d95ec54c");
+            http.setHeader("TRN-Api-Key","");
 
             CloseableHttpResponse response = client.execute(http);
 
