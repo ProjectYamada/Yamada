@@ -2,6 +2,7 @@
 token: "discord api token"
 reddit-api: "reddit api token"
 youtube-api: "youtube api token"
+fortnite-api: "fortnite tracker api token"
 
 # Bot prefix
 prefix: "!y" # todo read prefix from config

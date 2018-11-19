@@ -27,6 +27,7 @@ public class FortniteCommand {
     String platform;
     String user;
     CloseableHttpClient client = HttpClientBuilder.create().build();
+    String key;
 
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
 
@@ -34,6 +35,8 @@ public class FortniteCommand {
             Path curdir = Paths.get(System.getProperty("user.dir"));
             Path config = Paths.get(curdir.toString(), "config.yml");
             configuration = (Map) yaml.load(new FileInputStream(config.toFile()));
+            key = (String) configuration.get("fortnite-api");
+
         } catch (FileNotFoundException e) {
             event.getChannel().sendMessage("This isn't it, chief.").queue();
             return;
@@ -50,7 +53,7 @@ public class FortniteCommand {
         try {
 
             HttpGet http = new HttpGet(String.format("https://api.fortnitetracker.com/v1/profile/%s/%s", platform, user));
-            http.setHeader("TRN-Api-Key","");
+            http.setHeader("TRN-Api-Key", key);
 
             CloseableHttpResponse response = client.execute(http);
 
