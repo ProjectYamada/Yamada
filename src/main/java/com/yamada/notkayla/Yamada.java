@@ -1,9 +1,8 @@
 package com.yamada.notkayla;
 
-import com.yamada.notkayla.module.modules.audio.MusicModule;
+import com.yamada.notkayla.module.modules.MusicModule;
 import net.dv8tion.jda.bot.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.bot.sharding.ShardManager;
-import org.reflections.Reflections;
 import org.yaml.snakeyaml.Yaml;
 
 import javax.security.auth.login.LoginException;

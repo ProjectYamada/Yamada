@@ -1,7 +1,6 @@
-package com.yamada.notkayla.module.modules.database;
+package com.yamada.notkayla.module.modules;
 
 import com.yamada.notkayla.Yamada;
-import com.yamada.notkayla.module.Module;
 import com.yamada.notkayla.module.entities.GuildData;
 import com.yamada.notkayla.module.entities.UserData;
 import org.postgresql.ds.PGPooledConnection;
@@ -12,7 +11,6 @@ import java.util.Map;
 import java.util.logging.Level;
 
 @SuppressWarnings("ALL")
-@Module(name="database",guarded=false)
 public class DatabaseModule {
     private static PGPooledConnection connection;
     private static Map<String, PreparedStatement> statements = new HashMap<>();

@@ -1,9 +1,14 @@
 package com.yamada.notkayla.commands.general;
 
+import com.yamada.notkayla.Events;
+import com.yamada.notkayla.Yamada;
 import com.yamada.notkayla.commands.Command;
 import net.dv8tion.jda.core.*;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import java.awt.Color;
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -17,35 +22,35 @@ public class HelpCommand {
         put("image", new Group("Image"));
         put("fun", new Group("Fun"));
     }};
-    public HelpCommand(Map<String,Object> commands) {
-        embed.setColor(new Color(0xe91e63));
-        embed.setDescription("I'm Yamada, and my prefix is `!y`. I hope to make your server a better place!");
-        embed.setTitle("Need some help?");//todo: set commands up :b:etter because i think it was my fault -Sanae
-        embed.addField("Image", "`dog` - Fetches a random dog\n`cat` - Fetches a random cat\n`duck` - Fetches a random duck", false);
-        embed.addField("Fun", "`meme` - Fetches a random meme\n`urban` - Look up Urban Dictionary definitions", false);
-        embed.addField("Anime", "`danbooru` - Fetches an image from danbooru", false);
-        embed.addField("Moderation", "`kick` - Kicks the specified user from your server\n`ban` - Bans the specified user from your server", false);
-        embed.addField("Music","`play` - Plays music using the specified search text\n`skip` - Skips a song in the queue\n`stop` - Stops the queue if not empty and disconnects from the voice chat",false);
-        embed.addField("Miscellaneous","`info` -",false);
-        Logger logger = Logger.getLogger("Help");
-        /*commands.forEach((cmdName,cmd)->{
-            try {
-                Command command = cmd.getClass().getField("cmd").get(cmd.getClass().getField("instance")).getClass().getAnnotation(Command.class);
-                logger.log(Level.INFO,command.toString() );
-                if (!command.hidden()) {
-                    //add command to group
-                    groupDefs.get(command.group()).commands.put(command.name(),command.description());
-                }
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        });*/
-
-        /*
-            then loop through the groups and add them field-group name newline-`command` - descr + usage
-            we may have to do page handling, but that's not much of an issue
-        */
-    }
+//    public HelpCommand(Map<String,Object> commands) {
+//        embed.setColor(new Color(0xe91e63));
+//        embed.setDescription("I'm Yamada, and my prefix is `!y`. I hope to make your server a better place!");
+//        embed.setTitle("Need some help?");//todo: set commands up :b:etter because i think it was my fault -Sanae
+//        embed.addField("Image", "`dog` - Fetches a random dog\n`cat` - Fetches a random cat\n`duck` - Fetches a random duck", false);
+//        embed.addField("Fun", "`meme` - Fetches a random meme\n`urban` - Look up Urban Dictionary definitions", false);
+//        embed.addField("Anime", "`danbooru` - Fetches an image from danbooru", false);
+//        embed.addField("Moderation", "`kick` - Kicks the specified user from your server\n`ban` - Bans the specified user from your server", false);
+//        embed.addField("Music","`play` - Plays music using the specified search text\n`skip` - Skips a song in the queue\n`stop` - Stops the queue if not empty and disconnects from the voice chat",false);
+//        embed.addField("Miscellaneous","`info` -",false);
+//        Logger logger = Logger.getLogger("Help");
+//        /*commands.forEach((cmdName,cmd)->{
+//            try {
+//                Command command = cmd.getClass().getField("cmd").get(cmd.getClass().getField("instance")).getClass().getAnnotation(Command.class);
+//                logger.log(Level.INFO,command.toString() );
+//                if (!command.hidden()) {
+//                    //add command to group
+//                    groupDefs.get(command.group()).commands.put(command.name(),command.description());
+//                }
+//            } catch (NoSuchFieldException | IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
+//        });*/
+//
+//        /*
+//            then loop through the groups and add them field-group name newline-`command` - descr + usage
+//            we may have to do page handling, but that's not much of an issue
+//        */
+//    }
 
     /**
      * things that can be set on init
@@ -59,9 +64,23 @@ public class HelpCommand {
      */
 
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
-        embed.setThumbnail(bot.getSelfUser().getAvatarUrl());
+//        embed.setThumbnail(bot.getSelfUser().getAvatarUrl());
+//        embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
+        event.getChannel().sendMessage(generateEmbed(event)).queue();
+    }
+
+    private MessageEmbed generateEmbed(GuildMessageReceivedEvent event){
+        EmbedBuilder embed = this.embed;
+        embed.setColor(new Color(0xe91e63));
+        embed.setDescription("I'm Yamada, and my prefix is `!y`. I hope to make your server a better place!");
+        embed.setTitle("Need some help?");
+        embed.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl());
         embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
-        event.getChannel().sendMessage(embed.build()).queue();
+        Events.registry.getCommands().forEach((name,command)->{
+            Command cmd = command.cmd.getAnnotation(Command.class);
+            embed.addField("**"+Yamada.configuration.get("prefix")+cmd.name()+"**",cmd.description(),false);
+        });
+        return embed.build();
     }
     private class Group{
         String name;

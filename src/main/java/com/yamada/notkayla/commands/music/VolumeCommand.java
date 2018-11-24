@@ -2,7 +2,7 @@ package com.yamada.notkayla.commands.music;
 
 import com.yamada.notkayla.Yamada;
 import com.yamada.notkayla.commands.Command;
-import com.yamada.notkayla.module.modules.audio.MusicModule;
+import com.yamada.notkayla.module.modules.MusicModule;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 

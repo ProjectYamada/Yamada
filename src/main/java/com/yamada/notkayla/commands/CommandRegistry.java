@@ -2,6 +2,7 @@ package com.yamada.notkayla.commands;
 
 import com.yamada.notkayla.Yamada;
 import com.yamada.notkayla.module.SanaeClassLoader;
+import lombok.Getter;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import org.reflections.ReflectionUtils;
@@ -18,7 +19,7 @@ import java.util.logging.Level;
 
 public class CommandRegistry {
     public ScriptEngineManager sf = new ScriptEngineManager();
-    public HashMap<String,RegCommand> commands = new HashMap<>();
+    @Getter public HashMap<String,RegCommand> commands = new HashMap<>();
     private SanaeClassLoader classLoader = new SanaeClassLoader();
 
     public void register() throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
@@ -70,7 +71,7 @@ public class CommandRegistry {
     @SuppressWarnings("unchecked")
     public class RegCommand{
         String packageName;
-        Class<?> cmd;
+        public Class<?> cmd;
         Object instance;
         public Method run;
         RegCommand(String aPackage) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {

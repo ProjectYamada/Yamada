@@ -1,7 +1,7 @@
 package com.yamada.notkayla.commands.economy;
 
 import com.yamada.notkayla.commands.Command;
-import com.yamada.notkayla.module.modules.database.DatabaseModule;
+import com.yamada.notkayla.module.modules.DatabaseModule;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.MessageEmbed;

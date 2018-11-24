@@ -1,7 +1,7 @@
 package com.yamada.notkayla;
 
 import com.yamada.notkayla.commands.CommandRegistry;
-import com.yamada.notkayla.module.modules.database.DatabaseModule;
+import com.yamada.notkayla.module.modules.DatabaseModule;
 import com.yamada.notkayla.utils.MiscTools;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
@@ -16,8 +16,6 @@ import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.logging.Level;
 
