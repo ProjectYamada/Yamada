@@ -77,7 +77,7 @@ public class CommandRegistry {
         RegCommand(String aPackage) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
             packageName=aPackage;
             cmd = classLoader.loadClass(packageName);
-            boolean i = aPackage.contains("HelpCommand");
+            boolean i = /*aPackage.contains("HelpCommand")*/false;
             instance = i ? cmd.getConstructor(Map.class).newInstance(commands) : cmd.getConstructor().newInstance();
             run = new ArrayList<>(ReflectionUtils.getMethods(cmd, ReflectionUtils.withName("run"))).get(0);
         }
