@@ -25,19 +25,19 @@ public class CommandRegistry {
     public void register() throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
         Reflections r = new Reflections("com.yamada.notkayla.commands");
         Set<Class<?>> annotCommands = r.getTypesAnnotatedWith(com.yamada.notkayla.commands.Command.class);
-        Class<?> help = null;
+//        Class<?> help = null;
         for (Class<?> cmd : annotCommands) {
-            if (cmd.getAnnotation(Command.class).name().equals("help")) {
-                help = cmd;
-                continue;
-            }
+//            if (cmd.getAnnotation(Command.class).name().equals("help")) {
+//                help = cmd;
+//                continue;
+//            }
             Yamada.log.log(Level.INFO,cmd.getAnnotation(Command.class).name());
             commands.put(cmd.getAnnotation(Command.class).name(),new RegCommand(cmd.getPackage().getName()+"."+cmd.getSimpleName()));
         }
-        if (help != null) {
-            Yamada.log.log(Level.INFO, help.getAnnotation(Command.class).name());
-            commands.put(help.getAnnotation(Command.class).name(),new RegCommand(help.getPackage().getName()+"."+help.getSimpleName()));
-        }
+//        if (help != null) {
+//            Yamada.log.log(Level.INFO, help.getAnnotation(Command.class).name());
+//            commands.put(help.getAnnotation(Command.class).name(),new RegCommand(help.getPackage().getName()+"."+help.getSimpleName()));
+//        }
     }
 
     public boolean has(String commandName) {
