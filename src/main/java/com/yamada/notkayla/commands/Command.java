@@ -14,6 +14,6 @@ public @interface Command {
     String name();
     String description() default "Not yet set.";
     String group();
-    boolean hidden() default false;
+
     boolean nsfw() default false;
 }

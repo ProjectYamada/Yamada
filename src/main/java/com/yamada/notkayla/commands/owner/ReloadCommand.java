@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.logging.Level;
 
-@Command(name="reload",group = "owner",hidden = true)
+@Command(name="reload",group = "owner")
 public class ReloadCommand {
     public void run (JDA bot, GuildMessageReceivedEvent event,String[] args) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
         if(bot.getGuildById("481210197453438996").getMemberById(event.getAuthor().getId()) == null) return;

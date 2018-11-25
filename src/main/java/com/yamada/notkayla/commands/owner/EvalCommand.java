@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.script.*;
 import java.io.*;
 
-@Command(name = "eval",group="owner",hidden=true)
+@Command(name = "eval",group="owner")
 public class EvalCommand {
     //todo finish eval
     private SimpleScriptContext ctx = new SimpleScriptContext();
@@ -53,7 +53,7 @@ public class EvalCommand {
 
         @Override
         public void flush() {
-            for (int i=0;i<Math.ceil(sb.length()/5);i++){
+            for (int i=0;i<Math.ceil(sb.length()/5f);i++){
                 char[] chars = new char[2000];
                 sb.getChars(3+(1996*i),(1996*i)-3,chars,0);
                 chars[0] = '`';

@@ -23,6 +23,7 @@ public class HelpCommand {
         put("fun", new Group("Fun","fun", "It's \"Fun\""));
         put("music", new Group("Music","music","Music playback"));
         put("anime",new Group("Anime","anime","Anime related"));
+        put("games",new Group("Games","games","Game stats"));
     }};
     private static Group none = new Group("Command Groups", "none", String.format("%shelp <group name>",Yamada.configuration.get("prefix")));
     static {
@@ -91,7 +92,6 @@ public class HelpCommand {
         if (!haveCommandsBeenPutIn) {
             for (CommandRegistry.RegCommand regCommand : Events.registry.getCommands().values()) {
                 Command cmd = regCommand.cmd.getAnnotation(Command.class);
-                if (cmd.hidden()) continue;
                 Yamada.log.log(Level.INFO, String.format("Adding command %s to the group %s", cmd.name(), cmd.group()));
                 if (!groupDefs.containsKey(cmd.group())) {
                     Group unset = new Group("`" + cmd.group() + "`", cmd.group(), "(unset group, report this)");

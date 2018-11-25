@@ -1,5 +1,6 @@
 package com.yamada.notkayla.commands.games;
 
+import com.yamada.notkayla.Yamada;
 import com.yamada.notkayla.commands.Command;
 import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -21,32 +22,32 @@ import java.util.Map;
 
 @Command(name="fortnite", group="games")
 public class FortniteCommand {
+    private CloseableHttpClient client = HttpClientBuilder.create().build();
+    private String key = (String) Yamada.configuration.get("fortnite-api");
 
-    public static Map configuration;
-    private static Yaml yaml = new Yaml();
-    String platform;
-    String user;
-    CloseableHttpClient client = HttpClientBuilder.create().build();
-    String key;
-
-    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
-
-        try {
-            Path curdir = Paths.get(System.getProperty("user.dir"));
-            Path config = Paths.get(curdir.toString(), "config.yml");
-            configuration = (Map) yaml.load(new FileInputStream(config.toFile()));
-            key = (String) configuration.get("fortnite-api");
-
-        } catch (FileNotFoundException e) {
-            event.getChannel().sendMessage("This isn't it, chief.").queue();
-            return;
+    private String[] platforms = new String[]{
+            "pc", "psn", "xb1"
+    };
+    private static boolean contains(String[] arr, String item) {
+        for (String n : arr) {
+            if (item.equals(n)) {
+                return true;
+            }
         }
-
+        return false;
+    }
+    public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
+        String platform;
+        String user;
         try {
-            platform = args[1];
+            platform = args[1].toLowerCase();
+            if (!contains(platforms,platform)) {
+                event.getChannel().sendMessage("Available platforms: `pc` or `psn` or `xb1`").queue();
+            }
             user = args[2];
         } catch (Exception e) {
-            event.getChannel().sendMessage("Please specify a platform and user.").queue();
+            event.getChannel().sendMessage("Please specify a platform and user.\nPlatforms: `pc` or `psn` or `xb1`\nUsage: "+
+                    Yamada.configuration.get("prefix")+this.getClass().getAnnotation(Command.class).name()+ " <platform> <username>").queue();
             return;
         }
 
@@ -61,10 +62,7 @@ public class FortniteCommand {
 
         } catch (Exception e) {
             event.getChannel().sendMessage("sad gamer moment :cry:").queue();
-            return;
         }
-
-
     }
 
 }
