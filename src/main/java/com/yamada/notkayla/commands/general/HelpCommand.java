@@ -85,7 +85,7 @@ public class HelpCommand {
         embed.setTitle("Need some help?");
         embed.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl());
         embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
-        if (haveCommandsBeenPutIn) {
+        if (!haveCommandsBeenPutIn) {
             for (CommandRegistry.RegCommand regCommand : Events.registry.getCommands().values()) {
                 Command cmd = regCommand.cmd.getAnnotation(Command.class);
                 if (cmd.hidden()) continue;
