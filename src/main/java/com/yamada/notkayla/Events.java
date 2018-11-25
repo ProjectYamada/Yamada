@@ -6,21 +6,28 @@ import com.yamada.notkayla.utils.MiscTools;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.ExceptionEvent;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.EventListener;
+import java.util.Map;
 import java.util.logging.Level;
 
 public class Events extends ListenerAdapter {
     public static CommandRegistry registry = new CommandRegistry();
+    private static Map<Long,ActionListener> reactionListeners;
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
@@ -89,5 +96,16 @@ public class Events extends ListenerAdapter {
             e.printStackTrace();
             Yamada.log.log(Level.INFO,"I GUESS SOME REGISTERING COMMANDS DID AND OOPSIE WHOOPSIE");
         }
+    }
+
+    @Override
+    public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent event) {
+        if (!reactionListeners.containsKey(event.getMessageIdLong()))return;
+        ActionListener actionListener = reactionListeners.get(event.getMessageIdLong());
+        actionListener.actionPerformed(new ActionEvent(event.getChannel().getMessageById(event.getMessageId()), Math.toIntExact(event.getMessageIdLong()),""));
+    }
+
+    public static void listenForReaction(Message msg, ActionListener ae){
+        reactionListeners.put(msg.getIdLong(),ae);
     }
 }

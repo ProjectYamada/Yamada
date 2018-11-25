@@ -3,14 +3,14 @@ package com.yamada.notkayla.commands.general;
 import com.yamada.notkayla.Events;
 import com.yamada.notkayla.Yamada;
 import com.yamada.notkayla.commands.Command;
+import com.yamada.notkayla.commands.CommandRegistry;
 import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import java.awt.Color;
-import java.util.EventListener;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 @Command(name = "help",group="general",description = "You're viewing it")
@@ -66,9 +66,13 @@ public class HelpCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
 //        embed.setThumbnail(bot.getSelfUser().getAvatarUrl());
 //        embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
-        event.getChannel().sendMessage(generateEmbed(event)).queue();
+        Message complete = event.getChannel().sendMessage(generateEmbed(event)).complete();
+        Events.listenForReaction(complete,(a)->{
+
+        });
     }
 
+    private MessageEmbed.Field[][] fields = new MessageEmbed.Field[][]{};
     private MessageEmbed generateEmbed(GuildMessageReceivedEvent event){
         EmbedBuilder embed = this.embed;
         embed.setColor(new Color(0xe91e63));
@@ -76,10 +80,12 @@ public class HelpCommand {
         embed.setTitle("Need some help?");
         embed.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl());
         embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
-        Events.registry.getCommands().forEach((name,command)->{
-            Command cmd = command.cmd.getAnnotation(Command.class);
-            embed.addField("**"+Yamada.configuration.get("prefix")+cmd.name()+"**",cmd.description(),false);
-        });
+        if (fields.length == 0)
+        for (CommandRegistry.RegCommand regCommand : Events.registry.getCommands().values()) {
+            Command cmd = regCommand.cmd.getAnnotation(Command.class);
+            if (cmd.hidden()) continue;
+            fields[0][0] = new MessageEmbed.Field("**" + Yamada.configuration.get("prefix") + cmd.name() + "**", cmd.description(), false);
+        }
         return embed.build();
     }
     private class Group{
