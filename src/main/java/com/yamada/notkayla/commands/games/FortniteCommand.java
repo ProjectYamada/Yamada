@@ -2,23 +2,13 @@ package com.yamada.notkayla.commands.games;
 
 import com.yamada.notkayla.Yamada;
 import com.yamada.notkayla.commands.Command;
+import com.yamada.notkayla.utils.MiscTools;
 import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.EmbedBuilder;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.yaml.snakeyaml.Yaml;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Map;
 
 @Command(name="fortnite", group="games")
 public class FortniteCommand {
@@ -28,20 +18,13 @@ public class FortniteCommand {
     private String[] platforms = new String[]{
             "pc", "psn", "xb1"
     };
-    private static boolean contains(String[] arr, String item) {
-        for (String n : arr) {
-            if (item.equals(n)) {
-                return true;
-            }
-        }
-        return false;
-    }
+
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         String platform;
         String user;
         try {
             platform = args[1].toLowerCase();
-            if (!contains(platforms,platform)) {
+            if (!MiscTools.contains(platforms,platform)) {
                 event.getChannel().sendMessage("Available platforms: `pc` or `psn` or `xb1`").queue();
             }
             user = args[2];
