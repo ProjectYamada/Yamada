@@ -18,8 +18,8 @@ import java.util.logging.Logger;
 public class HelpCommand {
     private EmbedBuilder embed = new EmbedBuilder();
     private Map<String,Group> groupDefs = new HashMap<>() {{
-        put("mod", new Group("Moderation","mod"));
         put("general", new Group("General","general"));
+        put("mod", new Group("Moderation","mod"));
         put("image", new Group("Image","image"));
         put("fun", new Group("Fun","anime"));
         put("music", new Group("Music","music"));
@@ -76,7 +76,7 @@ public class HelpCommand {
         });
     }
 
-    private Map<String,MessageEmbed.Field[]> fields= new HashMap<>();
+    private boolean haveCommandsBeenPutIn = false;//extensive name
     private MessageEmbed generateEmbed(GuildMessageReceivedEvent event,int page){
         EmbedBuilder embed = this.embed;
         embed.setColor(new Color(0xe91e63));
@@ -85,14 +85,17 @@ public class HelpCommand {
         embed.setTitle("Need some help?");
         embed.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl());
         embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
-        if (fields.size() == 0) for (CommandRegistry.RegCommand regCommand : Events.registry.getCommands().values()) {
-            Command cmd = regCommand.cmd.getAnnotation(Command.class);
-            if (cmd.hidden()) continue;
-            Yamada.log.log(Level.INFO,String.format("Adding command %s to the group %s",cmd.name(),cmd.group()));
-            if (!groupDefs.containsKey(cmd.group())) {
-                groupDefs.put(cmd.group(),new Group("`"+cmd.group()+" (unset group, report this)`",cmd.group()));
+        if (haveCommandsBeenPutIn) {
+            for (CommandRegistry.RegCommand regCommand : Events.registry.getCommands().values()) {
+                Command cmd = regCommand.cmd.getAnnotation(Command.class);
+                if (cmd.hidden()) continue;
+                Yamada.log.log(Level.INFO, String.format("Adding command %s to the group %s", cmd.name(), cmd.group()));
+                if (!groupDefs.containsKey(cmd.group())) {
+                    groupDefs.put(cmd.group(), new Group("`" + cmd.group() + " (unset group, report this)`", cmd.group()));
+                }
+                groupDefs.get(cmd.group()).commands.put("**" + Yamada.configuration.get("prefix") + cmd.name() + "**", cmd.description());
             }
-            groupDefs.get(cmd.group()).commands.put("**"+Yamada.configuration.get("prefix")+cmd.name()+"**",cmd.description());
+            haveCommandsBeenPutIn = true;
         }
         group.commands.forEach((name,description)-> embed.addField(name,description,false));
         return embed.build();
