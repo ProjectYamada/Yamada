@@ -68,7 +68,7 @@ public class HelpCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
 //        embed.setThumbnail(bot.getSelfUser().getAvatarUrl());
 //        embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
-        int page = args[1] == null ? 0 : Integer.parseInt(args[1]);
+        int page = args.length == 1 ? 0 : Integer.parseInt(args[1]);
         Message complete = event.getChannel().sendMessage(generateEmbed(event,page)).complete();
         Events.listenForReaction(complete,(a)->{
 
