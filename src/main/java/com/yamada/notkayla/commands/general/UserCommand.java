@@ -26,7 +26,11 @@ public class UserCommand {
         } else if (mentionedMembers.size() == 0){
             List<User> mentionedUsers = event.getMessage().getMentionedUsers();
             if (mentionedUsers.size() > 1) event.getChannel().sendMessage("You specified more than one user. We will only get information about the first mentioned user.").queue();
-            user = mentionedUsers.get(0);
+            if (mentionedUsers.size()==0){
+                user = event.getAuthor();
+                member = event.getMember();
+
+            }else user = mentionedUsers.get(0);
         } else {
             user = mentionedMembers.get(0).getUser();
             member = mentionedMembers.get(0);
