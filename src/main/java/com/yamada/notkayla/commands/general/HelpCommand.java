@@ -68,7 +68,7 @@ public class HelpCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
 //        embed.setThumbnail(bot.getSelfUser().getAvatarUrl());
 //        embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
-        int page = Integer.parseInt(args[1] == null ? "0" : args[1]);
+        int page = args[1] == null ? 0 : Integer.parseInt(args[1]);
         Message complete = event.getChannel().sendMessage(generateEmbed(event,page)).complete();
         Events.listenForReaction(complete,(a)->{
 
@@ -90,7 +90,7 @@ public class HelpCommand {
             if (!groupDefs.containsKey(cmd.group())) {
                 groupDefs.put(cmd.group(),new Group("`"+cmd.group()+" (unset group, report this)`",cmd.group()));
             }
-            groupDefs.get(cmd.group()).commands.put("**"+Yamada.configuration.get("prefix")+cmd.name()+"",cmd.description());
+            groupDefs.get(cmd.group()).commands.put("**"+Yamada.configuration.get("prefix")+cmd.name()+"**",cmd.description());
         }
         group.commands.forEach((name,description)-> embed.addField(name,description,false));
         return embed.build();
