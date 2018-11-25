@@ -17,10 +17,12 @@ import java.util.logging.Logger;
 public class HelpCommand {
     private EmbedBuilder embed = new EmbedBuilder();
     private Map<String,Group> groupDefs = new HashMap<>() {{
-        put("mod", new Group("Moderation"));
-        put("general", new Group("General"));
-        put("image", new Group("Image"));
-        put("fun", new Group("Fun"));
+        put("mod", new Group("Moderation","mod"));
+        put("general", new Group("General","general"));
+        put("image", new Group("Image","image"));
+        put("fun", new Group("Fun","anime"));
+        put("music", new Group("Music","music"));
+        put("anime",new Group("Anime","anime"));
     }};
 //    public HelpCommand(Map<String,Object> commands) {
 //        embed.setColor(new Color(0xe91e63));
@@ -66,34 +68,40 @@ public class HelpCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
 //        embed.setThumbnail(bot.getSelfUser().getAvatarUrl());
 //        embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
-        Message complete = event.getChannel().sendMessage(generateEmbed(event)).complete();
+        int page = Integer.parseInt(args[1] == null ? "0" : args[1]);
+        Message complete = event.getChannel().sendMessage(generateEmbed(event,page)).complete();
         Events.listenForReaction(complete,(a)->{
 
         });
     }
 
-    private MessageEmbed.Field[][] fields = new MessageEmbed.Field[][]{};
-    private MessageEmbed generateEmbed(GuildMessageReceivedEvent event){
+    private Map<String,MessageEmbed.Field[]> fields= new HashMap<>();
+    private MessageEmbed generateEmbed(GuildMessageReceivedEvent event,int page){
         EmbedBuilder embed = this.embed;
         embed.setColor(new Color(0xe91e63));
-        embed.setDescription("I'm Yamada, and my prefix is `!y`. I hope to make your server a better place!");
+        Group group = new ArrayList<>(groupDefs.values()).get(page);
+        embed.setDescription("I'm Yamada, and my prefix is `!y`. I hope to make your server a better place!\n\n**"+group.name+"**");
         embed.setTitle("Need some help?");
         embed.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl());
         embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
-        if (fields.length == 0)
-        for (CommandRegistry.RegCommand regCommand : Events.registry.getCommands().values()) {
+        if (fields.size() == 0) for (CommandRegistry.RegCommand regCommand : Events.registry.getCommands().values()) {
             Command cmd = regCommand.cmd.getAnnotation(Command.class);
             if (cmd.hidden()) continue;
-            fields[0][0] = new MessageEmbed.Field("**" + Yamada.configuration.get("prefix") + cmd.name() + "**", cmd.description(), false);
+            if (!groupDefs.containsKey(cmd.group())) {
+                groupDefs.put(cmd.group(),new Group("`"+cmd.group()+" (unset group, report this)`",cmd.group()));
+            }
+            groupDefs.get(cmd.group()).commands.put("**"+Yamada.configuration.get("prefix")+cmd.name()+"",cmd.description());
         }
+        group.commands.forEach((name,description)-> embed.addField(name,description,false));
         return embed.build();
     }
     private class Group{
         String name;
+        String locName;
         @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
         Map<String, String> commands;
-        Group(String name) {
-            this.name = name;
+        Group(String name,String locName) {
+            this.name = name; this.locName = locName;
         }
     }
 }
