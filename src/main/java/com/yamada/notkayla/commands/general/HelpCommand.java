@@ -16,14 +16,13 @@ import java.util.logging.Logger;
 
 @Command(name = "help",group="general",description = "You're viewing it")
 public class HelpCommand {
-    private EmbedBuilder embed = new EmbedBuilder();
     private Map<String,Group> groupDefs = new HashMap<>() {{
-        put("general", new Group("General","general"));
-        put("mod", new Group("Moderation","mod"));
-        put("image", new Group("Image","image"));
-        put("fun", new Group("Fun","anime"));
-        put("music", new Group("Music","music"));
-        put("anime",new Group("Anime","anime"));
+        put("general", new Group("General","general","Miscellaneous commands"));
+        put("mod", new Group("Moderation","mod", "Moderation tools"));
+        put("image", new Group("Image","image", "Image sending"));
+        put("fun", new Group("Fun","fun", "It's \"Fun\""));
+        put("music", new Group("Music","music","Music playback"));
+        put("anime",new Group("Anime","anime","Anime related"));
     }};
 //    public HelpCommand(Map<String,Object> commands) {
 //        embed.setColor(new Color(0xe91e63));
@@ -78,7 +77,7 @@ public class HelpCommand {
 
     private boolean haveCommandsBeenPutIn = false;//extensive name
     private MessageEmbed generateEmbed(GuildMessageReceivedEvent event,int page){
-        EmbedBuilder embed = this.embed;
+        EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(new Color(0xe91e63));
         Group group = new ArrayList<>(groupDefs.values()).get(page);
         embed.setDescription("I'm Yamada, and my prefix is `!y`. I hope to make your server a better place!\n\n**"+group.name+"**");
@@ -91,7 +90,7 @@ public class HelpCommand {
                 if (cmd.hidden()) continue;
                 Yamada.log.log(Level.INFO, String.format("Adding command %s to the group %s", cmd.name(), cmd.group()));
                 if (!groupDefs.containsKey(cmd.group())) {
-                    groupDefs.put(cmd.group(), new Group("`" + cmd.group() + " (unset group, report this)`", cmd.group()));
+                    groupDefs.put(cmd.group(), new Group("`" + cmd.group() + "`", cmd.group(),"(unset group, report this)"));
                 }
                 groupDefs.get(cmd.group()).commands.put("**" + Yamada.configuration.get("prefix") + cmd.name() + "**", cmd.description());
             }
@@ -103,10 +102,11 @@ public class HelpCommand {
     private class Group{
         String name;
         String locName;
+        String description;
         @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
         Map<String, String> commands = new HashMap<>();
-        Group(String name,String locName) {
-            this.name = name; this.locName = locName;
+        Group(String name,String locName,String description) {
+            this.name = name; this.locName = locName; this.description = description;
         }
     }
 }
