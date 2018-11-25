@@ -72,7 +72,8 @@ public class HelpCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
 //        embed.setThumbnail(bot.getSelfUser().getAvatarUrl());
 //        embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
-        String page = args.length == 1 ? "none" : args[1];
+        String page = "none";
+        if (args.length != 1) page = args[1];
         event.getChannel().sendMessage(generateEmbed(event,page)).complete();
     }
 
@@ -81,6 +82,7 @@ public class HelpCommand {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(new Color(0xe91e63));
         Group group = none;
+        Yamada.log.log(Level.INFO,groupName);
         if (groupDefs.containsKey(groupName)) groupDefs.get(groupName);
         embed.setDescription("I'm Yamada, and my prefix is `!y`. I hope to make your server a better place!\n\n**" + group.name + "**\n"+group.description);
         embed.setTitle("Need some help?");
