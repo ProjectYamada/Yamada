@@ -94,7 +94,9 @@ public class HelpCommand {
                 if (cmd.hidden()) continue;
                 Yamada.log.log(Level.INFO, String.format("Adding command %s to the group %s", cmd.name(), cmd.group()));
                 if (!groupDefs.containsKey(cmd.group())) {
-                    groupDefs.put(cmd.group(), new Group("`" + cmd.group() + "`", cmd.group(), "(unset group, report this)"));
+                    Group unset = new Group("`" + cmd.group() + "`", cmd.group(), "(unset group, report this)");
+                    groupDefs.put(cmd.group(), unset);
+                    none.commands.put(String.format("%s - `%s`", unset.name, cmd.group()),unset.description);
                 }
                 groupDefs.get(cmd.group()).commands.put("**" + Yamada.configuration.get("prefix") + cmd.name() + "**", cmd.description());
             }
