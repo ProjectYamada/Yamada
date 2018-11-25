@@ -104,7 +104,7 @@ public class HelpCommand {
         String name;
         String locName;
         @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-        Map<String, String> commands;
+        Map<String, String> commands = new HashMap<>();
         Group(String name,String locName) {
             this.name = name; this.locName = locName;
         }
