@@ -11,6 +11,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import java.awt.Color;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Command(name = "help",group="general",description = "You're viewing it")
@@ -87,6 +88,7 @@ public class HelpCommand {
         if (fields.size() == 0) for (CommandRegistry.RegCommand regCommand : Events.registry.getCommands().values()) {
             Command cmd = regCommand.cmd.getAnnotation(Command.class);
             if (cmd.hidden()) continue;
+            Yamada.log.log(Level.INFO,String.format("Adding command %s to the group %s",cmd.name(),cmd.group()));
             if (!groupDefs.containsKey(cmd.group())) {
                 groupDefs.put(cmd.group(),new Group("`"+cmd.group()+" (unset group, report this)`",cmd.group()));
             }
