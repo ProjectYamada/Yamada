@@ -83,7 +83,7 @@ public class HelpCommand {
         embed.setColor(new Color(0xe91e63));
         Group group = none;
         Yamada.log.log(Level.INFO,groupName);
-        if (groupDefs.keySet().contains(groupName)) groupDefs.get(groupName);
+        if (groupDefs.containsKey(groupName)) group = groupDefs.get(groupName);
         embed.setDescription("I'm Yamada, and my prefix is `!y`. I hope to make your server a better place!\n\n**" + group.name + "**\n"+group.description);
         embed.setTitle("Need some help?");
         embed.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl());
