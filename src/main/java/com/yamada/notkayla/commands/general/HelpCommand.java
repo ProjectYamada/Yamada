@@ -96,7 +96,7 @@ public class HelpCommand {
                 if (!groupDefs.containsKey(cmd.group())) {
                     Group unset = new Group("`" + cmd.group() + "`", cmd.group(), "(unset group, report this)");
                     groupDefs.put(cmd.group(), unset);
-                    none.commands.put(String.format("%s - `%s`", unset.name, cmd.group()),unset.description);
+                    if (!unset.hidden) none.commands.put(String.format("%s - `%s`", unset.name, cmd.group()),unset.description);
                 }
                 groupDefs.get(cmd.group()).commands.put("**" + Yamada.configuration.get("prefix") + cmd.name() + "**", cmd.description());
             }
@@ -109,10 +109,12 @@ public class HelpCommand {
         String name;
         String locName;
         String description;
+        boolean hidden = false;
         @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
         Map<String, String> commands = new HashMap<>();
         Group(String name,String locName,String description) {
             this.name = name; this.locName = locName; this.description = description;
+            if (locName.equals("owner")) hidden = true;
             if (locName.equals("none")) this.description = String.format(description,Yamada.configuration.get("prefix"));
         }
     }
