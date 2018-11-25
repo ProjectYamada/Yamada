@@ -22,12 +22,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.EventListener;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
 public class Events extends ListenerAdapter {
     public static CommandRegistry registry = new CommandRegistry();
-    private static Map<Long,ActionListener> reactionListeners;
+    private static Map<Long,ActionListener> reactionListeners = new HashMap<>();
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
