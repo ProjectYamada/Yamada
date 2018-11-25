@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 @Command(name = "help",group="general",description = "You're viewing it")
 public class HelpCommand {
-    private Map<String,Group> groupDefs = new HashMap<>() {{
+    private static Map<String,Group> groupDefs = new HashMap<>() {{
         put("general", new Group("General","general","Miscellaneous commands"));
         put("mod", new Group("Moderation","mod", "Moderation tools"));
         put("image", new Group("Image","image", "Image sending"));
@@ -24,6 +24,10 @@ public class HelpCommand {
         put("music", new Group("Music","music","Music playback"));
         put("anime",new Group("Anime","anime","Anime related"));
     }};
+    private static Group none = new Group("Command Groups", "none", String.format("%shelp <group name>",Yamada.configuration.get("prefix")));
+    static {
+        groupDefs.forEach((locName,group)-> none.commands.put(String.format("%s - `%s`", group.name, locName),group.description));
+    }
 //    public HelpCommand(Map<String,Object> commands) {
 //        embed.setColor(new Color(0xe91e63));
 //        embed.setDescription("I'm Yamada, and my prefix is `!y`. I hope to make your server a better place!");
@@ -68,19 +72,17 @@ public class HelpCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
 //        embed.setThumbnail(bot.getSelfUser().getAvatarUrl());
 //        embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
-        int page = args.length == 1 ? 0 : Integer.parseInt(args[1]);
-        Message complete = event.getChannel().sendMessage(generateEmbed(event,page)).complete();
-        Events.listenForReaction(complete,(a)->{
-
-        });
+        String page = args.length == 1 ? "none" : args[1];
+        event.getChannel().sendMessage(generateEmbed(event,page)).complete();
     }
 
     private boolean haveCommandsBeenPutIn = false;//extensive name
-    private MessageEmbed generateEmbed(GuildMessageReceivedEvent event,int page){
+    private MessageEmbed generateEmbed(GuildMessageReceivedEvent event, String groupName) {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(new Color(0xe91e63));
-        Group group = new ArrayList<>(groupDefs.values()).get(page);
-        embed.setDescription("I'm Yamada, and my prefix is `!y`. I hope to make your server a better place!\n\n**"+group.name+"**");
+        Group group = none;
+        if (groupDefs.containsKey(groupName)) groupDefs.get(groupName);
+        embed.setDescription("I'm Yamada, and my prefix is `!y`. I hope to make your server a better place!\n\n**" + group.name + "**\n"+group.description);
         embed.setTitle("Need some help?");
         embed.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl());
         embed.setFooter(String.format("Hello, %s", event.getAuthor().getName()), event.getAuthor().getAvatarUrl());
@@ -90,16 +92,16 @@ public class HelpCommand {
                 if (cmd.hidden()) continue;
                 Yamada.log.log(Level.INFO, String.format("Adding command %s to the group %s", cmd.name(), cmd.group()));
                 if (!groupDefs.containsKey(cmd.group())) {
-                    groupDefs.put(cmd.group(), new Group("`" + cmd.group() + "`", cmd.group(),"(unset group, report this)"));
+                    groupDefs.put(cmd.group(), new Group("`" + cmd.group() + "`", cmd.group(), "(unset group, report this)"));
                 }
                 groupDefs.get(cmd.group()).commands.put("**" + Yamada.configuration.get("prefix") + cmd.name() + "**", cmd.description());
             }
             haveCommandsBeenPutIn = true;
         }
-        group.commands.forEach((name,description)-> embed.addField(name,description,false));
+        group.commands.forEach((name, description) -> embed.addField(name, description, false));
         return embed.build();
     }
-    private class Group{
+    private static class Group{
         String name;
         String locName;
         String description;
@@ -107,6 +109,7 @@ public class HelpCommand {
         Map<String, String> commands = new HashMap<>();
         Group(String name,String locName,String description) {
             this.name = name; this.locName = locName; this.description = description;
+            if (locName.equals("none")) this.description = String.format(description,Yamada.configuration.get("prefix"));
         }
     }
 }
