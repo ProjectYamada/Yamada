@@ -20,7 +20,7 @@ public class PPCommand {
         EmbedBuilder embed = new EmbedBuilder();
         List<AudioTrack> queue = Yamada.music.getQueue(event);
         if (queue.isEmpty()) {
-            event.getChannel().sendMessage("There is nothing to pause.");
+            event.getChannel().sendMessage("There is nothing to pause.").queue();
         }
         else Yamada.music.pause(event);
     }
