@@ -14,7 +14,7 @@ import org.json.JSONObject;
 
 import java.util.Random;
 
-@Command(name="konachan",description = "Gets an image from Konachan", group = "anime")
+@Command(name="konachan",description = "Gets an image from Konachan", group = "anime",nsfw=true)
 public class KonachanCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         String params = "?tags=-status%3Adeleted+-loli+-shota&limit=100";

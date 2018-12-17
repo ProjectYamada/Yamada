@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-@Command(name = "danbooru",group="anime",description="Get an image from Danbooru.")
+@Command(name = "danbooru",group="anime",description="Get an image from Danbooru.",nsfw=true)
 public class DanbooruCommand {
     public void run(JDA bot, GuildMessageReceivedEvent event, String[] args) {
         String params = "[-status]=deleted";
