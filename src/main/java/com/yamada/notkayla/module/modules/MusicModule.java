@@ -152,7 +152,6 @@ public class MusicModule {
     public void pause(GuildMessageReceivedEvent event) {
         GuildMusicManager musicManager = getGuildAudioPlayer(event.getGuild(),event.getChannel());
         musicManager.scheduler.pause();
-        event.getChannel().sendMessage("Paused the player.").queue();
     }
 
     public void stop(GuildMessageReceivedEvent event) {
@@ -194,8 +193,7 @@ public class MusicModule {
         }
     }
 
-    // The following classes are pulled directly from the lavaplayer JDA demo, and possibly violate Sanae's module model. no longer violates my model :)
-// TODO: Find a way to simplify this.
+    // TODO: Find a way to simplify this.
     public class TrackScheduler extends AudioEventAdapter {
         private final AudioPlayer player;
         public final BlockingQueue<AudioTrack> queue;
@@ -244,6 +242,16 @@ public class MusicModule {
             // Start the next track, regardless of if something is already playing or not. In case queue was empty, we are
             // giving null to startTrack, which is a valid argument and will simply stop the player.
             player.startTrack(queue.poll(), false);
+        }
+
+        @Override
+        public void onPlayerPause(AudioPlayer player) {
+            gm.channel.sendMessage("Player paused.").queue();
+        }
+
+        @Override
+        public void onPlayerResume(AudioPlayer player) {
+            gm.channel.sendMessage("Player resumed.").queue();
         }
 
         @Override
