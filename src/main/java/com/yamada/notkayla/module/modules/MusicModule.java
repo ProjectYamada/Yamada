@@ -126,7 +126,7 @@ public class MusicModule {
             event.getChannel().sendMessage("Bot is not connected to a voice chat.").queue();
             return;
         }
-        GuildMusicManager guildAudioPlayer = Yamada.music.getGuildAudioPlayer(event.getGuild(), event.getChannel());
+        GuildMusicManager guildAudioPlayer = getGuildAudioPlayer(event.getGuild(), event.getChannel());
         List<AudioTrack> queue = new ArrayList<>(guildAudioPlayer.scheduler.queue);
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("Current queue: ");
@@ -137,6 +137,22 @@ public class MusicModule {
             eb.addField((i+1) + ". " + audioTrack.getInfo().title,"Uploaded by: " + audioTrack.getInfo().author,false);
         }
         event.getChannel().sendMessage(eb.build()).queue();
+    }
+
+    /**
+     * Get the queue silently. Only used for PPCommand
+     * @param event
+     * @return
+     */
+    public ArrayList<AudioTrack> getQueue(GuildMessageReceivedEvent event) {
+        GuildMusicManager guildMusicManager = getGuildAudioPlayer(event.getGuild(), event.getChannel());
+        return new ArrayList<>(guildMusicManager.scheduler.queue);
+    }
+
+    public void pause(GuildMessageReceivedEvent event) {
+        GuildMusicManager musicManager = getGuildAudioPlayer(event.getGuild(),event.getChannel());
+        musicManager.scheduler.pause();
+        event.getChannel().sendMessage("Paused the player.").queue();
     }
 
     public void stop(GuildMessageReceivedEvent event) {
@@ -214,6 +230,11 @@ public class MusicModule {
             gm.channel.getGuild().getAudioManager().closeAudioConnection();
             player.destroy();
             queue.clear();
+        }
+
+        void pause() {
+            if (player.isPaused()) player.setPaused(false);
+            else player.setPaused(true);
         }
 
         /**
