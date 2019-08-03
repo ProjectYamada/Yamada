@@ -18,9 +18,11 @@ import java.util.logging.Level;
 
 public class CommandRegistry {
     public ScriptEngineManager sf = new ScriptEngineManager();
-    @Getter public HashMap<String,RegCommand> commands = new HashMap<>();
+    public HashMap<String,RegCommand> commands = new HashMap<>();
     private SanaeClassLoader classLoader = new SanaeClassLoader();
-
+	public HashMap<String,RegCommand> getCommands(){
+		return commands;
+	}
     public void register() throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
         Reflections r = new Reflections("com.yamada.notkayla.commands");
         Set<Class<?>> annotCommands = r.getTypesAnnotatedWith(com.yamada.notkayla.commands.Command.class);
