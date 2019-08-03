@@ -19,7 +19,7 @@ import java.util.logging.Level;
 
 public class CommandRegistry {
     public ScriptEngineManager sf = new ScriptEngineManager();
-    private HashMap<String,RegCommand> commands = new HashMap<>();
+    @Getter public HashMap<String,RegCommand> commands = new HashMap<>();
     private SanaeClassLoader classLoader = new SanaeClassLoader();
 
     public void register() throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
@@ -58,9 +58,6 @@ public class CommandRegistry {
             commands.remove(commandName);
             commands.put(reg.cmd.getAnnotation(Command.class).name(),new RegCommand(reg.cmd.getPackage().getName()+"."+reg.cmd.getSimpleName()));
         }
-    }
-    public HashMap<String,RegCommand> getCommands(){
-        return commands;
     }
 
     public void load(String commandName) {
