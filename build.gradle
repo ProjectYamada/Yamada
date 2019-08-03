@@ -18,8 +18,6 @@ dependencies {
     compile 'org.reflections:reflections:0.9.11'
     compile 'com.sedmelluq:lavaplayer:1.3.10'
     compile 'com.jagrosh:jda-utilities-command:2.1.4'
-    compileOnly 'org.projectlombok:lombok:1.18.4'
-    apt 'org.projectlombok:lombok:1.18.4'
 }
 
 repositories {

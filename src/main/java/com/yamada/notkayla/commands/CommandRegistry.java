@@ -2,7 +2,6 @@ package com.yamada.notkayla.commands;
 
 import com.yamada.notkayla.Yamada;
 import com.yamada.notkayla.module.SanaeClassLoader;
-import lombok.Getter;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import org.reflections.ReflectionUtils;
